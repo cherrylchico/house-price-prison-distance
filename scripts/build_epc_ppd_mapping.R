@@ -267,7 +267,7 @@ ppd_index <- data.table::fread(
 ppd_index[, ppd_address := trimws(gsub(
   "\\s+",
   " ",
-  paste(saon, paon, street, locality, town)
+  paste(saon, paon, street)
 ))]
 ppd_index[, postcode_key := normalize_postcode(postcode)]
 ppd_index[, address_key := normalize_text(ppd_address)]

@@ -63,8 +63,7 @@ Script: `scripts/build_epc_ppd_mapping.R`
 ### 3) Construct comparable address strings
 
 - **EPC address**: use full `ADDRESS` if present; otherwise combine `ADDRESS1 + ADDRESS2 + ADDRESS3`
-- **PPD address**: concatenate `saon + paon + street + locality + town`
-
+- **PPD address**: concatenate `saon + paon + street`
 ### 4) Build match key
 
 `match_key = normalized_postcode + "|" + normalized_address`
@@ -109,37 +108,20 @@ Rows with empty postcode/address (and therefore empty keys) are dropped before m
 
 - EPC rows indexed: 481,790
 - PPD rows indexed: 189,361
-- Matched rows in mapping: 3,054
-- Distinct matched keys: 2,194
-- Distinct matched EPC certificates: 2,214
-- Distinct matched PPD transactions: 3,030
+- Matched rows in mapping: 87,068
+- Distinct matched keys: 46,269
+- Distinct matched EPC certificates: 61,547
+- Distinct matched PPD transactions: 62,788
 
 | match_method                           |    N |
 |----------------------------------------|-----:|
-| exact_normalized_postcode_address      | 3034 |
-| fuzzy_same_postcode_address_similarity |   20 |
+| exact_normalized_postcode_address      | 86924|
+| fuzzy_same_postcode_address_similarity |   144|
 
-Skipped postcode groups in fuzzy pass: 80
+Skipped postcode groups in fuzzy pass: 50
 
-Among matched rows in mapping (3,054)
-- with geocode: 2,670
+Among matched rows in mapping 87,068
+- with geocode: xxxx
 
 
-## Distance from Prison
-| deed_year | 0-2km | 2-5km | 5-10km | >10km |
-|---:|---:|---:|---:|---:|
-| 2011 | 6 | 13 | 0 | 118 |
-| 2012 | 5 | 5 | 0 | 58 |
-| 2013 | 3 | 4 | 0 | 66 |
-| 2014 | 10 | 3 | 0 | 94 |
-| 2015 | 5 | 7 | 0 | 75 |
-| 2016 | 11 | 9 | 0 | 75 |
-| 2017 | 8 | 6 | 0 | 70 |
-| 2018 | 6 | 3 | 0 | 64 |
-| 2019 | 3 | 4 | 0 | 38 |
-| 2020 | 10 | 20 | 0 | 86 |
-| 2021 | 59 | 176 | 0 | 920 |
-| 2022 | 8 | 20 | 0 | 190 |
-| 2023 | 15 | 10 | 0 | 107 |
-| 2024 | 6 | 8 | 12 | 122 |
-| 2025 | 6 | 8 | 0 | 98 |
+## Distance from Prison - TBUpdated
