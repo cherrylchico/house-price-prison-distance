@@ -1,1 +1,5 @@
-input/*
+input/domestic*
+input/ppd_data_bulk.csv
+input/ppd_data.csv
+
+.DS_Store
