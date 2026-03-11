@@ -1,0 +1,161 @@
+---
+title: "1 Data Prep"
+output: html_document
+---
+
+## Purpose
+
+This notebook prepares a single working table by combining the current EPC to PPD mapping, the matched EPC records, the matched PPD transactions, and the prison distance lookup.
+
+The goal here is only early-stage data preparation and simple exploration. This is not the final modelling notebook.
+
+```{r setup, message=FALSE, warning=FALSE}
+library(data.table)
+
+mapping_file <- file.path("output", "epc_ppd_mapping.csv")
+ppd_file <- file.path("output", "matched_ppd.csv")
+epc_file <- file.path("output", "matched_epc.csv")
+distance_file <- file.path("input", "property_prison_distance.csv")
+
+mapping <- fread(mapping_file)
+ppd <- fread(ppd_file)
+epc <- fread(epc_file)
+distance_dt <- fread(distance_file)
+```
+
+## Build Analysis Table
+
+This section keeps a focused set of fields that are likely to matter for house prices. From PPD, the notebook keeps transaction price, date, and basic property attributes. From EPC, it keeps floor area plus a few structural and energy-related characteristics that can plausibly affect value. From the distance file, it keeps the prison distance and coordinates.
+
+```{r build-analysis-table}
+mapping_keep <- unique(mapping[, .(
+  match_key,
+  unique_id = ppd_id,
+  LMK_KEY = lmk_key,
+  match_method,
+  match_score
+)])
+
+ppd_keep <- unique(ppd[, .(
+  unique_id,
+  price_paid = as.numeric(price_paid),
+  deed_date = as.IDate(deed_date),
+  property_type,
+  new_build,
+  estate_type
+)])
+
+epc_keep <- unique(epc[, .(
+  LMK_KEY,
+  TOTAL_FLOOR_AREA = suppressWarnings(as.numeric(TOTAL_FLOOR_AREA)),
+  CURRENT_ENERGY_RATING,
+  CURRENT_ENERGY_EFFICIENCY = suppressWarnings(as.numeric(CURRENT_ENERGY_EFFICIENCY)),
+  POTENTIAL_ENERGY_RATING,
+  POTENTIAL_ENERGY_EFFICIENCY = suppressWarnings(as.numeric(POTENTIAL_ENERGY_EFFICIENCY)),
+  PROPERTY_TYPE,
+  BUILT_FORM,
+  NUMBER_HABITABLE_ROOMS = suppressWarnings(as.numeric(NUMBER_HABITABLE_ROOMS)),
+  NUMBER_HEATED_ROOMS = suppressWarnings(as.numeric(NUMBER_HEATED_ROOMS)),
+  CONSTRUCTION_AGE_BAND,
+  MAIN_FUEL,
+  TENURE
+)])
+
+distance_keep <- unique(distance_dt[, .(
+  match_key,
+  unique_id,
+  LMK_KEY,
+  distance_to_prison_m,
+  latitude,
+  longitude,
+  geocode_status
+)])
+
+analysis_dt <- merge(mapping_keep, ppd_keep, by = "unique_id", all.x = TRUE)
+analysis_dt <- merge(analysis_dt, epc_keep, by = "LMK_KEY", all.x = TRUE)
+analysis_dt <- merge(
+  analysis_dt,
+  distance_keep,
+  by = c("match_key", "unique_id", "LMK_KEY"),
+  all.x = TRUE
+)
+
+analysis_dt[, deed_year := as.integer(format(deed_date, "%Y"))]
+analysis_dt[, distance_to_prison_km := distance_to_prison_m / 1000]
+analysis_dt[, distance_bin := fifelse(
+  is.na(distance_to_prison_km),
+  "Missing",
+  as.character(cut(
+    distance_to_prison_km,
+    breaks = c(0, 2, 5, 10, Inf),
+    labels = c("0-2km", "2-5km", "5-10km", ">10km"),
+    include.lowest = TRUE,
+    right = TRUE
+  ))
+)]
+
+analysis_dt
+```
+
+## Data Exploration
+
+The tables below give a first pass on the merged data. Because the mapping process can retain one-to-many or many-to-many relationships, duplicate sales and duplicate EPC certificates are still present in this working table.
+
+This means the row count should not yet be interpreted as a clean one-row-per-sale dataset. Duplicate handling will need to be addressed before final modelling.
+
+### Rows Per Year
+
+```{r yearly-counts}
+yearly_counts <- analysis_dt[
+  !is.na(deed_year),
+  .(
+    rows = .N,
+    unique_ppd = uniqueN(unique_id),
+    unique_epc = uniqueN(LMK_KEY)
+  ),
+  by = deed_year
+][order(deed_year)]
+
+yearly_counts
+```
+
+### Duplicate Note
+
+```{r duplicate-note}
+duplicate_summary <- data.table(
+  duplicated_ppd_rows = analysis_dt[, sum(duplicated(unique_id))],
+  duplicated_epc_rows = analysis_dt[, sum(duplicated(LMK_KEY))]
+)
+
+duplicate_summary
+```
+
+### Houses Per Year By Distance Bin
+
+This pivot table shows unique PPD transactions by transaction year and prison-distance bin. It is useful for seeing how much coverage exists near and far from the prison over time.
+
+```{r distance-bin-counts}
+distance_year_counts <- analysis_dt[
+  !is.na(deed_year) & distance_bin != "Missing",
+  .(
+    unique_ppd = uniqueN(unique_id)
+  ),
+  by = .(deed_year, distance_bin)
+][order(deed_year, distance_bin)]
+
+distance_year_pivot <- dcast(
+  distance_year_counts,
+  deed_year ~ distance_bin,
+  value.var = "unique_ppd",
+  fill = 0
+)
+
+setcolorder(distance_year_pivot, c("deed_year", "0-2km", "2-5km", "5-10km", ">10km"))
+
+distance_year_pivot
+```
+
+```{r}
+#get columns
+analysis_dt[, .(colnames(analysis_dt))]
+```
