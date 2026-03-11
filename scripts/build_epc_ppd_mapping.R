@@ -36,6 +36,40 @@ build_match_key <- function(postcode, address) {
   paste(normalize_postcode(postcode), normalize_text(address), sep = "|")
 }
 
+remove_component_words <- function(address, components) {
+  address_norm <- normalize_text(address)
+  components_norm <- normalize_text(components)
+
+  out <- mapply(
+    function(address_value, component_value) {
+      if (!nzchar(address_value)) {
+        return(address_value)
+      }
+
+      if (!nzchar(component_value)) {
+        return(address_value)
+      }
+
+      component_words <- unique(strsplit(component_value, " ", fixed = TRUE)[[1]])
+      component_words <- component_words[nzchar(component_words)]
+
+      if (!length(component_words)) {
+        return(address_value)
+      }
+
+      address_words <- strsplit(address_value, " ", fixed = TRUE)[[1]]
+      kept_words <- address_words[!address_words %in% component_words]
+
+      trimws(paste(kept_words, collapse = " "))
+    },
+    address_norm,
+    components_norm,
+    USE.NAMES = FALSE
+  )
+
+  out
+}
+
 extract_house_token <- function(address_key) {
   match_position <- regexpr("\\b[0-9]+[A-Z]?\\b", address_key, perl = TRUE)
   out <- rep(NA_character_, length(address_key))
@@ -82,22 +116,32 @@ empty_mapping_table <- function() {
   )
 }
 
-build_fuzzy_mapping <- function(epc_dt, ppd_dt, exact_dt, similarity_threshold = 0.9,
+empty_fuzzy_result <- function() {
+  list(matches = empty_mapping_table(), skipped_postcodes = character())
+}
+
+build_fuzzy_mapping <- function(epc_dt, ppd_dt, matched_dt,
+                                epc_key_col = "epc_match_key",
+                                epc_address_col = "epc_address_key",
+                                ppd_key_col = "ppd_match_key",
+                                ppd_address_col = "ppd_address_key",
+                                match_method = "fuzzy_same_postcode_address_similarity",
+                                similarity_threshold = 0.9,
                                 max_pairs_per_postcode = 5000L) {
-  matched_epc_ids <- unique(exact_dt$lmk_key)
-  matched_ppd_ids <- unique(exact_dt$ppd_id)
+  matched_epc_ids <- unique(matched_dt$lmk_key)
+  matched_ppd_ids <- unique(matched_dt$ppd_id)
 
   epc_unmatched <- epc_dt[!lmk_key %chin% matched_epc_ids]
   ppd_unmatched <- ppd_dt[!ppd_id %chin% matched_ppd_ids]
 
   if (!nrow(epc_unmatched) || !nrow(ppd_unmatched)) {
-    return(list(matches = empty_mapping_table(), skipped_postcodes = character()))
+    return(empty_fuzzy_result())
   }
 
   common_postcodes <- intersect(unique(epc_unmatched$postcode_key), unique(ppd_unmatched$postcode_key))
 
   if (!length(common_postcodes)) {
-    return(list(matches = empty_mapping_table(), skipped_postcodes = character()))
+    return(empty_fuzzy_result())
   }
 
   fuzzy_matches <- vector("list", length(common_postcodes))
@@ -134,8 +178,8 @@ build_fuzzy_mapping <- function(epc_dt, ppd_dt, exact_dt, similarity_threshold =
       next
     }
 
-    candidates[, match_score := address_similarity(epc_address_key, ppd_address_key)]
-    candidates[, address_length_gap := abs(nchar(epc_address_key) - nchar(ppd_address_key))]
+    candidates[, match_score := address_similarity(get(epc_address_col), get(ppd_address_col))]
+    candidates[, address_length_gap := abs(nchar(get(epc_address_col)) - nchar(get(ppd_address_col)))]
     candidates <- candidates[match_score >= similarity_threshold]
 
     if (!nrow(candidates)) {
@@ -148,14 +192,14 @@ build_fuzzy_mapping <- function(epc_dt, ppd_dt, exact_dt, similarity_threshold =
 
     mutual_best <- candidates[epc_rank == 1L & ppd_rank == 1L,
       .(
-        match_method = "fuzzy_same_postcode_address_similarity",
+        match_method = match_method,
         match_count_for_key = NA_integer_,
         match_score,
-        match_key = ppd_match_key,
+        match_key = get(ppd_key_col),
         postcode_key,
-        address_key = ppd_address_key,
-        epc_address_key,
-        ppd_address_key,
+        address_key = get(ppd_address_col),
+        epc_address_key = get(epc_address_col),
+        ppd_address_key = get(ppd_address_col),
         epc_source,
         epc_file,
         lmk_key,
@@ -188,6 +232,66 @@ build_fuzzy_mapping <- function(epc_dt, ppd_dt, exact_dt, similarity_threshold =
     matches = data.table::rbindlist(fuzzy_matches[seq_len(match_index)], use.names = TRUE, fill = TRUE),
     skipped_postcodes = skipped_postcodes
   )
+}
+
+build_exact_mapping <- function(epc_dt, ppd_dt, matched_dt,
+                                epc_key_col = "epc_match_key",
+                                epc_address_col = "epc_address_key",
+                                ppd_key_col = "ppd_match_key",
+                                ppd_address_col = "ppd_address_key",
+                                match_method = "exact_normalized_postcode_address") {
+  matched_epc_ids <- unique(matched_dt$lmk_key)
+  matched_ppd_ids <- unique(matched_dt$ppd_id)
+
+  epc_unmatched <- epc_dt[!lmk_key %chin% matched_epc_ids]
+  ppd_unmatched <- ppd_dt[!ppd_id %chin% matched_ppd_ids]
+
+  if (!nrow(epc_unmatched) || !nrow(ppd_unmatched)) {
+    return(empty_mapping_table())
+  }
+
+  epc_exact <- data.table::copy(epc_unmatched)
+  ppd_exact <- data.table::copy(ppd_unmatched)
+
+  epc_exact[, exact_join_key := get(epc_key_col)]
+  ppd_exact[, exact_join_key := get(ppd_key_col)]
+
+  merged_dt <- merge(
+    epc_exact,
+    ppd_exact,
+    by = c("exact_join_key", "postcode_key"),
+    allow.cartesian = TRUE,
+    suffixes = c("_epc", "_ppd")
+  )
+
+  if (!nrow(merged_dt)) {
+    return(empty_mapping_table())
+  }
+
+  merged_dt[, .(
+    match_method = match_method,
+    match_count_for_key = NA_integer_,
+    match_score = 1,
+    match_key = exact_join_key,
+    postcode_key,
+    address_key = get(ppd_address_col),
+    epc_address_key = get(epc_address_col),
+    ppd_address_key = get(ppd_address_col),
+    epc_source,
+    epc_file,
+    lmk_key,
+    uprn,
+    inspection_date,
+    lodgement_date,
+    postcode = postcode_ppd,
+    epc_address,
+    ppd_id,
+    deed_date,
+    price_paid,
+    ppd_address,
+    district,
+    county
+  )]
 }
 
 epc_files <- list.files(
@@ -224,6 +328,9 @@ epc_index <- data.table::rbindlist(
     dt[, match_key := build_match_key(POSTCODE, epc_address)]
     dt[, epc_address_key := address_key]
     dt[, epc_match_key := match_key]
+    dt[, locality_key := normalize_text(paste(ADDRESS2, ADDRESS3))]
+    dt[, epc_address_key_stripped := remove_component_words(epc_address, paste(ADDRESS2, ADDRESS3))]
+    dt[, epc_match_key_stripped := build_match_key(POSTCODE, epc_address_key_stripped)]
     dt[, house_token := extract_house_token(epc_address_key)]
     dt[nzchar(postcode_key) & nzchar(address_key),
       .(
@@ -240,6 +347,9 @@ epc_index <- data.table::rbindlist(
         match_key,
         epc_address_key,
         epc_match_key,
+        locality_key,
+        epc_address_key_stripped,
+        epc_match_key_stripped,
         house_token
       )]
   }),
@@ -329,7 +439,44 @@ mapping_exact <- mapping_exact_raw[, .(
 message("Running fuzzy same-postcode matching on unmatched rows.")
 
 fuzzy_result <- build_fuzzy_mapping(epc_index, ppd_index, mapping_exact)
-mapping <- data.table::rbindlist(list(mapping_exact, fuzzy_result$matches), use.names = TRUE, fill = TRUE)
+mapping_exact_stripped <- build_exact_mapping(
+  epc_index,
+  ppd_index,
+  data.table::rbindlist(list(mapping_exact, fuzzy_result$matches), use.names = TRUE, fill = TRUE),
+  epc_key_col = "epc_match_key_stripped",
+  epc_address_col = "epc_address_key_stripped",
+  ppd_key_col = "ppd_match_key",
+  ppd_address_col = "ppd_address_key",
+  match_method = "exact_same_postcode_stripped_epc_locality"
+)
+
+message("Running fuzzy same-postcode matching on unmatched rows after stripping EPC locality terms.")
+
+fuzzy_result_stripped <- build_fuzzy_mapping(
+  epc_index,
+  ppd_index,
+  data.table::rbindlist(
+    list(mapping_exact, fuzzy_result$matches, mapping_exact_stripped),
+    use.names = TRUE,
+    fill = TRUE
+  ),
+  epc_key_col = "epc_match_key_stripped",
+  epc_address_col = "epc_address_key_stripped",
+  ppd_key_col = "ppd_match_key",
+  ppd_address_col = "ppd_address_key",
+  match_method = "fuzzy_same_postcode_stripped_epc_locality"
+)
+
+mapping <- data.table::rbindlist(
+  list(
+    mapping_exact,
+    fuzzy_result$matches,
+    mapping_exact_stripped,
+    fuzzy_result_stripped$matches
+  ),
+  use.names = TRUE,
+  fill = TRUE
+)
 mapping[, match_count_for_key := .N, by = match_key]
 
 data.table::setcolorder(
@@ -357,7 +504,10 @@ summary_lines <- c(
   paste("Distinct matched PPD transactions:", format(data.table::uniqueN(mapping$ppd_id), big.mark = ",")),
   paste("Match counts by method:"),
   paste(capture.output(print(method_counts)), collapse = "\n"),
-  paste("Skipped postcode groups in fuzzy pass:", length(fuzzy_result$skipped_postcodes))
+  paste(
+    "Skipped postcode groups in fuzzy passes:",
+    length(unique(c(fuzzy_result$skipped_postcodes, fuzzy_result_stripped$skipped_postcodes)))
+  )
 )
 writeLines(summary_lines, summary_file)
 

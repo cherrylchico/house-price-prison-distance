@@ -64,6 +64,7 @@ Script: `scripts/build_epc_ppd_mapping.R`
 
 - **EPC address**: use full `ADDRESS` if present; otherwise combine `ADDRESS1 + ADDRESS2 + ADDRESS3`
 - **PPD address**: concatenate `saon + paon + street`
+
 ### 4) Build match key
 
 `match_key = normalized_postcode + "|" + normalized_address`
@@ -74,6 +75,8 @@ Rows with empty postcode/address (and therefore empty keys) are dropped before m
 
 1. **Exact pass**: merge on exact equality of `match_key`
 2. **Fuzzy pass**: for remaining unmatched records, restrict to same postcode then fuzzy-match on address similarity
+3. **Exact stripped-locality pass**: for remaining unmatched records, remove EPC locality/town terms derived from `ADDRESS2 + ADDRESS3`, rebuild the EPC key, then exact-match again on postcode + stripped EPC address
+4. **Fuzzy stripped-locality pass**: for the still-unmatched records, keep the same-postcode restriction and fuzzy-match using the stripped EPC address key
 
 ### Important behavior
 
@@ -94,11 +97,6 @@ Rows with empty postcode/address (and therefore empty keys) are dropped before m
 - `input/property_prison_distance.csv`: one row per unique matched address with prison distance
 - `output/property_geocode_cache.csv`: reusable geocode cache
 
-### Analysis datasets
-
-- `output/hedonic_analysis_dataset.csv`: built by `Project.Rmd` (one-row-per-sale, chooses one EPC per sale)
-- `output/pricing_analysis_dataset.csv`: built by `scripts/build_pricing_dataset.R` (drops failed geocodes)
-- `output/pricing_analysis_dataset_summary.txt`: summary for the pricing dataset
 
 ## How to Combine All Data
 - See `1_Data_Prep.Rmd`
@@ -108,20 +106,21 @@ Rows with empty postcode/address (and therefore empty keys) are dropped before m
 
 - EPC rows indexed: 481,790
 - PPD rows indexed: 189,361
-- Matched rows in mapping: 87,068
-- Distinct matched keys: 46,269
-- Distinct matched EPC certificates: 61,547
-- Distinct matched PPD transactions: 62,788
+- Matched rows in mapping: 230,387
+- Distinct matched keys: 122,722
+- Distinct matched EPC certificates: 162,395
+- Distinct matched PPD transactions: 166,748
 
-| match_method                           |    N |
-|----------------------------------------|-----:|
-| exact_normalized_postcode_address      | 86924|
-| fuzzy_same_postcode_address_similarity |   144|
+| match_method                           |      N |
+|----------------------------------------|-------:|
+| exact_normalized_postcode_address      |  86924 |
+| exact_same_postcode_stripped_epc_locality | 142968 |
+| fuzzy_same_postcode_address_similarity |    144 |
+| fuzzy_same_postcode_stripped_epc_locality |    351 |
 
-Skipped postcode groups in fuzzy pass: 50
+Skipped postcode groups in fuzzy passes: 50
 
-Among matched rows in mapping 87,068
-- with geocode: xxxx
+Distance/geocode counts have not yet been refreshed in this README after the latest remapping run.
 
 
 ## Distance from Prison - TBUpdated
