@@ -126,3 +126,6 @@ It then builds one-row-per-sale data, creates rings + relative year, runs the ev
 | fuzzy_same_postcode_address_similarity |   20 |
 
 Skipped postcode groups in fuzzy pass: 80
+
+Among matched rows in mapping (3,054)
+- with geocode: 2,670
