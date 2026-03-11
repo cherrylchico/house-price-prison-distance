@@ -1703,3 +1703,517 @@ query,latitude,longitude,display_name,geocode_status
 "5 TYTHORN DRIVE WIGSTON, LE18 1BS, United Kingdom",52.594779,-1.1228905,"5, Tythorn Drive, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1BS, United Kingdom",ok
 "5 BRAMCOTE ROAD WIGSTON, LE18 1DB, United Kingdom",52.590269,-1.110006,"Bramcote Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1DA, United Kingdom",ok
 "20 CARLTON DRIVE WIGSTON, LE18 1DE, United Kingdom",52.5909309,-1.1116713,"Carlton Drive, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1DJ, United Kingdom",ok
+"24 CARLTON DRIVE WIGSTON, LE18 1DE, United Kingdom",52.5909309,-1.1116713,"Carlton Drive, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1DJ, United Kingdom",ok
+"71 CARLTON DRIVE WIGSTON, LE18 1DG, United Kingdom",52.5909309,-1.1116713,"Carlton Drive, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1DJ, United Kingdom",ok
+"105 CARLTON DRIVE WIGSTON, LE18 1DH, United Kingdom",52.5909309,-1.1116713,"Carlton Drive, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1DJ, United Kingdom",ok
+"11 CALVERTON AVENUE WIGSTON, LE18 1DJ, United Kingdom",52.5905758,-1.1102371,"Calverton Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1DJ, United Kingdom",ok
+"20 FARLEIGH AVENUE WIGSTON, LE18 1DN, United Kingdom",52.589935,-1.107943,"Farleigh Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1DN, United Kingdom",ok
+"27 FARLEIGH AVENUE WIGSTON, LE18 1DN, United Kingdom",52.589935,-1.107943,"Farleigh Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1DN, United Kingdom",ok
+"4 SHARDLOW ROAD WIGSTON, LE18 1DY, United Kingdom",52.5888256,-1.1141615,"Shardlow Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1DY, United Kingdom",ok
+"47 TWO STEEPLES SQUARE WIGSTON, LE18 1DZ, United Kingdom",52.589,-1.1071937,"Two Steeples Square, Wigston Fields, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1DZ, United Kingdom",ok
+"51 TWO STEEPLES SQUARE WIGSTON, LE18 1DZ, United Kingdom",52.589,-1.1071937,"Two Steeples Square, Wigston Fields, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1DZ, United Kingdom",ok
+"6 TWO STEEPLES SQUARE WIGSTON, LE18 1DZ, United Kingdom",52.589,-1.1071937,"Two Steeples Square, Wigston Fields, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1DZ, United Kingdom",ok
+"23 WILLOW PARK DRIVE WIGSTON, LE18 1EB, United Kingdom",52.5888931,-1.1117768,"Willow Park Drive, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1ED, United Kingdom",ok
+"4 WILLOW PARK DRIVE WIGSTON, LE18 1EB, United Kingdom",52.5888931,-1.1117768,"Willow Park Drive, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1ED, United Kingdom",ok
+"6 BRIGHTON CLOSE WIGSTON, LE18 1EF, United Kingdom",52.5969042,-1.1096955,"Brighton Close, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JA, United Kingdom",ok
+"12 ALFRETON ROAD WIGSTON, LE18 1FA, United Kingdom",52.5911859,-1.1129091,"Alfreton Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1FA, United Kingdom",ok
+"38 ALFRETON ROAD WIGSTON, LE18 1FB, United Kingdom",52.5911859,-1.1129091,"Alfreton Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1FA, United Kingdom",ok
+"47 ALFRETON ROAD WIGSTON, LE18 1FB, United Kingdom",52.5911859,-1.1129091,"Alfreton Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1FA, United Kingdom",ok
+"105 BURLEIGH AVENUE WIGSTON, LE18 1FN, United Kingdom",52.5937681,-1.1156472,"Burleigh Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1FN, United Kingdom",ok
+"20 NORTHFIELD AVENUE WIGSTON, LE18 1FW, United Kingdom",52.5902421,-1.1165339,"Northfield Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1FT, United Kingdom",ok
+"49 REPTON ROAD WIGSTON, LE18 1GB, United Kingdom",52.5927233,-1.1157486,"Repton Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1FS, United Kingdom",ok
+"70 REPTON ROAD WIGSTON, LE18 1GD, United Kingdom",52.5927233,-1.1157486,"Repton Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1FS, United Kingdom",ok
+"72 REPTON ROAD WIGSTON, LE18 1GD, United Kingdom",52.5927233,-1.1157486,"Repton Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1FS, United Kingdom",ok
+"73 REPTON ROAD WIGSTON, LE18 1GD, United Kingdom",52.5927233,-1.1157486,"Repton Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1FS, United Kingdom",ok
+"39 BRADGATE DRIVE WIGSTON, LE18 1HB, United Kingdom",52.5952046,-1.1204355,"39, Bradgate Drive, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HA, United Kingdom",ok
+"45 BRADGATE DRIVE WIGSTON, LE18 1HB, United Kingdom",52.5949706,-1.1204982,"45, Bradgate Drive, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HA, United Kingdom",ok
+"15 CROFT DRIVE WIGSTON, LE18 1HE, United Kingdom",52.5946667,-1.1212533,"15, Croft Drive, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HE, United Kingdom",ok
+"32 GUILFORD DRIVE WIGSTON, LE18 1HF, United Kingdom",52.5951754,-1.1185702,"32, Guilford Drive, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HF, United Kingdom",ok
+"24 KINGSTON AVENUE WIGSTON, LE18 1HJ, United Kingdom",52.5944829,-1.1136993,"Kingston Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HW, United Kingdom",ok
+"52 KINGSTON AVENUE WIGSTON, LE18 1HJ, United Kingdom",52.5944829,-1.1136993,"Kingston Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HW, United Kingdom",ok
+"64 KINGSTON AVENUE WIGSTON, LE18 1HJ, United Kingdom",52.5944829,-1.1136993,"Kingston Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HW, United Kingdom",ok
+"53 KINGSTON AVENUE WIGSTON, LE18 1HL, United Kingdom",52.5944829,-1.1136993,"Kingston Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HW, United Kingdom",ok
+"116 KINGSTON AVENUE WIGSTON, LE18 1HN, United Kingdom",52.5944829,-1.1136993,"Kingston Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HW, United Kingdom",ok
+"80 KINGSTON AVENUE WIGSTON, LE18 1HN, United Kingdom",52.5944829,-1.1136993,"Kingston Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HW, United Kingdom",ok
+"121 KINGSTON AVENUE WIGSTON, LE18 1HP, United Kingdom",52.5944829,-1.1136993,"Kingston Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HW, United Kingdom",ok
+"59 KINGSTON AVENUE WIGSTON, LE18 1HP, United Kingdom",52.5944829,-1.1136993,"Kingston Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HW, United Kingdom",ok
+"65 KINGSTON AVENUE WIGSTON, LE18 1HP, United Kingdom",52.5944829,-1.1136993,"Kingston Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HW, United Kingdom",ok
+"262 LEICESTER ROAD WIGSTON, LE18 1HQ, United Kingdom",52.5942762,-1.1097209,"Leicester Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JU, United Kingdom",ok
+"37 WESTFIELD AVENUE WIGSTON, LE18 1HY, United Kingdom",52.5929428,-1.1173539,"Westfield Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HY, United Kingdom",ok
+"9 MILVERTON CLOSE WIGSTON, LE18 1HZ, United Kingdom",52.5928989,-1.1102662,"Milverton Close, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1HZ, United Kingdom",ok
+"57 BRIGHTON AVENUE WIGSTON, LE18 1JB, United Kingdom",52.5955937,-1.1074079,"Brighton Avenue, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JS, United Kingdom",ok
+"38 GRANGE ROAD WIGSTON, LE18 1JG, United Kingdom",52.5943682,-1.1076991,"Grange Road, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JE, United Kingdom",ok
+"31 GRANGE ROAD WIGSTON, LE18 1JH, United Kingdom",52.5943682,-1.1076991,"Grange Road, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JE, United Kingdom",ok
+"126 GRANGE ROAD WIGSTON, LE18 1JJ, United Kingdom",52.5943682,-1.1076991,"Grange Road, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JE, United Kingdom",ok
+"70 GRANVILLE ROAD WIGSTON, LE18 1JP, United Kingdom",52.5952617,-1.1147505,"Granville Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JP, United Kingdom",ok
+"76 GRANVILLE ROAD WIGSTON, LE18 1JP, United Kingdom",52.5952617,-1.1147505,"Granville Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JP, United Kingdom",ok
+"3 HEATHFIELD ROAD WIGSTON, LE18 1JR, United Kingdom",52.5946616,-1.1030701,"Heathfield Road, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JR, United Kingdom",ok
+"5 KENSINGTON DRIVE WIGSTON, LE18 1JS, United Kingdom",52.5949368,-1.106764,"Kensington Drive, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JS, United Kingdom",ok
+"44 RUSKINGTON DRIVE WIGSTON, LE18 1LA, United Kingdom",52.5949786,-1.1024338,"Ruskington Drive, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JR, United Kingdom",ok
+"27 RUSKINGTON DRIVE WIGSTON, LE18 1LB, United Kingdom",52.5949786,-1.1024338,"Ruskington Drive, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JR, United Kingdom",ok
+"37 RUSKINGTON DRIVE WIGSTON, LE18 1LB, United Kingdom",52.5949786,-1.1024338,"Ruskington Drive, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1JR, United Kingdom",ok
+"7 BROAD MEADOW WIGSTON, LE18 1LH, United Kingdom",52.5767145,-1.099293,"Broad Meadow, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1LH, United Kingdom",ok
+"79 AVONDALE ROAD WIGSTON, LE18 1ND, United Kingdom",52.5907977,-1.1012055,"Avondale Road, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1NW, United Kingdom",ok
+"18 EASTWAY ROAD WIGSTON, LE18 1NH, United Kingdom",52.592008,-1.1022574,"Eastway Road, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1NH, United Kingdom",ok
+"46 EASTWAY ROAD WIGSTON, LE18 1NJ, United Kingdom",52.592008,-1.1022574,"Eastway Road, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1NH, United Kingdom",ok
+"25 HIGHFIELD DRIVE WIGSTON, LE18 1NN, United Kingdom",52.59202,-1.1032099,"Highfield Drive, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1NA, United Kingdom",ok
+"33 HIGHFIELD DRIVE WIGSTON, LE18 1NN, United Kingdom",52.59202,-1.1032099,"Highfield Drive, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1NA, United Kingdom",ok
+"5A LEICESTER ROAD WIGSTON, LE18 1NR, United Kingdom",,,,no_result
+"5B LEICESTER ROAD WIGSTON, LE18 1NR, United Kingdom",,,,no_result
+"2 WELDON ROAD WIGSTON, LE18 1NX, United Kingdom",52.5899089,-1.1027343,"Weldon Road, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1NX, United Kingdom",ok
+"4 REYNOLDS CHASE WIGSTON, LE18 1PH, United Kingdom",52.5887743,-1.1008868,"Reynolds Chase, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1PH, United Kingdom",ok
+"8 REYNOLDS CHASE WIGSTON, LE18 1PH, United Kingdom",52.5887743,-1.1008868,"Reynolds Chase, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1PH, United Kingdom",ok
+"4 WILLOW PLACE WIGSTON, LE18 2AG, United Kingdom",52.5831964,-1.1077812,"Willow Place, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2AG, United Kingdom",ok
+"6 WILLOW PLACE WIGSTON, LE18 2AG, United Kingdom",52.5831964,-1.1077812,"Willow Place, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2AG, United Kingdom",ok
+"45 PADDOCK STREET WIGSTON, LE18 2AN, United Kingdom",52.5847795,-1.1050131,"Paddock Street, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2AP, United Kingdom",ok
+"38 BUSHLOE END WIGSTON, LE18 2BA, United Kingdom",52.5829241,-1.1105828,"Bushloe End, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2BA, United Kingdom",ok
+"5 CLARKES ROAD WIGSTON, LE18 2BF, United Kingdom",52.5833003,-1.1221244,"Clarkes Road, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2BB, United Kingdom",ok
+"7 CLARKES ROAD WIGSTON, LE18 2BF, United Kingdom",52.5833003,-1.1221244,"Clarkes Road, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2BB, United Kingdom",ok
+"5 LONG STREET WIGSTON, LE18 2BP, United Kingdom",52.5838085,-1.1081662,"Long Street, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2AR, United Kingdom",ok
+"9 LONG STREET WIGSTON, LE18 2BP, United Kingdom",52.5838085,-1.1081662,"Long Street, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2AR, United Kingdom",ok
+"1 MANOR STREET WIGSTON, LE18 2BS, United Kingdom",52.5824897,-1.1177473,"1, Manor Street, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2BS, United Kingdom",ok
+"54 MANOR STREET WIGSTON, LE18 2BT, United Kingdom",52.5834872,-1.1182952,"Manor Street, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2BS, United Kingdom",ok
+"15 ORCHARDS DRIVE WIGSTON, LE18 2BW, United Kingdom",52.582843,-1.1193721,"15, Orchards Drive, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2BW, United Kingdom",ok
+"21 SEATON ROAD WIGSTON, LE18 2BY, United Kingdom",52.580123,-1.1135449,"Seaton Road, Little Hill, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2GY, United Kingdom",ok
+"34 SEATON ROAD WIGSTON, LE18 2BY, United Kingdom",52.580123,-1.1135449,"Seaton Road, Little Hill, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2GY, United Kingdom",ok
+"30 PULLMAN ROAD WIGSTON, LE18 2DA, United Kingdom",52.5826097,-1.1211237,"30, Pullman Road, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2DB, United Kingdom",ok
+"37 HOLMDEN AVENUE WIGSTON, LE18 2EG, United Kingdom",52.5859566,-1.1166151,"Holmden Avenue, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2EF, United Kingdom",ok
+"87 HOLMDEN AVENUE WIGSTON, LE18 2EG, United Kingdom",52.5859566,-1.1166151,"Holmden Avenue, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2EF, United Kingdom",ok
+"27 ROLLESTON ROAD WIGSTON, LE18 2EP, United Kingdom",52.5884367,-1.1197053,"Rolleston Road, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2EQ, United Kingdom",ok
+"13 WILTSHIRE ROAD WIGSTON, LE18 2FJ, United Kingdom",52.589777,-1.1206097,"Wiltshire Road, Wigston Fields, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2FJ, United Kingdom",ok
+"120 MOAT STREET WIGSTON, LE18 2GE, United Kingdom",52.5815909,-1.1038143,"Moat Street, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HE, United Kingdom",ok
+"4 DORCHESTER CLOSE WIGSTON, LE18 2GJ, United Kingdom",52.5730565,-1.1080852,"Dorchester Close, Little Hill, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2GJ, United Kingdom",ok
+"3 SALTASH CLOSE WIGSTON, LE18 2GX, United Kingdom",52.5799075,-1.1120902,"Saltash Close, Little Hill, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2GX, United Kingdom",ok
+"3 COLLATON ROAD WIGSTON, LE18 2GY, United Kingdom",52.5805392,-1.1128977,"Collaton Road, Little Hill, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2GY, United Kingdom",ok
+"4 BUDE ROAD WIGSTON, LE18 2HD, United Kingdom",52.5803539,-1.1075935,"Bude Road, Little Hill, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HD, United Kingdom",ok
+"1 FALMOUTH DRIVE WIGSTON, LE18 2HH, United Kingdom",52.5800249,-1.1077799,"Falmouth Drive, Little Hill, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HY, United Kingdom",ok
+"13 HILLSIDE AVENUE WIGSTON, LE18 2HL, United Kingdom",52.5794232,-1.1040313,"Hillside Avenue, Little Hill, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HL, United Kingdom",ok
+"16 HILLSIDE AVENUE WIGSTON, LE18 2HL, United Kingdom",52.5794232,-1.1040313,"Hillside Avenue, Little Hill, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HL, United Kingdom",ok
+"32 HOMESTEAD DRIVE WIGSTON, LE18 2HN, United Kingdom",52.5776322,-1.1034533,"Homestead Drive, Little Hill, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HN, United Kingdom",ok
+"31 HOMESTEAD DRIVE WIGSTON, LE18 2HP, United Kingdom",52.5776148,-1.1049423,"Homestead Drive, Little Hill, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HP, United Kingdom",ok
+"62 HORSEWELL LANE WIGSTON, LE18 2HR, United Kingdom",52.5780622,-1.1057702,"Horsewell Lane, Little Hill, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HR, United Kingdom",ok
+"65 HORSEWELL LANE WIGSTON, LE18 2HR, United Kingdom",52.5780622,-1.1057702,"Horsewell Lane, Little Hill, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HR, United Kingdom",ok
+"1 HALCROFT RISE WIGSTON, LE18 2HS, United Kingdom",52.5787475,-1.1042497,"Halcroft Rise, Little Hill, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HS, United Kingdom",ok
+"11 HALCROFT RISE WIGSTON, LE18 2HS, United Kingdom",52.5787475,-1.1042497,"Halcroft Rise, Little Hill, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HS, United Kingdom",ok
+"63 PENZANCE AVENUE WIGSTON, LE18 2HX, United Kingdom",52.5794709,-1.1082712,"Penzance Avenue, Little Hill, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HX, United Kingdom",ok
+"31 GEORGEHAM CLOSE WIGSTON, LE18 2HZ, United Kingdom",52.5769958,-1.1068948,"Georgeham Close, Little Hill, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HZ, United Kingdom",ok
+"9 GEORGEHAM CLOSE WIGSTON, LE18 2HZ, United Kingdom",52.5769958,-1.1068948,"Georgeham Close, Little Hill, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2HZ, United Kingdom",ok
+"2 HELSTON CLOSE WIGSTON, LE18 2JH, United Kingdom",52.5776818,-1.1114014,"Helston Close, Little Hill, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2JH, United Kingdom",ok
+"21 CAWSAND ROAD WIGSTON, LE18 2JS, United Kingdom",52.5787108,-1.113243,"Cawsand Road, Little Hill, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2JS, United Kingdom",ok
+"7 PENSILVA CLOSE WIGSTON, LE18 2JT, United Kingdom",52.5786971,-1.1151819,"Pensilva Close, Little Hill, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2JT, United Kingdom",ok
+"7 PURBECK CLOSE WIGSTON, LE18 2JY, United Kingdom",52.5749508,-1.1072934,"Purbeck Close, Little Hill, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2JY, United Kingdom",ok
+"19 BURNHAM CLOSE WIGSTON, LE18 2QT, United Kingdom",52.5715886,-1.1064693,"Burnham Close, Little Hill, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2QT, United Kingdom",ok
+"3 LULWORTH CLOSE WIGSTON, LE18 2QW, United Kingdom",52.5714431,-1.1058754,"Lulworth Close, Little Hill, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2QW, United Kingdom",ok
+"4 LULWORTH CLOSE WIGSTON, LE18 2QW, United Kingdom",52.5714431,-1.1058754,"Lulworth Close, Little Hill, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2QW, United Kingdom",ok
+"27 BARNSTAPLE CLOSE WIGSTON, LE18 2QX, United Kingdom",52.5735722,-1.1076048,"Barnstaple Close, Little Hill, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2QX, United Kingdom",ok
+"13 DULVERTON CLOSE WIGSTON, LE18 2QY, United Kingdom",52.5748721,-1.1056022,"Dulverton Close, Little Hill, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2QY, United Kingdom",ok
+"31 BRITFORD AVENUE WIGSTON, LE18 2RF, United Kingdom",52.5746251,-1.1140373,"Britford Avenue, Little Hill, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2RF, United Kingdom",ok
+"56 DURNFORD ROAD WIGSTON, LE18 2RG, United Kingdom",52.5719898,-1.107083,"Durnford Road, Little Hill, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 2RU, United Kingdom",ok
+"18 RAWSON DRIVE WIGSTON, LE18 3AF, United Kingdom",52.5714143,-1.101373,"Rawson Drive, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3AF, United Kingdom",ok
+"20 RAWSON DRIVE WIGSTON, LE18 3AF, United Kingdom",52.5714143,-1.101373,"Rawson Drive, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3AF, United Kingdom",ok
+"22 RAWSON DRIVE WIGSTON, LE18 3AF, United Kingdom",52.5714143,-1.101373,"Rawson Drive, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3AF, United Kingdom",ok
+"24 RAWSON DRIVE WIGSTON, LE18 3AF, United Kingdom",52.5714143,-1.101373,"Rawson Drive, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3AF, United Kingdom",ok
+"10 EVANS MILL ROAD WIGSTON, LE18 3AR, United Kingdom",,,,no_result
+"12 EVANS MILL ROAD WIGSTON, LE18 3AR, United Kingdom",,,,no_result
+"14 EVANS MILL ROAD WIGSTON, LE18 3AR, United Kingdom",,,,no_result
+"16 EVANS MILL ROAD WIGSTON, LE18 3AR, United Kingdom",,,,no_result
+"18 EVANS MILL ROAD WIGSTON, LE18 3AR, United Kingdom",,,,no_result
+"20 EVANS MILL ROAD WIGSTON, LE18 3AR, United Kingdom",,,,no_result
+"22 EVANS MILL ROAD WIGSTON, LE18 3AR, United Kingdom",,,,no_result
+"24 EVANS MILL ROAD WIGSTON, LE18 3AR, United Kingdom",,,,no_result
+"3 EVANS MILL ROAD WIGSTON, LE18 3AR, United Kingdom",,,,no_result
+"5 EVANS MILL ROAD WIGSTON, LE18 3AR, United Kingdom",,,,no_result
+"7 EVANS MILL ROAD WIGSTON, LE18 3AR, United Kingdom",,,,no_result
+"8 EVANS MILL ROAD WIGSTON, LE18 3AR, United Kingdom",,,,no_result
+"1 COPSE CLOSE WIGSTON, LE18 3AS, United Kingdom",52.6035537,-1.0658016,"Copse Close, Oadby, Oadby and Wigston, Leicestershire, England, LE2 4FB, United Kingdom",ok
+"10 COPSE CLOSE WIGSTON, LE18 3AS, United Kingdom",52.6035537,-1.0658016,"Copse Close, Oadby, Oadby and Wigston, Leicestershire, England, LE2 4FB, United Kingdom",ok
+"11 COPSE CLOSE WIGSTON, LE18 3AS, United Kingdom",52.6035537,-1.0658016,"Copse Close, Oadby, Oadby and Wigston, Leicestershire, England, LE2 4FB, United Kingdom",ok
+"12 COPSE CLOSE WIGSTON, LE18 3AS, United Kingdom",52.6035537,-1.0658016,"Copse Close, Oadby, Oadby and Wigston, Leicestershire, England, LE2 4FB, United Kingdom",ok
+"2 COPSE CLOSE WIGSTON, LE18 3AS, United Kingdom",52.6035537,-1.0658016,"Copse Close, Oadby, Oadby and Wigston, Leicestershire, England, LE2 4FB, United Kingdom",ok
+"3 COPSE CLOSE WIGSTON, LE18 3AS, United Kingdom",52.6035537,-1.0658016,"Copse Close, Oadby, Oadby and Wigston, Leicestershire, England, LE2 4FB, United Kingdom",ok
+"4 COPSE CLOSE WIGSTON, LE18 3AS, United Kingdom",52.6035537,-1.0658016,"Copse Close, Oadby, Oadby and Wigston, Leicestershire, England, LE2 4FB, United Kingdom",ok
+"5 COPSE CLOSE WIGSTON, LE18 3AS, United Kingdom",52.6035537,-1.0658016,"Copse Close, Oadby, Oadby and Wigston, Leicestershire, England, LE2 4FB, United Kingdom",ok
+"6 COPSE CLOSE WIGSTON, LE18 3AS, United Kingdom",52.6035537,-1.0658016,"Copse Close, Oadby, Oadby and Wigston, Leicestershire, England, LE2 4FB, United Kingdom",ok
+"7 COPSE CLOSE WIGSTON, LE18 3AS, United Kingdom",52.6035537,-1.0658016,"Copse Close, Oadby, Oadby and Wigston, Leicestershire, England, LE2 4FB, United Kingdom",ok
+"8 COPSE CLOSE WIGSTON, LE18 3AS, United Kingdom",52.6035537,-1.0658016,"Copse Close, Oadby, Oadby and Wigston, Leicestershire, England, LE2 4FB, United Kingdom",ok
+"9 COPSE CLOSE WIGSTON, LE18 3AS, United Kingdom",52.6035537,-1.0658016,"Copse Close, Oadby, Oadby and Wigston, Leicestershire, England, LE2 4FB, United Kingdom",ok
+"70 LITTLE DALE WIGSTON, LE18 3LF, United Kingdom",52.5795074,-1.0967913,"Little Dale, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3LF, United Kingdom",ok
+"22 BROUGHTONS FIELD WIGSTON, LE18 3LJ, United Kingdom",,,,no_result
+"36 HERRICK WAY WIGSTON, LE18 3LR, United Kingdom",52.5775713,-1.0968949,"Herrick Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3LQ, United Kingdom",ok
+"16 GLEBE CLOSE WIGSTON, LE18 3LU, United Kingdom",52.5875554,-1.1020763,"Glebe Close, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3LU, United Kingdom",ok
+"17 GLEBE CLOSE WIGSTON, LE18 3LU, United Kingdom",52.5875554,-1.1020763,"Glebe Close, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3LU, United Kingdom",ok
+"11 HALTER SLADE WIGSTON, LE18 3NQ, United Kingdom",52.5787596,-1.0946573,"Halter Slade, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3NQ, United Kingdom",ok
+"3 HALTER SLADE WIGSTON, LE18 3NQ, United Kingdom",52.5787596,-1.0946573,"Halter Slade, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3NQ, United Kingdom",ok
+"36 CHEDDAR ROAD WIGSTON, LE18 3PH, United Kingdom",,,,no_result
+"122 OADBY ROAD WIGSTON, LE18 3PU, United Kingdom",52.588734,-1.0978067,"Oadby Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3PU, United Kingdom",ok
+"175 OADBY ROAD WIGSTON, LE18 3PW, United Kingdom",52.588734,-1.0978067,"Oadby Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3PU, United Kingdom",ok
+"27 SPA LANE WIGSTON, LE18 3QD, United Kingdom",52.584376,-1.1013535,"Spa Lane, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WW, United Kingdom",ok
+"29 SPA LANE WIGSTON, LE18 3QD, United Kingdom",52.584376,-1.1013535,"Spa Lane, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WW, United Kingdom",ok
+"9 YARWELL DRIVE WIGSTON, LE18 3QF, United Kingdom",52.5846846,-1.0968267,"Yarwell Drive, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3QF, United Kingdom",ok
+"2 WINSLOW DRIVE WIGSTON, LE18 3QG, United Kingdom",52.5926076,-1.0982512,"Winslow Drive, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3QG, United Kingdom",ok
+"80 WINSLOW DRIVE WIGSTON, LE18 3QG, United Kingdom",52.5926076,-1.0982512,"Winslow Drive, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3QG, United Kingdom",ok
+"12 SHENLEY ROAD WIGSTON, LE18 3QL, United Kingdom",52.5914539,-1.0964432,"Shenley Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3PR, United Kingdom",ok
+"22 SHENLEY ROAD WIGSTON, LE18 3QL, United Kingdom",52.5914539,-1.0964432,"Shenley Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3PR, United Kingdom",ok
+"10 GEDDINGTON CLOSE WIGSTON, LE18 3QU, United Kingdom",52.5824764,-1.0994185,"Geddington Close, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3QU, United Kingdom",ok
+"14 RAVENSTHORPE ROAD WIGSTON, LE18 3QX, United Kingdom",52.5825953,-1.0999877,"Ravensthorpe Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3QY, United Kingdom",ok
+"3 RAVENSTHORPE ROAD WIGSTON, LE18 3QX, United Kingdom",52.5825953,-1.0999877,"Ravensthorpe Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3QY, United Kingdom",ok
+"9 EASTMERE ROAD WIGSTON, LE18 3RB, United Kingdom",52.5873055,-1.088568,"Eastmere Road, Oadby, Oadby and Wigston, Leicestershire, England, LE18 3RB, United Kingdom",ok
+"22 ESTORIL AVENUE WIGSTON, LE18 3RD, United Kingdom",52.5896217,-1.0923919,"Estoril Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RE, United Kingdom",ok
+"87 ESTORIL AVENUE WIGSTON, LE18 3RE, United Kingdom",52.5896217,-1.0923919,"Estoril Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RE, United Kingdom",ok
+"3 GRASMERE ROAD WIGSTON, LE18 3RF, United Kingdom",52.5876675,-1.0910302,"Grasmere Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RF, United Kingdom",ok
+"27 GRASMERE ROAD WIGSTON, LE18 3RG, United Kingdom",52.5876675,-1.0910302,"Grasmere Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RF, United Kingdom",ok
+"36 GRASMERE ROAD WIGSTON, LE18 3RG, United Kingdom",52.5876675,-1.0910302,"Grasmere Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RF, United Kingdom",ok
+"39 GRASMERE ROAD WIGSTON, LE18 3RG, United Kingdom",52.5876675,-1.0910302,"Grasmere Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RF, United Kingdom",ok
+"31 MERE ROAD WIGSTON, LE18 3RJ, United Kingdom",52.5868264,-1.0989858,"Mere Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RJ, United Kingdom",ok
+"37 MERE ROAD WIGSTON, LE18 3RJ, United Kingdom",52.5868264,-1.0989858,"Mere Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RJ, United Kingdom",ok
+"136 MERE ROAD WIGSTON, LE18 3RL, United Kingdom",52.5873939,-1.0941572,"Mere Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RN, United Kingdom",ok
+"111 MERE ROAD WIGSTON, LE18 3RN, United Kingdom",52.5873939,-1.0941572,"Mere Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RN, United Kingdom",ok
+"117 MERE ROAD WIGSTON, LE18 3RN, United Kingdom",52.5873939,-1.0941572,"Mere Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RN, United Kingdom",ok
+"97 MERE ROAD WIGSTON, LE18 3RN, United Kingdom",52.5873939,-1.0941572,"Mere Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RN, United Kingdom",ok
+"121 OADBY ROAD WIGSTON, LE18 3RQ, United Kingdom",52.588942,-1.0972365,"Oadby Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RQ, United Kingdom",ok
+"34 THIRLMERE ROAD WIGSTON, LE18 3RR, United Kingdom",52.5888179,-1.0951545,"Thirlmere Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RS, United Kingdom",ok
+"52 THIRLMERE ROAD WIGSTON, LE18 3RR, United Kingdom",52.5888179,-1.0951545,"Thirlmere Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3RS, United Kingdom",ok
+"2 ST WOLSTANS CLOSE WIGSTON, LE18 3RU, United Kingdom",,,,no_result
+"10 HARCOURT ROAD WIGSTON, LE18 3SB, United Kingdom",52.5796361,-1.1005189,"Harcourt Road, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SB, United Kingdom",ok
+"30 FOSTON GATE WIGSTON, LE18 3SD, United Kingdom",52.5737222,-1.0969442,"Foston Gate, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SS, United Kingdom",ok
+"64 FOSTON GATE WIGSTON, LE18 3SD, United Kingdom",52.5737222,-1.0969442,"Foston Gate, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SS, United Kingdom",ok
+"64 NEWTON LANE WIGSTON, LE18 3SF, United Kingdom",52.5806018,-1.099204,"Newton Lane, Meadows, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SG, United Kingdom",ok
+"71 NEWTON LANE WIGSTON, LE18 3SF, United Kingdom",52.5806018,-1.099204,"Newton Lane, Meadows, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SG, United Kingdom",ok
+"75 WELFORD ROAD WIGSTON, LE18 3SP, United Kingdom",52.5785792,-1.1012889,"Welford Road, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SX, United Kingdom",ok
+"12 KILBY DRIVE WIGSTON, LE18 3SR, United Kingdom",52.5792807,-1.099403,"Kilby Drive, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SR, United Kingdom",ok
+"103 FOSTON GATE WIGSTON, LE18 3SS, United Kingdom",52.5737222,-1.0969442,"Foston Gate, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SS, United Kingdom",ok
+"43 FOSTON GATE WIGSTON, LE18 3SS, United Kingdom",52.5737222,-1.0969442,"Foston Gate, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SS, United Kingdom",ok
+"75 FOSTON GATE WIGSTON, LE18 3SS, United Kingdom",52.5737222,-1.0969442,"Foston Gate, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SS, United Kingdom",ok
+"19 LIME KILNS WIGSTON, LE18 3ST, United Kingdom",52.5744348,-1.0984214,"Lime Kilns, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3ST, United Kingdom",ok
+"29 LIME KILNS WIGSTON, LE18 3ST, United Kingdom",52.5744348,-1.0984214,"Lime Kilns, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3ST, United Kingdom",ok
+"7 LIME KILNS WIGSTON, LE18 3ST, United Kingdom",52.5744348,-1.0984214,"Lime Kilns, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3ST, United Kingdom",ok
+"16 ROMAN HILL WIGSTON, LE18 3SU, United Kingdom",52.5742916,-1.0995808,"Roman Hill, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SU, United Kingdom",ok
+"24 ROMAN HILL WIGSTON, LE18 3SU, United Kingdom",52.5742916,-1.0995808,"Roman Hill, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SU, United Kingdom",ok
+"5 ROMAN HILL WIGSTON, LE18 3SU, United Kingdom",52.5742916,-1.0995808,"Roman Hill, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SU, United Kingdom",ok
+"19 SAXONDALE ROAD WIGSTON, LE18 3SY, United Kingdom",52.5734064,-1.0994821,"Saxondale Road, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SY, United Kingdom",ok
+"22 SAXONDALE ROAD WIGSTON, LE18 3SY, United Kingdom",52.5734064,-1.0994821,"Saxondale Road, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SY, United Kingdom",ok
+"5 SAXONDALE ROAD WIGSTON, LE18 3SY, United Kingdom",52.5734064,-1.0994821,"Saxondale Road, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SY, United Kingdom",ok
+"20 ASHURST CLOSE WIGSTON, LE18 3SZ, United Kingdom",52.5730182,-1.0993543,"Ashurst Close, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SZ, United Kingdom",ok
+"7 HOSKINS CLOSE WIGSTON, LE18 3TQ, United Kingdom",52.5744402,-1.0965996,"Hoskins Close, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3SS, United Kingdom",ok
+"40 LONG MEADOW WIGSTON, LE18 3TY, United Kingdom",52.5739909,-1.0948487,"Long Meadow, Wigston Harcourt, Kilby Bridge, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3TY, United Kingdom",ok
+"19 SIMONS CLOSE WIGSTON, LE18 3UD, United Kingdom",52.57512,-1.0960523,"Simons Close, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UD, United Kingdom",ok
+"1 MABLOWE FIELD WIGSTON, LE18 3UJ, United Kingdom",52.576094,-1.0947682,"Mablowe Field, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UJ, United Kingdom",ok
+"38 MABLOWE FIELD WIGSTON, LE18 3UJ, United Kingdom",52.576094,-1.0947682,"Mablowe Field, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UJ, United Kingdom",ok
+"9 MABLOWE FIELD WIGSTON, LE18 3UJ, United Kingdom",52.576094,-1.0947682,"Mablowe Field, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UJ, United Kingdom",ok
+"18 CLIPSTONE GARDENS WIGSTON, LE18 3UN, United Kingdom",52.5814027,-1.0980766,"Clipstone Gardens, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UN, United Kingdom",ok
+"25 CLAYHILL FIELD WIGSTON, LE18 3US, United Kingdom",52.5760973,-1.0924589,"Clayhill Field, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3US, United Kingdom",ok
+"16 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"18 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"20 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"22 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"24 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"26 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"27 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"28 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"29 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"30 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"31 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"38 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"42 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"44 GREGORY WAY WIGSTON, LE18 3UT, United Kingdom",52.5773834,-1.0925444,"Gregory Way, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UT, United Kingdom",ok
+"69 CLAYHILL FIELD WIGSTON, LE18 3UU, United Kingdom",52.5770318,-1.089934,"Clayhill Field, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UX, United Kingdom",ok
+"71 CLAYHILL FIELD WIGSTON, LE18 3UU, United Kingdom",52.5770318,-1.089934,"Clayhill Field, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UX, United Kingdom",ok
+"73 CLAYHILL FIELD WIGSTON, LE18 3UU, United Kingdom",52.5770318,-1.089934,"Clayhill Field, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UX, United Kingdom",ok
+"75 CLAYHILL FIELD WIGSTON, LE18 3UU, United Kingdom",52.5770318,-1.089934,"Clayhill Field, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UX, United Kingdom",ok
+"13 NEWTON CLOSE WIGSTON, LE18 3UW, United Kingdom",52.5782012,-1.0923261,"Newton Close, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UW, United Kingdom",ok
+"5 NEWTON CLOSE WIGSTON, LE18 3UW, United Kingdom",52.5782012,-1.0923261,"Newton Close, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UW, United Kingdom",ok
+"9 NEWTON CLOSE WIGSTON, LE18 3UW, United Kingdom",52.5782012,-1.0923261,"Newton Close, Wigston Harcourt, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3UW, United Kingdom",ok
+"28 HARRINGTON ROAD WIGSTON, LE18 3WB, United Kingdom",52.5867345,-1.0952697,"Harrington Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WB, United Kingdom",ok
+"37 HARRINGTON ROAD WIGSTON, LE18 3WB, United Kingdom",52.5867345,-1.0952697,"Harrington Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WB, United Kingdom",ok
+"24 BLAKESLEY ROAD WIGSTON, LE18 3WD, United Kingdom",52.5863462,-1.0910381,"Blakesley Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WD, United Kingdom",ok
+"35 BLAKESLEY ROAD WIGSTON, LE18 3WD, United Kingdom",52.5863462,-1.0910381,"Blakesley Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WD, United Kingdom",ok
+"41 BLAKESLEY ROAD WIGSTON, LE18 3WD, United Kingdom",52.5863462,-1.0910381,"Blakesley Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WD, United Kingdom",ok
+"7 GRENDON CLOSE WIGSTON, LE18 3WE, United Kingdom",52.5863566,-1.0952315,"Grendon Close, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WB, United Kingdom",ok
+"5 LAMPORT CLOSE WIGSTON, LE18 3WH, United Kingdom",52.5846193,-1.0928397,"Lamport Close, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WH, United Kingdom",ok
+"3 LAXTON CLOSE WIGSTON, LE18 3WJ, United Kingdom",52.5846292,-1.0912207,"Laxton Close, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WJ, United Kingdom",ok
+"2 SHIPTON CLOSE WIGSTON, LE18 3WL, United Kingdom",52.5846317,-1.0918822,"Shipton Close, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WL, United Kingdom",ok
+"21 ALPORT WAY WIGSTON, LE18 3WN, United Kingdom",52.5818791,-1.0957661,"Alport Way, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WN, United Kingdom",ok
+"36 ALPORT WAY WIGSTON, LE18 3WN, United Kingdom",52.5818791,-1.0957661,"Alport Way, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3WN, United Kingdom",ok
+"4 TENDRING DRIVE WIGSTON, LE18 3WR, United Kingdom",52.5858483,-1.0890819,"Tendring Drive, Oadby, Oadby and Wigston, Leicestershire, England, LE18 3WR, United Kingdom",ok
+"10 NASEBY CLOSE WIGSTON, LE18 3XH, United Kingdom",52.5827056,-1.097136,"Naseby Close, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3XH, United Kingdom",ok
+"5 NASEBY CLOSE WIGSTON, LE18 3XH, United Kingdom",52.5827056,-1.097136,"Naseby Close, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3XH, United Kingdom",ok
+"6 DENTON WALK WIGSTON, LE18 3XJ, United Kingdom",52.5825913,-1.0965408,"Denton Walk, Meadows, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3XJ, United Kingdom",ok
+"7 DENTON WALK WIGSTON, LE18 3XJ, United Kingdom",52.5825913,-1.0965408,"Denton Walk, Meadows, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3XJ, United Kingdom",ok
+"6 BAYSDALE WIGSTON, LE18 3XL, United Kingdom",52.5825504,-1.0934055,"Baysdale, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3XL, United Kingdom",ok
+"1 WHEELDALE WIGSTON, LE18 3XN, United Kingdom",52.5832823,-1.0920379,"Wheeldale, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3XE, United Kingdom",ok
+"158 KELMARSH AVENUE WIGSTON, LE18 3XS, United Kingdom",52.5824537,-1.094708,"Kelmarsh Avenue, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3XX, United Kingdom",ok
+"19 BRANSDALE ROAD WIGSTON, LE18 3XU, United Kingdom",52.582956,-1.0900244,"Bransdale Road, Meadows, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3XU, United Kingdom",ok
+"9 NIDDERDALE ROAD WIGSTON, LE18 3XW, United Kingdom",52.5817905,-1.091003,"Nidderdale Road, Meadows, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3XW, United Kingdom",ok
+"8 ACORN WAY WIGSTON, LE18 3YA, United Kingdom",52.5846961,-1.0983383,"Acorn Way, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YA, United Kingdom",ok
+"13 BURNESTON WAY WIGSTON, LE18 3YE, United Kingdom",52.5814158,-1.0945922,"Burneston Way, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YE, United Kingdom",ok
+"3 GLAISDALE ROAD WIGSTON, LE18 3YN, United Kingdom",52.5802217,-1.0944181,"Glaisdale Road, Meadows, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YN, United Kingdom",ok
+"7 GLAISDALE ROAD WIGSTON, LE18 3YN, United Kingdom",52.5802217,-1.0944181,"Glaisdale Road, Meadows, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YN, United Kingdom",ok
+"1 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"10 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"11 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"12 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"13 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"14 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"15 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"16 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"17 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"19 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"4 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"6 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"8 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"9 EUROPA ROAD WIGSTON, LE18 3YS, United Kingdom",52.5759742,-1.0892753,"Europa Road, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YS, United Kingdom",ok
+"9 HURST CLOSE WIGSTON, LE18 3YT, United Kingdom",52.5762396,-1.0894685,"Hurst Close, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YT, United Kingdom",ok
+"15 ASHPOLE SPINNEY WIGSTON, LE18 3YU, United Kingdom",52.5752674,-1.0879907,"Ashpole Spinney, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YU, United Kingdom",ok
+"16 ASHPOLE SPINNEY WIGSTON, LE18 3YU, United Kingdom",52.5752674,-1.0879907,"Ashpole Spinney, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YU, United Kingdom",ok
+"17 ASHPOLE SPINNEY WIGSTON, LE18 3YU, United Kingdom",52.5752674,-1.0879907,"Ashpole Spinney, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YU, United Kingdom",ok
+"19 ASHPOLE SPINNEY WIGSTON, LE18 3YU, United Kingdom",52.5752674,-1.0879907,"Ashpole Spinney, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YU, United Kingdom",ok
+"21 ASHPOLE SPINNEY WIGSTON, LE18 3YU, United Kingdom",52.5752674,-1.0879907,"Ashpole Spinney, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YU, United Kingdom",ok
+"23 ASHPOLE SPINNEY WIGSTON, LE18 3YU, United Kingdom",52.5752674,-1.0879907,"Ashpole Spinney, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YU, United Kingdom",ok
+"25 ASHPOLE SPINNEY WIGSTON, LE18 3YU, United Kingdom",52.5752674,-1.0879907,"Ashpole Spinney, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YU, United Kingdom",ok
+"27 ASHPOLE SPINNEY WIGSTON, LE18 3YU, United Kingdom",52.5752674,-1.0879907,"Ashpole Spinney, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YU, United Kingdom",ok
+"29 ASHPOLE SPINNEY WIGSTON, LE18 3YU, United Kingdom",52.5752674,-1.0879907,"Ashpole Spinney, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YU, United Kingdom",ok
+"6 ASHPOLE SPINNEY WIGSTON, LE18 3YU, United Kingdom",52.5752674,-1.0879907,"Ashpole Spinney, Wigston, Oadby and Wigston, Leicestershire, England, LE18 3YU, United Kingdom",ok
+"9 ARNOLD AVENUE WIGSTON, LE18 4LA, United Kingdom",52.5800956,-1.1277207,"9, Arnold Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LA, United Kingdom",ok
+"19 CHATSWORTH AVENUE WIGSTON, LE18 4LF, United Kingdom",52.5794708,-1.1283743,"19, Chatsworth Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LF, United Kingdom",ok
+"9 CHATSWORTH AVENUE WIGSTON, LE18 4LF, United Kingdom",52.5795592,-1.1280288,"9, Chatsworth Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LF, United Kingdom",ok
+"1 CROMFORD AVENUE WIGSTON, LE18 4LH, United Kingdom",52.5778881,-1.1277601,"Cromford Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LH, United Kingdom",ok
+"17 CROMFORD AVENUE WIGSTON, LE18 4LH, United Kingdom",52.5778881,-1.1277601,"Cromford Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LH, United Kingdom",ok
+"24 CROMFORD AVENUE WIGSTON, LE18 4LH, United Kingdom",52.5778881,-1.1277601,"Cromford Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LH, United Kingdom",ok
+"14 DARLEY AVENUE WIGSTON, LE18 4LL, United Kingdom",52.5773581,-1.1268643,"Darley Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LL, United Kingdom",ok
+"5 DENACRE AVENUE WIGSTON, LE18 4LN, United Kingdom",52.5794448,-1.1267539,"Denacre Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LU, United Kingdom",ok
+"44 HAZELWOOD ROAD WIGSTON, LE18 4LS, United Kingdom",52.5768691,-1.129282,"Hazelwood Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LS, United Kingdom",ok
+"8 JORDAN AVENUE WIGSTON, LE18 4LT, United Kingdom",52.5802019,-1.1266887,"8, Jordan Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LT, United Kingdom",ok
+"4 LANSDOWNE GROVE WIGSTON, LE18 4LU, United Kingdom",52.5803861,-1.1271469,"4, Lansdowne Grove, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LX, United Kingdom",ok
+"110 LANSDOWNE GROVE WIGSTON, LE18 4LX, United Kingdom",52.5768387,-1.127357,"Lansdowne Grove, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LX, United Kingdom",ok
+"79 LANSDOWNE GROVE WIGSTON, LE18 4LX, United Kingdom",52.5768387,-1.127357,"Lansdowne Grove, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LX, United Kingdom",ok
+"94 LANSDOWNE GROVE WIGSTON, LE18 4LX, United Kingdom",52.5768387,-1.127357,"Lansdowne Grove, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LX, United Kingdom",ok
+"170 LANSDOWNE GROVE WIGSTON, LE18 4LY, United Kingdom",52.5768387,-1.127357,"Lansdowne Grove, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LX, United Kingdom",ok
+"192 LANSDOWNE GROVE WIGSTON, LE18 4LY, United Kingdom",52.5768387,-1.127357,"Lansdowne Grove, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LX, United Kingdom",ok
+"10 MATLOCK AVENUE WIGSTON, LE18 4NA, United Kingdom",52.5784062,-1.1277508,"Matlock Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LW, United Kingdom",ok
+"22 MATLOCK AVENUE WIGSTON, LE18 4NA, United Kingdom",52.5784062,-1.1277508,"Matlock Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LW, United Kingdom",ok
+"9 MATLOCK AVENUE WIGSTON, LE18 4NA, United Kingdom",52.5784062,-1.1277508,"Matlock Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4LW, United Kingdom",ok
+"6 FOXTON LOCK CLOSE WIGSTON, LE18 4NH, United Kingdom",52.5761165,-1.1265579,"Foxton Lock Close, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4NH, United Kingdom",ok
+"1 BARGE CLOSE WIGSTON, LE18 4NP, United Kingdom",52.5766946,-1.1256134,"Barge Close, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4NP, United Kingdom",ok
+"6 BARGE CLOSE WIGSTON, LE18 4NP, United Kingdom",52.5766946,-1.1256134,"Barge Close, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4NP, United Kingdom",ok
+"24 POCHINS BRIDGE ROAD WIGSTON, LE18 4NR, United Kingdom",52.574767,-1.1235632,"Pochins Bridge Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4NR, United Kingdom",ok
+"69 POCHINS BRIDGE ROAD WIGSTON, LE18 4NR, United Kingdom",52.574767,-1.1235632,"Pochins Bridge Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4NR, United Kingdom",ok
+"16 BASSETT STREET WIGSTON, LE18 4PD, United Kingdom",52.5790892,-1.1331334,"Bassett Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4PU, United Kingdom",ok
+"17 BASSETT STREET WIGSTON, LE18 4PD, United Kingdom",52.5790892,-1.1331334,"Bassett Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4PU, United Kingdom",ok
+"5 BASSETT STREET WIGSTON, LE18 4PD, United Kingdom",52.5790892,-1.1331334,"Bassett Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4PU, United Kingdom",ok
+"60 COUNTESTHORPE ROAD WIGSTON, LE18 4PG, United Kingdom",52.5774579,-1.1349278,"Countesthorpe Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4QG, United Kingdom",ok
+"82 COUNTESTHORPE ROAD WIGSTON, LE18 4PG, United Kingdom",52.5774579,-1.1349278,"Countesthorpe Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4QG, United Kingdom",ok
+"99 COUNTESTHORPE ROAD WIGSTON, LE18 4PG, United Kingdom",52.5774579,-1.1349278,"Countesthorpe Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4QG, United Kingdom",ok
+"50 HEALEY STREET WIGSTON, LE18 4PX, United Kingdom",52.5777287,-1.1334246,"Healey Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4PY, United Kingdom",ok
+"6 HEALEY STREET WIGSTON, LE18 4PX, United Kingdom",52.5777287,-1.1334246,"Healey Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4PY, United Kingdom",ok
+"8 HEALEY STREET WIGSTON, LE18 4PX, United Kingdom",52.5777287,-1.1334246,"Healey Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4PY, United Kingdom",ok
+"19 HEALEY STREET WIGSTON, LE18 4PY, United Kingdom",52.5777287,-1.1334246,"Healey Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4PY, United Kingdom",ok
+"17 IRLAM STREET WIGSTON, LE18 4QA, United Kingdom",52.5763506,-1.1335836,"Irlam Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4QA, United Kingdom",ok
+"35 IRLAM STREET WIGSTON, LE18 4QA, United Kingdom",52.5763506,-1.1335836,"Irlam Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4QA, United Kingdom",ok
+"20 ORANGE STREET WIGSTON, LE18 4QB, United Kingdom",52.5764452,-1.1353327,"Orange Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4QB, United Kingdom",ok
+"5 RAILWAY STREET WIGSTON, LE18 4QE, United Kingdom",52.5753786,-1.1348226,"Railway Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4QE, United Kingdom",ok
+"11 TIMBER STREET WIGSTON, LE18 4QF, United Kingdom",52.5784117,-1.133294,"Timber Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4PE, United Kingdom",ok
+"13 BLENHEIM CLOSE WIGSTON, LE18 4QJ, United Kingdom",52.5762217,-1.1373918,"Blenheim Close, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4QJ, United Kingdom",ok
+"5 BLENHEIM CLOSE WIGSTON, LE18 4QJ, United Kingdom",52.5762217,-1.1373918,"Blenheim Close, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4QJ, United Kingdom",ok
+"18 ALBION STREET WIGSTON, LE18 4SA, United Kingdom",52.5809826,-1.1322851,"18, Albion Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4SA, United Kingdom",ok
+"25 ALBION STREET WIGSTON, LE18 4SA, United Kingdom",52.5808866,-1.132661,"25, Albion Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4SA, United Kingdom",ok
+"48 CLIFFORD STREET WIGSTON, LE18 4SH, United Kingdom",52.5806054,-1.1353252,"Clifford Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4SH, United Kingdom",ok
+"23 CLIFFORD STREET WIGSTON, LE18 4SJ, United Kingdom",52.5804524,-1.1355216,"23, Clifford Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4SH, United Kingdom",ok
+"3 FAIRFIELD STREET WIGSTON, LE18 4SN, United Kingdom",52.5802334,-1.1334708,"3, Fairfield Street, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4SL, United Kingdom",ok
+"13 GLENGATE WIGSTON, LE18 4SQ, United Kingdom",,,,no_result
+"45 GLENGATE WIGSTON, LE18 4SQ, United Kingdom",,,,no_result
+"31 KIRKDALE ROAD WIGSTON, LE18 4SR, United Kingdom",52.581693,-1.1357714,"31, Kirkdale Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4SS, United Kingdom",ok
+"39 KIRKDALE ROAD WIGSTON, LE18 4SR, United Kingdom",52.5816943,-1.1355287,"39, Kirkdale Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4SS, United Kingdom",ok
+"75 KIRKDALE ROAD WIGSTON, LE18 4SR, United Kingdom",52.5816964,-1.1344837,"75, Kirkdale Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4SS, United Kingdom",ok
+"89 KIRKDALE ROAD WIGSTON, LE18 4SR, United Kingdom",52.5816985,-1.1340695,"89, Kirkdale Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4SS, United Kingdom",ok
+"119 KIRKDALE ROAD WIGSTON, LE18 4ST, United Kingdom",52.5816393,-1.1332951,"Kirkdale Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4SS, United Kingdom",ok
+"20 SAFFRON ROAD WIGSTON, LE18 4TD, United Kingdom",52.5818101,-1.1368517,"20-28, Saffron Road, Draper Distribution Centre, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"25 SAFFRON ROAD WIGSTON, LE18 4TD, United Kingdom",52.5798586,-1.1363859,"Saffron Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TF, United Kingdom",ok
+"3 STATION STREET WIGSTON, LE18 4TH, United Kingdom",,,,no_result
+"1 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"12 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"14 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"15 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"16 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"17 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"2 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"21 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"22 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"23 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"24 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"26 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"27 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"31 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"32 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"34 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"35 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"37 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"39 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"44 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"5 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"6 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"7 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"8 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"9 JASMINE COURT WIGSTON, LE18 4TR, United Kingdom",52.581326,-1.1361282,"Jasmine Court, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4TR, United Kingdom",ok
+"12 KENILWORTH ROAD WIGSTON, LE18 4UF, United Kingdom",52.5829882,-1.1340149,"12, Kenilworth Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4XU, United Kingdom",ok
+"32 MARSTOWN AVENUE WIGSTON, LE18 4UH, United Kingdom",52.5828411,-1.1360368,"Marstown Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4UH, United Kingdom",ok
+"24 SAFFRON ROAD WIGSTON, LE18 4UL, United Kingdom",52.5820809,-1.1373735,"Saffron Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4UL, United Kingdom",ok
+"110 SAFFRON ROAD WIGSTON, LE18 4UN, United Kingdom",52.5858608,-1.1397014,"Saffron Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4UQ, United Kingdom",ok
+"15 CHESHIRE DRIVE WIGSTON, LE18 4WA, United Kingdom",52.5884803,-1.1295617,"Cheshire Drive, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4WN, United Kingdom",ok
+"82 DORSET AVENUE WIGSTON, LE18 4WD, United Kingdom",52.5894329,-1.1345603,"82, Dorset Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4WH, United Kingdom",ok
+"142 DORSET AVENUE WIGSTON, LE18 4WF, United Kingdom",52.5900929,-1.1303805,"142, Dorset Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4WH, United Kingdom",ok
+"35 NORFOLK ROAD WIGSTON, LE18 4WH, United Kingdom",52.5885672,-1.1337434,"Norfolk Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4WE, United Kingdom",ok
+"40 NORFOLK ROAD WIGSTON, LE18 4WH, United Kingdom",52.5885672,-1.1337434,"Norfolk Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4WE, United Kingdom",ok
+"9 NORFOLK ROAD WIGSTON, LE18 4WH, United Kingdom",52.5885672,-1.1337434,"Norfolk Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4WE, United Kingdom",ok
+"13 NORTHUMBERLAND ROAD WIGSTON, LE18 4WL, United Kingdom",52.5877961,-1.1369272,"Northumberland Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4WL, United Kingdom",ok
+"10 SUFFOLK CLOSE WIGSTON, LE18 4WN, United Kingdom",52.5890584,-1.1295026,"Suffolk Close, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4WN, United Kingdom",ok
+"15A SUSSEX ROAD WIGSTON, LE18 4WP, United Kingdom",52.5877543,-1.1330761,"Sussex Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4WG, United Kingdom",ok
+"19 ANGLESEY ROAD WIGSTON, LE18 4XA, United Kingdom",52.585765,-1.1329494,"Anglesey Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4YF, United Kingdom",ok
+"52 ANGLESEY ROAD WIGSTON, LE18 4XB, United Kingdom",52.585765,-1.1329494,"Anglesey Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4YF, United Kingdom",ok
+"13 CARDIGAN DRIVE WIGSTON, LE18 4XE, United Kingdom",52.5854026,-1.1343882,"Cardigan Drive, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4XE, United Kingdom",ok
+"41 CORNWALL ROAD WIGSTON, LE18 4XF, United Kingdom",52.5837754,-1.1311052,"Cornwall Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4XH, United Kingdom",ok
+"53 KENILWORTH ROAD WIGSTON, LE18 4XS, United Kingdom",52.5849464,-1.1353984,"Kenilworth Road, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4XS, United Kingdom",ok
+"8 PEMBROKE AVENUE WIGSTON, LE18 4XX, United Kingdom",52.5843652,-1.1360788,"Pembroke Avenue, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4XX, United Kingdom",ok
+"34 STAFFORD DRIVE WIGSTON, LE18 4YA, United Kingdom",52.5846067,-1.1317251,"Stafford Drive, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4YA, United Kingdom",ok
+"1 GLOUCESTER CRESCENT WIGSTON, LE18 4YD, United Kingdom",52.5863384,-1.131596,"Gloucester Crescent, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4XA, United Kingdom",ok
+"136 GLOUCESTER CRESCENT WIGSTON, LE18 4YG, United Kingdom",52.5863384,-1.131596,"Gloucester Crescent, South Wigston, Wigston, Oadby and Wigston, Leicestershire, England, LE18 4XA, United Kingdom",ok
+"39 JOHN STREET ENDERBY LEICESTER, LE19 4LF, United Kingdom",,,,no_result
+"41 KINGSWAY NORTH LEICESTER, LE3 3BD, United Kingdom",,,,no_result
+"16 FIELD GATE GARDENS GLENFIELD LEICESTER, LE3 8GX, United Kingdom",,,,no_result
+"3 THE LAURELS MARKFIELD, LE67 9HA, United Kingdom",52.6757899,-1.2733187,"The Laurels, Markfield Court Retirement Village, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9HA, United Kingdom",ok
+"172 LITTLE SHAW LANE MARKFIELD, LE67 9PP, United Kingdom",52.6980952,-1.296155,"Little Shaw Lane, Markfield, Stanton under Bardon, Hinckley and Bosworth, Leicestershire, England, LE67 9PP, United Kingdom",ok
+"165 SHAW LANE MARKFIELD, LE67 9PW, United Kingdom",52.7018529,-1.315428,"Shaw Lane, Markfield, Stanton under Bardon, Hinckley and Bosworth, Leicestershire, England, LE67 9PW, United Kingdom",ok
+"12 THE COPPICE MARKFIELD, LE67 9QJ, United Kingdom",52.6829065,-1.2705823,"The Coppice, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9QJ, United Kingdom",ok
+"1 COUNTRYMAN WAY MARKFIELD, LE67 9QL, United Kingdom",52.6819732,-1.2704622,"Countryman Way, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9QR, United Kingdom",ok
+"8 BARN WAY MARKFIELD, LE67 9QR, United Kingdom",52.6820536,-1.2697585,"Barn Way, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9QR, United Kingdom",ok
+"9 THE PINFOLD MARKFIELD, LE67 9QU, United Kingdom",52.6812932,-1.2695122,"The Pinfold, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9QU, United Kingdom",ok
+"142 LEICESTER ROAD MARKFIELD, LE67 9RE, United Kingdom",52.6876542,-1.2700171,"Leicester Road, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9SQ, United Kingdom",ok
+"46 LEICESTER ROAD MARKFIELD, LE67 9RE, United Kingdom",52.6876542,-1.2700171,"Leicester Road, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9SQ, United Kingdom",ok
+"35 RATBY LANE MARKFIELD, LE67 9RJ, United Kingdom",52.6771119,-1.2742242,"Ratby Lane, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9RJ, United Kingdom",ok
+"16 PINEWOOD DRIVE MARKFIELD, LE67 9RQ, United Kingdom",52.6755648,-1.2711379,"Pinewood Drive, Markfield Court Retirement Village, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9RW, United Kingdom",ok
+"2 PINEWOOD DRIVE MARKFIELD, LE67 9RQ, United Kingdom",52.6755648,-1.2711379,"Pinewood Drive, Markfield Court Retirement Village, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9RW, United Kingdom",ok
+"42 PINEWOOD DRIVE MARKFIELD, LE67 9RQ, United Kingdom",52.6755648,-1.2711379,"Pinewood Drive, Markfield Court Retirement Village, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9RW, United Kingdom",ok
+"11 THE PADDOCK MARKFIELD, LE67 9RR, United Kingdom",52.6894771,-1.2761154,"The Paddock, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9RR, United Kingdom",ok
+"3 THE PADDOCK MARKFIELD, LE67 9RR, United Kingdom",52.6894771,-1.2761154,"The Paddock, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9RR, United Kingdom",ok
+"13 BEECH CLOSE MARKFIELD, LE67 9RT, United Kingdom",52.6825185,-1.2747254,"Beech Close, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9RT, United Kingdom",ok
+"15 CHESTNUT WALK MARKFIELD, LE67 9RU, United Kingdom",52.6748251,-1.2721311,"Chestnut Walk, Markfield Court Retirement Village, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9RU, United Kingdom",ok
+"10 OAK GREEN MARKFIELD, LE67 9RX, United Kingdom",,,,no_result
+"19 SWITHLAND CLOSE MARKFIELD, LE67 9SE, United Kingdom",52.6842088,-1.2721418,"Swithland Close, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9SE, United Kingdom",ok
+"2 WHITCROFT CLOSE MARKFIELD, LE67 9SH, United Kingdom",52.6846847,-1.2709107,"Whitcroft Close, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9SH, United Kingdom",ok
+"17 BEACON CLOSE MARKFIELD, LE67 9SR, United Kingdom",52.6865098,-1.2718784,"Beacon Close, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9SR, United Kingdom",ok
+"1 THE HAWTHORNS MARKFIELD, LE67 9SS, United Kingdom",52.682558,-1.2728674,"The Hawthorns, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9SS, United Kingdom",ok
+"15 THE HAWTHORNS MARKFIELD, LE67 9SS, United Kingdom",52.682558,-1.2728674,"The Hawthorns, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9SS, United Kingdom",ok
+"4 THE HAWTHORNS MARKFIELD, LE67 9SS, United Kingdom",52.682558,-1.2728674,"The Hawthorns, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9SS, United Kingdom",ok
+"22 JANES WAY MARKFIELD, LE67 9SW, United Kingdom",52.6852667,-1.2699968,"Janes Way, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9SW, United Kingdom",ok
+"1 AVERY DRIVE MARKFIELD, LE67 9UE, United Kingdom",52.6884615,-1.2782152,"Avery Drive, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9UE, United Kingdom",ok
+"10 CHURCH DRIVE MARKFIELD, LE67 9UH, United Kingdom",52.6844035,-1.2808672,"Church Drive, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9UH, United Kingdom",ok
+"81 MAIN STREET MARKFIELD, LE67 9UT, United Kingdom",52.6862038,-1.2783113,"Main Street, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9UU, United Kingdom",ok
+"179 MAIN STREET MARKFIELD, LE67 9UW, United Kingdom",52.6899675,-1.2770439,"Main Street, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9US, United Kingdom",ok
+"195 MAIN STREET MARKFIELD, LE67 9UW, United Kingdom",52.6899675,-1.2770439,"Main Street, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9US, United Kingdom",ok
+"122 MAIN STREET MARKFIELD, LE67 9UX, United Kingdom",52.6899066,-1.2768596,"Main Street, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9US, United Kingdom",ok
+"124 MAIN STREET MARKFIELD, LE67 9UX, United Kingdom",52.6899066,-1.2768596,"Main Street, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9US, United Kingdom",ok
+"126 MAIN STREET MARKFIELD, LE67 9UX, United Kingdom",52.6899066,-1.2768596,"Main Street, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9US, United Kingdom",ok
+"43 UPLAND DRIVE MARKFIELD, LE67 9WF, United Kingdom",52.6885084,-1.2789563,"Upland Drive, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9WF, United Kingdom",ok
+"68 OAKFIELD AVENUE MARKFIELD, LE67 9WG, United Kingdom",52.6844683,-1.2770066,"Oakfield Avenue, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9WH, United Kingdom",ok
+"3 OAKFIELD AVENUE MARKFIELD, LE67 9WH, United Kingdom",52.6844683,-1.2770066,"Oakfield Avenue, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9WH, United Kingdom",ok
+"12 RECTORY ROAD MARKFIELD, LE67 9WN, United Kingdom",52.686882,-1.2751973,"Rectory Road, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9WN, United Kingdom",ok
+"20 RECTORY ROAD MARKFIELD, LE67 9WN, United Kingdom",52.686882,-1.2751973,"Rectory Road, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9WN, United Kingdom",ok
+"40 RECTORY ROAD MARKFIELD, LE67 9WN, United Kingdom",52.686882,-1.2751973,"Rectory Road, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9WN, United Kingdom",ok
+"85 RECTORY ROAD MARKFIELD, LE67 9WN, United Kingdom",52.686882,-1.2751973,"Rectory Road, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9WN, United Kingdom",ok
+"6 MEADOW LANE MARKFIELD, LE67 9WT, United Kingdom",52.6876706,-1.2739003,"Meadow Lane, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9WT, United Kingdom",ok
+"23 CHITTERMAN WAY MARKFIELD, LE67 9WU, United Kingdom",52.6845961,-1.2729613,"Chitterman Way, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9WU, United Kingdom",ok
+"10 THE RUSHES MARKFIELD, LE67 9WW, United Kingdom",52.6878701,-1.2723,"The Rushes, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9WW, United Kingdom",ok
+"7 THE RUSHES MARKFIELD, LE67 9WW, United Kingdom",52.6878701,-1.2723,"The Rushes, Markfield, Hinckley and Bosworth, Leicestershire, England, LE67 9WW, United Kingdom",ok
+"56 EMPINGHAM DRIVE SYSTON LEICESTER, LE7 2DL, United Kingdom",,,,no_result
+"1A STATION ROAD REARSBY LEICESTER, LE7 4YX, United Kingdom",,,,no_result
+"4 PADDOCK CLOSE ROTHLEY LEICESTER, LE7 7NP, United Kingdom",,,,no_result
+"19 MOUNTSORREL LANE ROTHLEY LEICESTER, LE7 7PS, United Kingdom",,,,no_result
+"27 CALVER CRESCENT SAPCOTE LEICESTER, LE9 4JD, United Kingdom",,,,no_result
+"59 CALVER CRESCENT SAPCOTE LEICESTER, LE9 4JD, United Kingdom",,,,no_result
+"14 CASTLE CLOSE SAPCOTE LEICESTER, LE9 4LB, United Kingdom",,,,no_result
+"4 FREWEN DRIVE SAPCOTE LEICESTER, LE9 4LF, United Kingdom",,,,no_result
+"16 LIVESEY DRIVE SAPCOTE LEICESTER, LE9 4LP, United Kingdom",,,,no_result
+"22 PARK ROAD SAPCOTE LEICESTER, LE9 4LS, United Kingdom",,,,no_result
+"11 PLOUGH CLOSE BROUGHTON ASTLEY LEICESTER, LE9 6HN, United Kingdom",,,,no_result
+"87 STATION ROAD BROUGHTON ASTLEY LEICESTER, LE9 6PU, United Kingdom",,,,no_result
+"70 ALMEYS LANE EARL SHILTON LEICESTER, LE9 7AL, United Kingdom",,,,no_result
+"9 MONTGOMERY ROAD EARL SHILTON LEICESTER, LE9 7AT, United Kingdom",,,,no_result
+"17 MILL LANE EARL SHILTON LEICESTER, LE9 7AW, United Kingdom",,,,no_result
+"11 OXFORD STREET EARL SHILTON LEICESTER, LE9 7BB, United Kingdom",,,,no_result
+"16 BURGESS DRIVE EARL SHILTON LEICESTER, LE9 7DT, United Kingdom",,,,no_result
+"6 KNIGHTS LINK EARL SHILTON LEICESTER, LE9 7EX, United Kingdom",,,,no_result
+"18 KING RICHARDS HILL EARL SHILTON LEICESTER, LE9 7EY, United Kingdom",,,,no_result
+"37 BREACH LANE EARL SHILTON LEICESTER, LE9 7FB, United Kingdom",,,,no_result
+"11 EQUITY ROAD EARL SHILTON LEICESTER, LE9 7FD, United Kingdom",,,,no_result
+"17 JAMES STREET EARL SHILTON LEICESTER, LE9 7FJ, United Kingdom",,,,no_result
+"16 ASH ROAD EARL SHILTON LEICESTER, LE9 7HA, United Kingdom",,,,no_result
+"12 CEDAR ROAD EARL SHILTON LEICESTER, LE9 7HE, United Kingdom",,,,no_result
+"14 CEDAR ROAD EARL SHILTON LEICESTER, LE9 7HE, United Kingdom",,,,no_result
+"5 CEDAR ROAD EARL SHILTON LEICESTER, LE9 7HE, United Kingdom",,,,no_result
+"24 CORONATION ROAD EARL SHILTON LEICESTER, LE9 7HJ, United Kingdom",,,,no_result
+"30 OAKLANDS DRIVE EARL SHILTON LEICESTER, LE9 7HT, United Kingdom",,,,no_result
+"10 STONEYCROFT ROAD EARL SHILTON LEICESTER, LE9 7JA, United Kingdom",,,,no_result
+"35 STONEYCROFT ROAD EARL SHILTON LEICESTER, LE9 7JB, United Kingdom",,,,no_result
+"15 LAND SOCIETY LANE EARL SHILTON LEICESTER, LE9 7LT, United Kingdom",,,,no_result
+"16 LAND SOCIETY LANE EARL SHILTON LEICESTER, LE9 7LT, United Kingdom",,,,no_result
+"21 WENTWORTH AVENUE ELMESTHORPE LEICESTER, LE9 7NG, United Kingdom",,,,no_result
+"16 HEATH LANE EARL SHILTON LEICESTER, LE9 7PB, United Kingdom",,,,no_result
+"12 LEIGHTON CRESCENT ELMESTHORPE LEICESTER, LE9 7SF, United Kingdom",,,,no_result
+"5 BOSTOCK CLOSE ELMESTHORPE LEICESTER, LE9 7SR, United Kingdom",,,,no_result
+"10 MOORE ROAD BARWELL LEICESTER, LE9 8AF, United Kingdom",,,,no_result
+"64 MOORE ROAD BARWELL LEICESTER, LE9 8AG, United Kingdom",,,,no_result
+"66 MOORE ROAD BARWELL LEICESTER, LE9 8AG, United Kingdom",,,,no_result
+"70 QUEENSWAY BARWELL LEICESTER, LE9 8AP, United Kingdom",,,,no_result
+"83 QUEENSWAY BARWELL LEICESTER, LE9 8AX, United Kingdom",,,,no_result
+"21 CHESTERFIELD WAY BARWELL LEICESTER, LE9 8BH, United Kingdom",,,,no_result
+"55 MAYFIELD WAY BARWELL LEICESTER, LE9 8BL, United Kingdom",,,,no_result
+"26 GREENHILL DRIVE BARWELL LEICESTER, LE9 8BW, United Kingdom",,,,no_result
+"108 HINCKLEY ROAD BARWELL LEICESTER, LE9 8DN, United Kingdom",,,,no_result
+"36 HIGH STREET BARWELL LEICESTER, LE9 8DQ, United Kingdom",,,,no_result
+"144 HIGH STREET BARWELL LEICESTER, LE9 8DR, United Kingdom",,,,no_result
+"76 HIGH STREET BARWELL LEICESTER, LE9 8DR, United Kingdom",,,,no_result
+"26 MILL STREET BARWELL LEICESTER, LE9 8DW, United Kingdom",,,,no_result
+"35 MILL STREET BARWELL LEICESTER, LE9 8DX, United Kingdom",,,,no_result
+"51 QUEEN STREET BARWELL LEICESTER, LE9 8EA, United Kingdom",,,,no_result
+"10 ST MARYS AVENUE BARWELL LEICESTER, LE9 8ED, United Kingdom",,,,no_result
+"34 WATERFALL WAY BARWELL LEICESTER, LE9 8EH, United Kingdom",,,,no_result
+"37 WATERFALL WAY BARWELL LEICESTER, LE9 8EH, United Kingdom",,,,no_result
+"9 WENSLEYDALE AVENUE BARWELL LEICESTER, LE9 8EJ, United Kingdom",,,,no_result
+"29 BLACKBURN ROAD BARWELL LEICESTER, LE9 8EN, United Kingdom",,,,no_result
+"29 BOSTON WAY BARWELL LEICESTER, LE9 8EP, United Kingdom",,,,no_result
+"116 BYRON STREET BARWELL LEICESTER, LE9 8FD, United Kingdom",,,,no_result
+"23 BYRON STREET BARWELL LEICESTER, LE9 8FE, United Kingdom",,,,no_result
+"71 BYRON STREET BARWELL LEICESTER, LE9 8FE, United Kingdom",,,,no_result
+"33 ELWELL AVENUE BARWELL LEICESTER, LE9 8FH, United Kingdom",,,,no_result
+"249 KIRKBY ROAD BARWELL LEICESTER, LE9 8FR, United Kingdom",,,,no_result
+"7 SAFFRON CLOSE BARWELL LEICESTER, LE9 8FW, United Kingdom",,,,no_result
+"96 CHARNWOOD ROAD BARWELL LEICESTER, LE9 8FX, United Kingdom",,,,no_result
+"37 SHILTON ROAD BARWELL LEICESTER, LE9 8HB, United Kingdom",,,,no_result
+"48 JERSEY WAY BARWELL LEICESTER, LE9 8HR, United Kingdom",,,,no_result
+"52D JERSEY WAY BARWELL LEICESTER, LE9 8HR, United Kingdom",,,,no_result
+"10 BERRYWELL DRIVE BARWELL LEICESTER, LE9 8JW, United Kingdom",,,,no_result
+"1 PECKLETON GREEN BARWELL LEICESTER, LE9 8LD, United Kingdom",,,,no_result
+"8 GARNER CLOSE BARWELL LEICESTER, LE9 8NG, United Kingdom",,,,no_result
+"19 BAGWORTH ROAD NEWBOLD VERDON LEICESTER, LE9 9NB, United Kingdom",,,,no_result
+"148A MAIN STREET NEWBOLD VERDON LEICESTER, LE9 9NP, United Kingdom",,,,no_result
+"10B MERRYLEES ROAD NEWBOLD VERDON LEICESTER, LE9 9NR, United Kingdom",,,,no_result
+"18 OAKS DRIVE NEWBOLD VERDON LEICESTER, LE9 9PH, United Kingdom",,,,no_result
+"48 LIMETREE GROVE LOUGHBOROUGH, LE11 1BN, United Kingdom",52.7699566,-1.1994056,"Limetree Grove, Shelthorpe, Loughborough, Charnwood, Leicestershire, England, LE11 1BN, United Kingdom",ok
+"21 DELISLE COURT LOUGHBOROUGH, LE11 4PP, United Kingdom",,,,no_result
+"11 DELISLE COURT LOUGHBOROUGH, LE11 4PP, United Kingdom",,,,no_result
+"HOMEWELLAND HOUSE 2 LEICESTER ROAD MARKET HARBOROUGH, LE16 7BT, United Kingdom",,,,no_result
+"TRINITY HOUSE STONTON ROAD CHURCH LANGTON MARKET HARBOROUGH, LE16 7SZ, United Kingdom",,,,no_result
+"HAMILTON COTTAGES 3 NELSON STREET MARKET HARBOROUGH, LE16 9AX, United Kingdom",,,,no_result
+"THE OLD COFFEE MILLS 11 SPRINGFIELD STREET MARKET HARBOROUGH, LE16 8BL, United Kingdom",,,,no_result
+"THE OLD MIGISTRATES COURT, 5 GILMORTON ROAD LUTTERWORTH, LE17 4DY, United Kingdom",,,,no_result
+"LUTTERWORTH GRANGE BARN LEICESTER ROAD LUTTERWORTH, LE17 4LX, United Kingdom",,,,no_result
+"STATION HOUSE, 67 STATION ROAD LUTTERWORTH, LE17 4AP, United Kingdom",,,,no_result
+"WILLOW COURT 7 CENTRAL AVENUE LUTTERWORTH, LE17 4NL, United Kingdom",,,,no_result
+"JENNINGS COURT 3 ST MARYS ROAD MARKET HARBOROUGH, LE16 7FH, United Kingdom",,,,no_result
+"28 HILL SIDE MARKFIELD, LE67 9UP, United Kingdom",,,,no_result
+"KINGFISHER COURT 1 LONG MEADOW DRIVE HINCKLEY, LE10 0FU, United Kingdom",,,,no_result
+"26 CLIVESWAY HINCKLEY, LE10 0EU, United Kingdom",52.5470868,-1.3771861,"Clivesway, Hinckley, Hinckley and Bosworth, Leicestershire, England, LE10 0EU, United Kingdom",ok
+"JURIST HOUSE 4 UPPER BOND STREET HINCKLEY, LE10 1RW, United Kingdom",,,,no_result
+"6 HEDGEROW CLOSE OLD DALBY MELTON MOWBRAY, LE14 3JS, United Kingdom",,,,no_result
+"LOUDOUN COURT 3 SOUTH STREET ASHBY-DE-LA-ZOUCH, LE65 1BQ, United Kingdom",,,,no_result
+"LOUDOUN COURT 4 SOUTH STREET ASHBY-DE-LA-ZOUCH, LE65 1BQ, United Kingdom",,,,no_result
+"2 BIRCHTREE ROAD WIGSTON, LE18 1NE, United Kingdom",52.5923116,-1.1016647,"Birchtree Road, Wigston Grange, Wigston, Oadby and Wigston, Leicestershire, England, LE18 1NE, United Kingdom",ok
