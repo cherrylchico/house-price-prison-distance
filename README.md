@@ -8,7 +8,7 @@ what we do
 - `input/`: raw inputs (EPC exports + `ppd_data.csv`), plus derived distance file `property_prison_distance.csv`
 - `scripts/`: data build pipeline (download → match → materialize → geocode → pricing dataset)
 - `output/`: intermediate and final outputs (match tables, caches, datasets, summaries)
-- `Project.Rmd`: analysis notebook (event-study regression + dataset export)
+
 
 ## Data sources
 
@@ -101,15 +101,9 @@ Rows with empty postcode/address (and therefore empty keys) are dropped before m
 - `output/pricing_analysis_dataset.csv`: built by `scripts/build_pricing_dataset.R` (drops failed geocodes)
 - `output/pricing_analysis_dataset_summary.txt`: summary for the pricing dataset
 
-## Analysis notebook
+## How to Combine All Data
+- See `1_Data_Prep.Rmd`
 
-`Project.Rmd` reads:
-- `output/epc_ppd_mapping.csv`
-- `output/matched_epc.csv`
-- `output/matched_ppd.csv`
-- `input/property_prison_distance.csv`
-
-It then builds one-row-per-sale data, creates rings + relative year, runs the event-study regression, and saves `output/hedonic_analysis_dataset.csv`.
 
 ## Match snapshot (as last recorded on 2026-03-11)
 
