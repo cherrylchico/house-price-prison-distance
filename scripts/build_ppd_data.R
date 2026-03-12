@@ -2,7 +2,15 @@ args <- commandArgs(trailingOnly = TRUE)
 
 link_file <- if (length(args) >= 1) args[[1]] else file.path("input", "ppd_link.txt")
 output_file <- if (length(args) >= 2) args[[2]] else file.path("input", "ppd_data.csv")
-target_county <- if (length(args) >= 3) args[[3]] else "LEICESTERSHIRE"
+target_counties <- if (length(args) >= 3) args[3:length(args)] else "LEICESTERSHIRE"
+target_counties <- unlist(strsplit(target_counties, ",", fixed = TRUE), use.names = FALSE)
+target_counties <- unique(trimws(target_counties))
+target_counties <- target_counties[nzchar(target_counties)]
+target_counties <- toupper(target_counties)
+
+if (!length(target_counties)) {
+  stop("At least one county must be provided.")
+}
 
 if (!requireNamespace("data.table", quietly = TRUE)) {
   stop("Package 'data.table' is required. Install it with install.packages('data.table').")
@@ -41,7 +49,13 @@ if (!length(links)) {
 
 dir.create(dirname(output_file), recursive = TRUE, showWarnings = FALSE)
 
-message("Reading ", length(links), " PPD file(s) and filtering county == '", target_county, "'.")
+message(
+  "Reading ",
+  length(links),
+  " PPD file(s) and filtering county in {",
+  paste(target_counties, collapse = ", "),
+  "}."
+)
 
 filtered_tables <- lapply(links, function(link) {
   message("Processing: ", link)
@@ -53,7 +67,7 @@ filtered_tables <- lapply(links, function(link) {
     na.strings = c("", "NA")
   )
 
-  dt[county == target_county]
+  dt[toupper(trimws(county)) %in% target_counties]
 })
 
 filtered_ppd <- data.table::rbindlist(filtered_tables, use.names = TRUE, fill = TRUE)

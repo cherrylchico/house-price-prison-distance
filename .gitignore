@@ -1,5 +1,9 @@
 input/domestic*
 input/ppd_data_bulk.csv
 input/ppd_data.csv
+input/PCD_OA21_LSOA21_MSOA21_LAD_AUG24_UK_LU.csv
 
 .DS_Store
+
+# Generated pipeline outputs
+output/*.csv
