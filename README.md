@@ -8,6 +8,7 @@ This repository builds a matched EPC and Price Paid Data dataset for Leicestersh
 - `output/`: intermediate outputs, caches, filtered lookups, summaries, and matched extracts
 - `scripts/`: R pipeline scripts used to build, filter, enrich, and geocode the data
 - `1_Data_Prep.Rmd`: notebook-style workflow for downstream preparation/combination
+- `2_Build_Analysis_Dataset.Rmd`: build the analysis dataframe for properties within 10km of HMP Fosse Way
 
 ## Data sources
 
@@ -147,7 +148,7 @@ Run:
 Rscript scripts/filter_postcode_prison_distance.R
 ```
 
-### 5. Geocode retained postcodes and compute prison distances
+### 5. Geocode retained postcodes
 
 Script: `scripts/geocode_prison_distances.R`
 
@@ -156,10 +157,8 @@ Purpose:
 - Reads `output/postcode_prison_distance_filter.csv`
 - Keeps only rows where `keep_for_full_geocode == TRUE`
 - Geocodes one point per postcode, not one point per address
-- Uses the fixed HMP Fosse Way point above for the distance calculation
-- Joins postcode-level coordinates/distances back onto matched property rows
 - Writes:
-   - `input/property_prison_distance.csv`
+   - `output/postcode_geocodes.csv`
    - `output/property_geocode_cache.csv`
 
 Run:
@@ -167,6 +166,49 @@ Run:
 ```bash
 export GEOCODE_MAPS_API_KEY='your_api_key_here'
 Rscript scripts/geocode_prison_distances.R
+```
+
+### 6. Compute prison distances from geocoded postcodes (sf, EPSG:27700)
+
+Script: `scripts/compute_prison_distances.R`
+
+Purpose:
+
+- Reads `output/postcode_geocodes.csv`
+- Computes postcode-to-prison distance using `sf`
+- Transforms coordinates to British National Grid `EPSG:27700`
+- Joins postcode-level distances back onto matched property rows
+- Writes:
+   - `output/postcode_prison_distances.csv`
+   - `input/property_prison_distance.csv`
+
+Run:
+
+```bash
+Rscript scripts/compute_prison_distances.R
+```
+
+### 7. Build analysis dataframe (<10km)
+
+Script/notebook: `2_Build_Analysis_Dataset.Rmd`
+
+Purpose:
+
+- Reads matched PPD, matched EPC, EPC↔PPD mapping, and property distance output
+- Keeps only rows where `geocode_status == "ok"` and `distance_to_prison_m <= 10000`
+- For each deed sale (`unique_id`), keeps the EPC record with date closest to `deed_date`:
+   - EPC event date uses `lodgement_date` if available, else `inspection_date`
+- Keeps only rows matched in both PPD and EPC
+- Builds `ppd_house_id` to track repeat sales of the same house across years
+- Writes:
+   - `output/analysis_dataframe_lt10km.csv`
+   - `output/analysis_dataframe_lt10km_summary.txt`
+   - `output/analysis_dataframe_lt10km_distance_by_deed_year.txt`
+
+Run (from R):
+
+```r
+rmarkdown::render("2_Build_Analysis_Dataset.Rmd")
 ```
 
 ## Mapping methodology summary
@@ -251,9 +293,14 @@ From `output/postcode_prison_distance_filter_summary.txt`:
 - `output/postcode_prison_distance_candidates.csv`: retained postcode subset
 - `output/fosse_way_lsoa_bbox_candidates.geojson`: intersecting LSOA polygons
 - `output/postcode_prison_distance_filter_summary.txt`: bbox filter summary
+- `output/postcode_geocodes.csv`: postcode-level geocode results
 - `output/property_geocode_cache.csv`: postcode geocode cache
+- `output/postcode_prison_distances.csv`: postcode-level distance-to-prison output (`EPSG:27700`-based)
 - `input/property_prison_distance.csv`: joined prison distance output
+- `output/analysis_dataframe_lt10km.csv`: analysis dataframe (matched PPD+EPC, <=10km)
+- `output/analysis_dataframe_lt10km_summary.txt`: analysis summary text
+- `output/analysis_dataframe_lt10km_distance_by_deed_year.txt`: yearly house counts by distance bands (`<2km`, `2-5km`, `5-10km`)
 
 ## Downstream combination
 
-For the downstream data-prep combination step, see `1_Data_Prep.Rmd`.
+For downstream data-prep combination, see `1_Data_Prep.Rmd`. For the current analysis dataframe build, see `2_Build_Analysis_Dataset.Rmd`.
