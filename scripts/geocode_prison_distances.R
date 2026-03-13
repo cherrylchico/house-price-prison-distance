@@ -1,7 +1,7 @@
 args <- commandArgs(trailingOnly = TRUE)
 
 mapping_file <- if (length(args) >= 1) args[[1]] else file.path("output", "epc_ppd_mapping.csv")
-output_file <- if (length(args) >= 2) args[[2]] else file.path("input", "property_prison_distance.csv")
+output_file <- if (length(args) >= 2) args[[2]] else file.path("output", "postcode_geocodes.csv")
 cache_file <- if (length(args) >= 3) args[[3]] else file.path("output", "property_geocode_cache.csv")
 postcode_filter_file <- if (length(args) >= 4) args[[4]] else file.path("output", "postcode_prison_distance_filter.csv")
 
@@ -27,20 +27,6 @@ normalize_missing <- function(x) {
   x <- trimws(as.character(x))
   x[x %in% c("", "NA", "NODATA!", "NO DATA!")] <- NA_character_
   x
-}
-
-haversine_m <- function(lat1, lon1, lat2, lon2) {
-  to_rad <- pi / 180
-  lat1 <- lat1 * to_rad
-  lon1 <- lon1 * to_rad
-  lat2 <- lat2 * to_rad
-  lon2 <- lon2 * to_rad
-
-  dlat <- lat2 - lat1
-  dlon <- lon2 - lon1
-
-  a <- sin(dlat / 2)^2 + cos(lat1) * cos(lat2) * sin(dlon / 2)^2
-  6371000 * 2 * atan2(sqrt(a), sqrt(1 - a))
 }
 
 fetch_geocode <- function(query, api_key, pause_s = 0.25, retries = 3) {
@@ -174,13 +160,6 @@ message(
   " unique retained postcodes."
 )
 
-prison_location <- data.table::data.table(
-  latitude = 52.584126,
-  longitude = -1.145212,
-  display_name = "HMP Fosse Way (fixed point)",
-  geocode_status = "fixed_point"
-)
-
 if (file.exists(cache_file)) {
   geocode_cache <- data.table::fread(cache_file)
 } else {
@@ -226,47 +205,16 @@ postcode_points <- merge(
   all.x = TRUE
 )
 
-postcode_points[, distance_to_prison_m := haversine_m(
+postcode_points <- unique(postcode_points[, .(
+  postcode,
+  geocode_query,
   latitude,
   longitude,
-  prison_location$latitude,
-  prison_location$longitude
-)]
+  display_name,
+  geocode_status
+)], by = "postcode")
 
-distance_lookup <- merge(
-  unique(mapping[, .(ppd_id, lmk_key, match_key, postcode)]),
-  postcode_points[, .(
-    postcode,
-    geocode_query,
-    latitude,
-    longitude,
-    display_name,
-    geocode_status,
-    distance_to_prison_m
-  )],
-  by = "postcode",
-  all.x = TRUE
-)
+data.table::fwrite(postcode_points, output_file)
 
-if (!is.null(postcode_filter)) {
-  distance_lookup <- merge(
-    distance_lookup,
-    postcode_filter,
-    by = c("match_key", "postcode"),
-    all.x = TRUE
-  )
-
-  distance_lookup[, geocode_status := data.table::fcase(
-    !is.na(geocode_status), geocode_status,
-    !is.na(keep_for_full_geocode) & !keep_for_full_geocode, "excluded_postcode_distance_gt_threshold",
-    !is.na(postcode_geocode_status) & postcode_geocode_status != "ok", paste0("postcode_", postcode_geocode_status),
-    default = geocode_status
-  )]
-}
-
-data.table::setnames(distance_lookup, c("ppd_id", "lmk_key"), c("unique_id", "LMK_KEY"))
-data.table::fwrite(distance_lookup, output_file)
-
-message("Distance file written to: ", output_file)
+message("Postcode geocode file written to: ", output_file)
 message("Cache file written to: ", cache_file)
-message("Prison location used: ", prison_location$display_name)
