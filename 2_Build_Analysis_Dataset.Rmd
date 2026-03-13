@@ -1,0 +1,272 @@
+---
+title: "Build Analysis Dataframe (<10km)"
+output: html_document
+---
+
+```{r setup, message=FALSE, warning=FALSE}
+library(data.table)
+```
+
+## Inputs
+
+```{r}
+matched_ppd_file <- file.path("output", "matched_ppd.csv")
+matched_epc_file <- file.path("output", "matched_epc.csv")
+mapping_file <- file.path("output", "epc_ppd_mapping.csv")
+distance_file <- file.path("input", "property_prison_distance.csv")
+output_file <- file.path("output", "analysis_dataframe_lt10km.csv")
+summary_text_file <- file.path("output", "analysis_dataframe_lt10km_summary.txt")
+deed_year_distribution_text_file <- file.path("output", "analysis_dataframe_lt10km_distance_by_deed_year.txt")
+
+# Parameters: columns to keep from each source table.
+# Do not include join keys here; keys are always included automatically.
+ppd_columns_keep <- c(
+  "deed_date",
+  "price_paid",
+  "postcode",
+  "lsoa21cd",
+  "saon",
+  "paon",
+  "street",
+  "locality",
+  "town",
+  "district",
+  "county"
+)
+
+epc_columns_keep <- c(
+  "UPRN",
+  "TOTAL_FLOOR_AREA",
+  "NUMBER_HABITABLE_ROOMS"
+)
+
+stopifnot(file.exists(matched_ppd_file))
+stopifnot(file.exists(matched_epc_file))
+stopifnot(file.exists(mapping_file))
+stopifnot(file.exists(distance_file))
+```
+
+## Load Data
+
+```{r}
+matched_ppd <- fread(matched_ppd_file)
+matched_epc <- fread(matched_epc_file)
+mapping_dt <- fread(mapping_file)
+distance_dt <- fread(distance_file)
+
+ppd_selected_cols <- unique(c("unique_id", ppd_columns_keep))
+epc_selected_cols <- unique(c("LMK_KEY", epc_columns_keep))
+
+missing_ppd_cols <- setdiff(ppd_selected_cols, names(matched_ppd))
+missing_epc_cols <- setdiff(epc_selected_cols, names(matched_epc))
+
+if (length(missing_ppd_cols)) {
+  stop("PPD missing requested column(s): ", paste(missing_ppd_cols, collapse = ", "))
+}
+
+if (length(missing_epc_cols)) {
+  stop("EPC missing requested column(s): ", paste(missing_epc_cols, collapse = ", "))
+}
+
+matched_ppd_selected <- matched_ppd[, ..ppd_selected_cols]
+data.table::setnames(matched_ppd_selected, "price_paid", "sold_amount", skip_absent = TRUE)
+
+matched_epc_selected <- matched_epc[, ..epc_selected_cols]
+```
+
+## Build Analysis Dataframe
+
+```{r}
+# Keep only rows with usable geocoded distance at or below 10km.
+distance_keep <- unique(
+  distance_dt[
+    geocode_status == "ok" & !is.na(distance_to_prison_m) & distance_to_prison_m <= 10000,
+    .(
+      unique_id,
+      LMK_KEY,
+      postcode_distance = postcode,
+      distance_to_prison_m
+    )
+  ],
+  by = c("unique_id", "LMK_KEY")
+)
+
+# For each deed sale, keep the EPC record whose date is closest to deed_date.
+mapping_best <- mapping_dt[, .(
+  unique_id = ppd_id,
+  LMK_KEY = lmk_key,
+  deed_date = as.Date(deed_date),
+  inspection_date = as.Date(inspection_date),
+  lodgement_date = as.Date(lodgement_date)
+)]
+
+mapping_best[, epc_event_date := fifelse(!is.na(lodgement_date), lodgement_date, inspection_date)]
+mapping_best[, epc_event_date := as.Date(epc_event_date, origin = "1970-01-01")]
+mapping_best <- mapping_best[!is.na(unique_id) & !is.na(LMK_KEY) & !is.na(deed_date) & !is.na(epc_event_date)]
+mapping_best[, abs_days_diff := abs(as.integer(deed_date - epc_event_date))]
+mapping_best[, epc_before_sale := epc_event_date <= deed_date]
+
+setorder(mapping_best, unique_id, abs_days_diff, -epc_before_sale, -epc_event_date)
+mapping_best <- mapping_best[, .SD[1], by = unique_id]
+
+distance_keep <- merge(
+  distance_keep,
+  mapping_best[, .(unique_id, LMK_KEY, epc_event_date, abs_days_diff)],
+  by = c("unique_id", "LMK_KEY"),
+  all = FALSE
+)
+
+# Keep only rows that are matched in both PPD and EPC via inner joins.
+analysis_df <- merge(
+  distance_keep,
+  matched_ppd_selected,
+  by = "unique_id",
+  all = FALSE
+)
+
+analysis_df <- merge(
+  analysis_df,
+  matched_epc_selected,
+  by = "LMK_KEY",
+  all = FALSE
+)
+
+normalize_house_part <- function(x) {
+  x <- trimws(as.character(x))
+  x <- toupper(x)
+  gsub("[^A-Z0-9]", "", x)
+}
+
+# House-level key in PPD so repeated sales can be tracked across years.
+analysis_df[, ppd_house_id := paste(
+  normalize_house_part(postcode),
+  normalize_house_part(saon),
+  normalize_house_part(paon),
+  normalize_house_part(street),
+  sep = "|"
+)]
+
+```
+
+## Write Output
+
+```{r}
+dir.create(dirname(output_file), recursive = TRUE, showWarnings = FALSE)
+fwrite(analysis_df, output_file)
+
+cat("Wrote:", output_file, "\n")
+cat("Rows:", format(nrow(analysis_df), big.mark = ","), "\n")
+```
+
+## Quick Checks
+
+```{r}
+analysis_df[, deed_date := as.Date(deed_date)]
+analysis_df[, deed_year := as.integer(format(deed_date, "%Y"))]
+
+summary_df <- analysis_df[, .(
+  rows = .N,
+  unique_ppd_sales = uniqueN(unique_id),
+  unique_ppd_houses = uniqueN(ppd_house_id),
+  min_distance_m = min(distance_to_prison_m, na.rm = TRUE),
+  median_distance_m = median(distance_to_prison_m, na.rm = TRUE),
+  max_distance_m = max(distance_to_prison_m, na.rm = TRUE),
+  missing_lsoa = sum(is.na(lsoa21cd) | lsoa21cd == ""),
+  missing_sold_amount = sum(is.na(sold_amount)),
+  missing_floor_area = sum(is.na(TOTAL_FLOOR_AREA)),
+  missing_habitable_rooms = sum(is.na(NUMBER_HABITABLE_ROOMS))
+)]
+
+ppd_repeat_sales_df <- analysis_df[
+  !is.na(ppd_house_id) & ppd_house_id != "",
+  .(
+    sales = .N,
+    years_sold = uniqueN(deed_year)
+  ),
+  by = ppd_house_id
+][order(-sales, -years_sold)]
+
+ppd_repeat_sales_summary <- ppd_repeat_sales_df[, .(
+  houses_with_multiple_sales = sum(sales > 1),
+  houses_sold_in_multiple_years = sum(years_sold > 1),
+  max_sales_for_one_house = max(sales)
+)]
+
+epc_granularity_df <- matched_epc[, .(
+  epc_rows = .N,
+  unique_lmk_key = uniqueN(LMK_KEY),
+  epc_rows_with_uprn = sum(!is.na(UPRN) & UPRN != ""),
+  unique_uprn = uniqueN(UPRN[!is.na(UPRN) & UPRN != ""])
+)]
+
+epc_rows_per_uprn <- matched_epc[
+  !is.na(UPRN) & UPRN != "",
+  .N,
+  by = UPRN
+]
+
+epc_granularity_summary <- epc_rows_per_uprn[, .(
+  uprn_with_multiple_epc_rows = sum(N > 1),
+  max_epc_rows_for_one_uprn = max(N)
+)]
+
+analysis_df[, distance_band := data.table::fcase(
+  distance_to_prison_m < 2000, "<2km",
+  distance_to_prison_m >= 2000 & distance_to_prison_m < 5000, "2-5km",
+  distance_to_prison_m >= 5000 & distance_to_prison_m <= 10000, "5-10km",
+  default = NA_character_
+)]
+
+distance_by_deed_year <- analysis_df[
+  !is.na(deed_year) & !is.na(distance_band),
+  .(houses = .N),
+  by = .(deed_year, distance_band)
+][order(deed_year, distance_band)]
+
+distance_by_deed_year_wide <- data.table::dcast(
+  distance_by_deed_year,
+  deed_year ~ distance_band,
+  value.var = "houses",
+  fill = 0
+)
+
+setcolorder(
+  distance_by_deed_year_wide,
+  c(
+    "deed_year",
+    intersect(c("<2km", "2-5km", "5-10km"), names(distance_by_deed_year_wide))
+  )
+)
+
+summary_lines <- c(
+  "Analysis dataframe summary (<10km)",
+  paste(capture.output(print(summary_df)), collapse = "\n"),
+  "",
+  "PPD repeat-sales summary (using ppd_house_id)",
+  paste(capture.output(print(ppd_repeat_sales_summary)), collapse = "\n"),
+  "",
+  "EPC granularity summary",
+  paste(capture.output(print(epc_granularity_df)), collapse = "\n"),
+  paste(capture.output(print(epc_granularity_summary)), collapse = "\n")
+)
+
+writeLines(summary_lines, summary_text_file)
+
+distribution_lines <- c(
+  "Number of houses by deed_year with distance bands as columns (<2km, 2-5km, 5-10km)",
+  paste(capture.output(print(distance_by_deed_year_wide)), collapse = "\n")
+)
+
+writeLines(distribution_lines, deed_year_distribution_text_file)
+
+cat("Summary text written:", summary_text_file, "\n")
+cat("Deed-year distribution text written:", deed_year_distribution_text_file, "\n")
+
+summary_df
+ppd_repeat_sales_summary
+epc_granularity_df
+epc_granularity_summary
+distance_by_deed_year
+distance_by_deed_year_wide
+head(analysis_df, 10)
+```
