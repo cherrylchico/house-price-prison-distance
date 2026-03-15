@@ -1,0 +1,376 @@
+---
+title: "Heatmaps_GDS_Final"
+output: pdf_document
+date: "2026-03-14"
+---
+
+## Purpose
+
+This notebook creates three LSOA-level heat maps for the HMP Fosse Way study area:
+
+1. Average house price by LSOA **before** the chosen event date  
+2. Average house price by LSOA **after** the chosen event date  
+3. Relative house price inflation by LSOA (**after vs before**)
+
+```{r setup, message=FALSE, warning=FALSE}
+library(data.table)
+library(sf)
+library(ggplot2)
+library(dplyr)
+library(scales)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  fig.width = 10,
+  fig.height = 8,
+  fig.align = "center"
+)
+```
+
+## File paths and parameters
+
+```{r}
+base_path <- "/Users/rohankale/Documents/BSE/Geospatial DS/Final Project"
+
+ppd_file <- file.path(base_path, "matched_ppd.csv")
+distance_file <- file.path(base_path, "property_prison_distance.csv")
+lsoa_file <- file.path(base_path, "fosse_way_lsoa_bbox_candidates.geojson")
+
+event_date <- as.Date("2023-05-01")
+min_sales_per_lsoa <- 3
+max_distance_m <- 11000
+```
+
+## Check files exist
+
+```{r}
+file.exists(ppd_file)
+file.exists(distance_file)
+file.exists(lsoa_file)
+```
+
+## Load data
+
+```{r}
+ppd <- fread(ppd_file)
+distance_dt <- fread(distance_file)
+lsoa_sf <- st_read(lsoa_file, quiet = TRUE)
+```
+
+## Inspect columns
+
+```{r}
+colnames(ppd)
+colnames(distance_dt)
+colnames(lsoa_sf)
+```
+
+## Merge house-price and distance data
+
+```{r}
+houses <- merge(
+  ppd,
+  distance_dt,
+  by = "unique_id",
+  all = FALSE
+)
+```
+
+## Check merged columns
+
+```{r}
+colnames(houses)
+```
+
+## Standardize the LSOA code field in the shapefile
+
+```{r}
+possible_lsoa_cols <- c("lsoa21cd", "LSOA21CD", "lsoa_code", "LSOA_CODE")
+matched_lsoa_col <- intersect(possible_lsoa_cols, names(lsoa_sf))
+
+if (length(matched_lsoa_col) == 0) {
+  stop("No LSOA code column found in the shapefile.")
+}
+
+if (matched_lsoa_col[1] != "lsoa21cd") {
+  lsoa_sf <- lsoa_sf %>%
+    rename(lsoa21cd = all_of(matched_lsoa_col[1]))
+}
+
+lsoa_sf <- st_make_valid(lsoa_sf)
+```
+
+## Standardize key columns in the merged table
+
+```{r}
+possible_date_cols <- c("deed_date", "DEED_DATE", "date_of_transfer", "Date of Transfer")
+matched_date_col <- intersect(possible_date_cols, names(houses))
+
+if (length(matched_date_col) == 0) {
+  stop("No deed-date column found after merging ppd and distance data.")
+}
+
+if (matched_date_col[1] != "deed_date") {
+  setnames(houses, matched_date_col[1], "deed_date")
+}
+
+possible_price_cols <- c("price_paid", "PRICE_PAID", "sold_amount")
+matched_price_col <- intersect(possible_price_cols, names(houses))
+
+if (length(matched_price_col) == 0) {
+  stop("No house-price column found after merging ppd and distance data.")
+}
+
+if (matched_price_col[1] != "price_paid") {
+  setnames(houses, matched_price_col[1], "price_paid")
+}
+
+possible_lsoa_house_cols <- c("lsoa21cd", "LSOA21CD")
+matched_lsoa_house_col <- intersect(possible_lsoa_house_cols, names(houses))
+
+if (length(matched_lsoa_house_col) == 0) {
+  stop("No lsoa21cd column found after merging ppd and distance data.")
+}
+
+if (matched_lsoa_house_col[1] != "lsoa21cd") {
+  setnames(houses, matched_lsoa_house_col[1], "lsoa21cd")
+}
+```
+
+## Basic cleaning
+
+```{r}
+houses[, deed_date := as.Date(deed_date)]
+houses[, price_paid := as.numeric(price_paid)]
+
+required_cols <- c("lsoa21cd", "price_paid", "deed_date")
+missing_required <- setdiff(required_cols, names(houses))
+
+if (length(missing_required) > 0) {
+  stop(
+    paste(
+      "Missing required column(s):",
+      paste(missing_required, collapse = ", ")
+    )
+  )
+}
+
+if ("distance_to_prison_m" %in% names(houses)) {
+  houses <- houses[
+    !is.na(distance_to_prison_m) & distance_to_prison_m <= max_distance_m
+  ]
+}
+
+if ("geocode_status" %in% names(houses)) {
+  houses <- houses[geocode_status == "ok"]
+}
+
+houses <- houses[
+  !is.na(lsoa21cd) &
+  !is.na(price_paid) &
+  !is.na(deed_date)
+]
+
+houses <- houses[lsoa21cd %in% lsoa_sf$lsoa21cd]
+
+houses[, period := ifelse(deed_date < event_date, "Before", "After")]
+houses[, deed_year := format(deed_date, "%Y")]
+```
+
+## Quick summary
+
+```{r}
+summary_dt <- houses[, .(
+  rows = .N,
+  unique_sales = uniqueN(unique_id),
+  unique_lsoas = uniqueN(lsoa21cd),
+  min_price = min(price_paid, na.rm = TRUE),
+  median_price = median(price_paid, na.rm = TRUE),
+  max_price = max(price_paid, na.rm = TRUE)
+)]
+
+summary_dt
+```
+
+## Build average price by LSOA before the event
+
+```{r}
+before_prices <- houses[
+  period == "Before",
+  .(
+    n_before = .N,
+    avg_price_before = mean(price_paid, na.rm = TRUE)
+  ),
+  by = lsoa21cd
+]
+
+before_prices <- before_prices[n_before >= min_sales_per_lsoa]
+
+before_prices
+```
+
+## Build average price by LSOA after the event
+
+```{r}
+after_prices <- houses[
+  period == "After",
+  .(
+    n_after = .N,
+    avg_price_after = mean(price_paid, na.rm = TRUE)
+  ),
+  by = lsoa21cd
+]
+
+after_prices <- after_prices[n_after >= min_sales_per_lsoa]
+
+after_prices
+```
+
+## Merge before and after summaries onto the map
+
+```{r}
+map_before <- merge(lsoa_sf, before_prices, by = "lsoa21cd", all.x = TRUE)
+map_after <- merge(lsoa_sf, after_prices, by = "lsoa21cd", all.x = TRUE)
+```
+
+## Heatmap 1: Average house price by LSOA before the event
+
+```{r}
+ggplot(map_before) +
+  geom_sf(aes(fill = avg_price_before), color = "white", linewidth = 0.1) +
+  scale_fill_viridis_c(
+    option = "magma",
+    na.value = "grey90",
+    labels = label_dollar(prefix = "£")
+  ) +
+  labs(
+    title = "Average House Price by LSOA (Before Event)",
+    subtitle = paste0(
+      "Event date cutoff: ", event_date,
+      " | LSOAs with fewer than ", min_sales_per_lsoa, " sales are omitted"
+    ),
+    fill = "Average price"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+## Heatmap 2: Average house price by LSOA after the event
+
+```{r}
+ggplot(map_after) +
+  geom_sf(aes(fill = avg_price_after), color = "white", linewidth = 0.1) +
+  scale_fill_viridis_c(
+    option = "magma",
+    na.value = "grey90",
+    labels = label_dollar(prefix = "£")
+  ) +
+  labs(
+    title = "Average House Price by LSOA (After Event)",
+    subtitle = paste0(
+      "Event date cutoff: ", event_date,
+      " | LSOAs with fewer than ", min_sales_per_lsoa, " sales are omitted"
+    ),
+    fill = "Average price"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+## Build relative house price inflation
+
+The inflation measure used here is:
+
+\[
+\text{Inflation (\%)} = \left(\frac{\text{Average Price After}}{\text{Average Price Before}} - 1\right)\times 100
+\]
+
+```{r}
+inflation_dt <- merge(
+  before_prices[, .(lsoa21cd, n_before, avg_price_before)],
+  after_prices[, .(lsoa21cd, n_after, avg_price_after)],
+  by = "lsoa21cd",
+  all = FALSE
+)
+
+inflation_dt <- inflation_dt[avg_price_before > 0]
+
+inflation_dt[, inflation_pct := ((avg_price_after / avg_price_before) - 1) * 100]
+
+inflation_dt
+```
+
+## Merge inflation onto the map
+
+```{r}
+map_inflation <- merge(lsoa_sf, inflation_dt, by = "lsoa21cd", all.x = TRUE)
+```
+
+## Heatmap 3: Relative house price inflation by LSOA
+
+```{r}
+ggplot(map_inflation) +
+  geom_sf(aes(fill = inflation_pct), color = "white", linewidth = 0.1) +
+  scale_fill_gradient2(
+    low = "blue",
+    mid = "white",
+    high = "red",
+    midpoint = 0,
+    na.value = "grey90",
+    labels = function(x) paste0(round(x, 1), "%")
+  ) +
+  labs(
+    title = "Relative House Price Inflation by LSOA",
+    subtitle = paste0(
+      "Inflation = ((Average Price After / Average Price Before) - 1) × 100",
+      " | Only LSOAs with at least ", min_sales_per_lsoa,
+      " sales in both periods are shown"
+    ),
+    fill = "Inflation %"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+## Optional tables for reporting
+
+```{r}
+sales_by_period <- houses[, .(
+  rows = .N,
+  unique_lsoas = uniqueN(lsoa21cd)
+), by = period]
+
+sales_by_period
+```
+
+```{r}
+map_counts <- data.table(
+  map = c(
+    "Average price before",
+    "Average price after",
+    "Relative inflation"
+  ),
+  lsoas_with_values = c(
+    sum(!is.na(map_before$avg_price_before)),
+    sum(!is.na(map_after$avg_price_after)),
+    sum(!is.na(map_inflation$inflation_pct))
+  )
+)
+
+map_counts
+```
