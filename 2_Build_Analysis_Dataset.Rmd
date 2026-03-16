@@ -31,13 +31,26 @@ ppd_columns_keep <- c(
   "locality",
   "town",
   "district",
-  "county"
+  "county",
+  "property_type",
+  "new_build",
+  "estate_type"
 )
 
 epc_columns_keep <- c(
   "UPRN",
   "TOTAL_FLOOR_AREA",
-  "NUMBER_HABITABLE_ROOMS"
+  "NUMBER_HABITABLE_ROOMS",
+  "CURRENT_ENERGY_RATING",
+  "POTENTIAL_ENERGY_RATING",
+  "PROPERTY_TYPE",
+  "BUILT_FORM",
+  "GLAZED_TYPE",
+  "EXTENSION_COUNT",
+  "HOTWATER_DESCRIPTION",
+  "SOLAR_WATER_HEATING_FLAG",
+  "PHOTO_SUPPLY",
+  "TENURE"
 )
 
 stopifnot(file.exists(matched_ppd_file))
@@ -85,7 +98,9 @@ distance_keep <- unique(
       unique_id,
       LMK_KEY,
       postcode_distance = postcode,
-      distance_to_prison_m
+      distance_to_prison_m,
+      latitude,
+      longitude
     )
   ],
   by = c("unique_id", "LMK_KEY")
