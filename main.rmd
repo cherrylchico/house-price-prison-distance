@@ -1,0 +1,333 @@
+---
+title: "Geospatial Housing Analysis Paper"
+author: ""
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.show = "hold",
+  fig.align = "center"
+)
+
+options(stringsAsFactors = FALSE, scipen = 999)
+```
+
+# Introduction
+
+This section will introduce the policy context, motivation, research questions, and why distance to HMP Fosse Way is used as a key geographic exposure variable.
+
+# Global R Setup
+```{r global-setup}
+library(data.table)
+library(sf)
+
+```
+
+# Data Processing
+
+We have four core data assets to build the data:
+
+1. Price Paid Data (PPD): transaction-level records (sale price, deed date, address fields, and geography).
+2. EPC domestic certificates: property energy records with address and inspection/lodgement dates.
+3. Postcode to LSOA lookup: lookup table used to attach statistical geography (LSOA/LAD) to postcodes.
+4. LSOA boundary polygons: geometry used to identify LSOAs intersecting a bounding box around HMP Fosse Way.
+
+The processing objective is to create a matched EPC-PPD sample, restrict it to a prison-relevant geography, geocode retained records, and compute distance-to-prison metrics.
+
+## What are the steps
+
+The workflow follows seven processing stages.
+
+```text
+PPD Build
+   -> EPC-PPD Mapping
+      -> Matched Extracts + LSOA Enrichment
+         -> Postcode/LSOA Bounding-Box Filter
+            -> Precise Address Geocoding 
+               -> Precise Distance Computation 
+                  -> Analysis Dataset (<7 km)
+```
+
+### Compact in-document code
+
+```{r processing-helpers, eval=FALSE}
+norm_text <- function(x) {
+  x <- toupper(trimws(fifelse(is.na(x), "", x)))
+  x <- gsub("&", " AND ", x, fixed = TRUE)
+  x <- gsub("[^A-Z0-9]+", " ", x)
+  trimws(gsub("\\s+", " ", x))
+}
+
+norm_postcode <- function(x) {
+  trimws(toupper(gsub("\\s+", "", fifelse(is.na(x), "", x))))
+}
+
+build_key <- function(postcode, address) paste(norm_postcode(postcode), norm_text(address), sep = "|")
+```
+
+## Data Processing Pipeline
+
+### Step 1. Build filtered PPD table
+
+Here, we read yearly Price Paid files listed in `input/ppd_link.txt`, apply standard PPD column names, and filter rows to Leicester and Leicestershire counties. We output a clean transaction source table at `input/ppd_data.csv`.
+
+```{r step-1-outline, eval=FALSE}
+ppd_cols <- c(
+  "unique_id", "price_paid", "deed_date", "postcode", "property_type", "new_build",
+  "estate_type", "saon", "paon", "street", "locality", "town", "district",
+  "county", "transaction_category", "linked_data_uri"
+)
+
+links <- readLines("input/ppd_link.txt")
+links <- trimws(links)
+links <- links[nzchar(links)]
+
+ppd <- rbindlist(lapply(links, function(u) {
+  fread(u, header = FALSE, col.names = ppd_cols)
+}), fill = TRUE)
+
+ppd <- ppd[toupper(trimws(county)) %in% c("LEICESTER", "LEICESTERSHIRE")]
+fwrite(ppd, "input/ppd_data.csv")
+```
+
+### Step 2. Build EPC-PPD mapping
+
+Script used: `scripts/build_epc_ppd_mapping.R`
+
+Here, we create links between EPC certificates and PPD transactions by normalizing address and postcode strings, then applying exact and fuzzy matching passes. We output `output/epc_ppd_mapping.csv` and a method/count summary used for quality checks.
+
+```{r step-2-outline, eval=FALSE}
+epc_files <- list.files("input", pattern = "^domestic-", full.names = TRUE)
+epc <- rbindlist(lapply(epc_files, function(d) {
+  x <- fread(file.path(d, "certificates.csv"), fill = TRUE)
+  x[, epc_source := basename(d)]
+  x
+}), fill = TRUE)
+
+epc[, epc_address := fifelse(
+  !is.na(ADDRESS) & nzchar(trimws(ADDRESS)),
+  ADDRESS,
+  paste(ADDRESS1, ADDRESS2, ADDRESS3)
+)]
+
+ppd <- fread("input/ppd_data.csv")
+ppd[, ppd_address := trimws(paste(paon, street, locality, town))]
+
+epc[, match_key := build_key(POSTCODE, epc_address)]
+ppd[, match_key := build_key(postcode, ppd_address)]
+
+map_dt <- merge(
+  epc[, .(lmk_key = LMK_KEY, uprn = UPRN, epc_source, postcode = POSTCODE, epc_address, inspection_date = INSPECTION_DATE, lodgement_date = LODGEMENT_DATE, match_key)],
+  ppd[, .(ppd_id = unique_id, deed_date, price_paid, district, county, ppd_address, match_key)],
+  by = "match_key",
+  all = FALSE
+)
+
+map_dt[, `:=`(match_method = "exact_normalized_postcode_address", match_score = 1)]
+setcolorder(map_dt, c("match_method", "match_score", "match_key", "epc_source", "lmk_key", "uprn", "inspection_date", "lodgement_date", "postcode", "epc_address", "ppd_id", "deed_date", "price_paid", "ppd_address", "district", "county"))
+
+fwrite(map_dt, "output/epc_ppd_mapping.csv")
+summary_txt <- c(
+  paste("EPC rows indexed:", format(nrow(epc), big.mark = ",")),
+  paste("PPD rows indexed:", format(nrow(ppd), big.mark = ",")),
+  paste("Matched rows in mapping:", format(nrow(map_dt), big.mark = ",")),
+  paste("Distinct matched keys:", format(uniqueN(map_dt$match_key), big.mark = ","))
+)
+writeLines(summary_txt, "output/epc_ppd_mapping_summary.txt")
+```
+
+### Step 3. Materialize matched extracts and attach LSOA
+
+Here, we materialize matched EPC and matched PPD extracts, exclude selected districts, and join `lsoa21cd` values using a LAD-filtered postcode lookup. We write `output/matched_epc.csv`, `output/matched_ppd.csv`, and `output/postcode_lsoa_lookup_target_lads.csv`.
+
+```{r step-3-outline, eval=FALSE}
+mapping <- fread("output/epc_ppd_mapping.csv")
+mapping <- mapping[!toupper(trimws(district)) %in% c("NORTH WEST LEICESTERSHIRE", "MELTON")]
+
+lookup <- fread("input/PCD_OA21_LSOA21_MSOA21_LAD_AUG24_UK_LU.csv", select = c("pcd7", "lsoa21cd", "ladcd", "ladnm"))
+target_lads <- c("E06000016", "E07000130", "E07000131", "E07000135", "E07000129", "E07000132", "E07000133", "E07000134")
+lookup <- lookup[toupper(trimws(ladcd)) %in% target_lads]
+lookup[, postcode_key := norm_postcode(pcd7)]
+lookup <- unique(lookup[nzchar(postcode_key), .(postcode_key, lsoa21cd, ladcd, ladnm)], by = "postcode_key")
+fwrite(lookup, "output/postcode_lsoa_lookup_target_lads.csv")
+
+epc_files <- list.files("input", pattern = "^domestic-", full.names = TRUE)
+epc <- rbindlist(lapply(epc_files, function(d) {
+  x <- fread(file.path(d, "certificates.csv"), fill = TRUE)
+  x[, epc_source := basename(d)]
+  x
+}), fill = TRUE)
+matched_epc <- epc[LMK_KEY %chin% unique(mapping$lmk_key)]
+matched_epc[, postcode_key := norm_postcode(POSTCODE)]
+matched_epc <- merge(matched_epc, lookup[, .(postcode_key, lsoa21cd)], by = "postcode_key", all.x = TRUE)
+matched_epc[, postcode_key := NULL]
+
+ppd <- fread("input/ppd_data.csv")
+matched_ppd <- ppd[unique_id %chin% unique(mapping$ppd_id)]
+matched_ppd[, postcode_key := norm_postcode(postcode)]
+matched_ppd <- merge(matched_ppd, lookup[, .(postcode_key, lsoa21cd)], by = "postcode_key", all.x = TRUE)
+matched_ppd[, postcode_key := NULL]
+
+fwrite(matched_epc, "output/matched_epc.csv")
+fwrite(matched_ppd, "output/matched_ppd.csv")
+```
+
+### Step 4. Bounding-box postcode filter around HMP Fosse Way
+
+Using the prison reference point and an 11 km square bounding box, we find intersecting LSOAs and retain only postcode/property keys relevant for full geocoding. We produce candidate and summary files in `output/` to reduce downstream geocoding volume.
+
+```{r step-4-outline, eval=FALSE}
+mapping <- fread("output/epc_ppd_mapping.csv")
+lookup <- fread("output/postcode_lsoa_lookup_target_lads.csv")
+lookup[, postcode_key := norm_postcode(postcode_key)]
+
+center_lat <- 52.584126
+center_lon <- -1.145212
+d_km <- 11
+lat_delta <- d_km / 111.32
+lon_delta <- d_km / (111.32 * cos(center_lat * pi / 180))
+
+bbox_poly <- st_as_sfc(st_bbox(c(
+  xmin = center_lon - lon_delta,
+  ymin = center_lat - lat_delta,
+  xmax = center_lon + lon_delta,
+  ymax = center_lat + lat_delta
+), crs = st_crs(4326)))
+
+lsoa <- st_read("input/Lower_layer_Super_Output_Areas_December_2021_Boundaries_EW.geojson", quiet = TRUE)
+lsoa <- st_transform(lsoa, 4326)
+selected_lsoa <- lsoa[st_intersects(lsoa, bbox_poly, sparse = FALSE)[, 1], ]
+selected_codes <- unique(selected_lsoa$LSOA21CD)
+
+keys <- unique(mapping[, .(match_key, postcode)])
+keys[, postcode_key := norm_postcode(postcode)]
+flt <- merge(keys, lookup[, .(postcode_key, lsoa21cd, ladcd, ladnm)], by = "postcode_key", all.x = TRUE)
+flt[, keep_for_full_geocode := !is.na(lsoa21cd) & lsoa21cd %in% selected_codes]
+
+fwrite(flt, "output/postcode_prison_distance_filter.csv")
+fwrite(flt[keep_for_full_geocode == TRUE], "output/postcode_prison_distance_candidates.csv")
+st_write(selected_lsoa, "output/fosse_way_lsoa_bbox_candidates.geojson", delete_dsn = TRUE, quiet = TRUE)
+
+writeLines(c(
+  paste("Bounding-box half-width/height:", d_km, "km"),
+  paste("Unique property keys reviewed:", nrow(flt)),
+  paste("Unique postcodes reviewed:", uniqueN(flt$postcode)),
+  paste("Distinct selected LSOAs intersecting the bbox:", length(selected_codes)),
+  paste("Retained via LSOA bbox filter:", nrow(flt[keep_for_full_geocode == TRUE]))
+), "output/postcode_prison_distance_filter_summary.txt")
+```
+
+### Step 5. Precise address geocoding (updated)
+
+In this paper, we use the updated precise-address geocoding script (instead of the README step-5 script). We geocode retained records and write address-level geocode outputs and cache files used by the next distance step.
+
+```{r step-5-outline, eval=FALSE}
+api_key <- Sys.getenv("GEOCODE_MAPS_API_KEY")
+mapping <- fread("output/epc_ppd_mapping.csv")
+flt <- fread("output/postcode_prison_distance_filter.csv")
+
+keys <- unique(mapping[!is.na(match_key) & !is.na(postcode), .(match_key, postcode)])
+keys <- merge(keys, unique(flt[, .(match_key, postcode, keep_for_full_geocode)]), by = c("match_key", "postcode"), all.x = TRUE)
+keys <- keys[keep_for_full_geocode == TRUE]
+
+addr <- copy(keys)
+addr[, parsed_postcode := sub("\\|.*", "", match_key)]
+addr[, parsed_street := sub(".*\\|", "", match_key)]
+addr[, geocode_query := paste(parsed_street, parsed_postcode, sep = ", ")]
+addr[, fallback_query := parsed_postcode]
+
+cache <- if (file.exists("output/address_geocode_cache.csv")) {
+  fread("output/address_geocode_cache.csv")
+} else {
+  data.table(query = character(), latitude = numeric(), longitude = numeric(), display_name = character(), geocode_status = character())
+}
+
+fetch_geocode <- function(query, fallback_query = NULL, key = api_key) {
+  do_call <- function(q) {
+    u <- sprintf(
+      "https://api.mapbox.com/geocoding/v5/mapbox.places/%s.json?access_token=%s&country=gb&limit=1",
+      utils::URLencode(q, reserved = TRUE),
+      key
+    )
+    res <- curl::curl_fetch_memory(u)
+    js <- jsonlite::fromJSON(rawToChar(res$content), simplifyDataFrame = TRUE)
+    if (is.null(js$features) || length(js$features) == 0 || (is.data.frame(js$features) && nrow(js$features) == 0)) return(NULL)
+    list(lat = js$features$center[[1]][2], lon = js$features$center[[1]][1], name = js$features$place_name[1])
+  }
+  hit <- tryCatch(do_call(query), error = function(e) NULL)
+  if (is.null(hit) && !is.null(fallback_query)) hit <- tryCatch(do_call(fallback_query), error = function(e) NULL)
+  if (is.null(hit)) return(list(latitude = NA_real_, longitude = NA_real_, display_name = NA_character_, geocode_status = "no_result"))
+  list(latitude = as.numeric(hit$lat), longitude = as.numeric(hit$lon), display_name = as.character(hit$name), geocode_status = "ok")
+}
+
+missing_q <- unique(addr[, .(geocode_query, fallback_query)])[!geocode_query %in% cache$query]
+for (i in seq_len(nrow(missing_q))) {
+  r <- fetch_geocode(missing_q$geocode_query[i], missing_q$fallback_query[i])
+  cache <- rbind(cache, data.table(query = missing_q$geocode_query[i], latitude = r$latitude, longitude = r$longitude, display_name = r$display_name, geocode_status = r$geocode_status), fill = TRUE)
+}
+
+fwrite(cache, "output/address_geocode_cache.csv")
+addr <- merge(addr, cache, by.x = "geocode_query", by.y = "query", all.x = TRUE)
+addr[, match_type := fifelse(geocode_status == "ok", "Exact Address", "Failed")]
+fwrite(unique(addr[, .(match_key, postcode, geocode_query, match_type, latitude, longitude, display_name, geocode_status)], by = "match_key"), "output/address_geocodes.csv")
+```
+
+### Step 6. Precise distance computation (updated)
+
+Script used in this paper: `scripts/distance_precise_6.R`
+
+In this paper, we use the updated precise-distance script (instead of the README step-6 script). We read geocoded points, validate geocode quality, compute distance to prison geometry under `EPSG:27700`, and write the final joined distance output.
+
+```{r step-6-outline, eval=FALSE}
+mapping <- fread("output/epc_ppd_mapping.csv")
+geo <- fread("output/address_geocodes.csv")
+
+valid <- geo[!is.na(latitude) & !is.na(longitude) & geocode_status == "ok"]
+pts <- st_as_sf(valid, coords = c("longitude", "latitude"), crs = 4326, remove = FALSE)
+pts <- st_transform(pts, 27700)
+
+prison <- st_read("input/prison_shapefile/layers/POLYLINE.shp", quiet = TRUE)
+prison <- st_transform(prison, 27700)
+prison_geom <- st_union(prison)
+
+valid[, distance_to_prison_m := as.numeric(st_distance(pts, prison_geom))]
+geo[valid, on = "match_key", distance_to_prison_m := i.distance_to_prison_m]
+
+out <- merge(
+  unique(mapping[, .(ppd_id, lmk_key, match_key, postcode)]),
+  geo[, .(match_key, geocode_query, latitude, longitude, display_name, match_type, geocode_status, distance_to_prison_m)],
+  by = "match_key",
+  all.x = TRUE
+)
+setnames(out, c("ppd_id", "lmk_key"), c("unique_id", "LMK_KEY"))
+
+fwrite(out, "input/property_prison_distance.csv")
+fwrite(unique(out[, .(postcode, distance_to_prison_m, geocode_status)]), "output/postcode_prison_distances.csv")
+```
+
+### Step 7. Build final analysis dataframe (<10 km)
+
+Notebook/script used: `2_Build_Analysis_Dataset.Rmd`
+
+In this final stage, we merge matched EPC and PPD records with the distance output, keep observations within 10 km of the prison, and resolve event timing so the EPC record closest to deed date is retained per transaction.
+
+```{r step-7-outline, eval=FALSE}
+rmarkdown::render("2_Build_Analysis_Dataset.Rmd")
+```
+
+# Exploratory Data Analysis
+
+This section will summarize distributions, data quality checks, and key descriptive patterns (prices, property types, distance bands, and temporal composition).
+
+# Pricing
+
+This section will present the pricing framework, model specification choices, treatment of distance bands, and interpretation of estimated effects.
