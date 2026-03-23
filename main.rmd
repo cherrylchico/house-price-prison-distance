@@ -19,6 +19,9 @@ knitr::opts_chunk$set(
 )
 
 options(stringsAsFactors = FALSE, scipen = 999)
+
+# Toggle all data-processing chunks in this document.
+data_processing <- FALSE
 ```
 
 # Introduction
@@ -27,7 +30,7 @@ This section will introduce the policy context, motivation, research questions, 
 
 # Global R Setup
 ```{r global-setup}
-library(data.table)
+library(data.table)data
 library(sf)
 
 ```
@@ -36,14 +39,14 @@ library(sf)
 
 We have four core data assets to build the data:
 
-1. Price Paid Data (PPD): transaction-level records (sale price, deed date, address fields, and geography).
+1. Price Paid Data (PPD): transaction-level records (sale price, deed date, address fields, and geography). 
 2. EPC domestic certificates: property energy records with address and inspection/lodgement dates.
 3. Postcode to LSOA lookup: lookup table used to attach statistical geography (LSOA/LAD) to postcodes.
 4. LSOA boundary polygons: geometry used to identify LSOAs intersecting a bounding box around HMP Fosse Way.
 
 The processing objective is to create a matched EPC-PPD sample, restrict it to a prison-relevant geography, geocode retained records, and compute distance-to-prison metrics.
 
-## What are the steps
+## Pipeline
 
 The workflow follows seven processing stages.
 
@@ -59,7 +62,7 @@ PPD Build
 
 ### Compact in-document code
 
-```{r processing-helpers, eval=FALSE}
+```{r processing-helpers, eval=data_processing}
 norm_text <- function(x) {
   x <- toupper(trimws(fifelse(is.na(x), "", x)))
   x <- gsub("&", " AND ", x, fixed = TRUE)
@@ -80,7 +83,7 @@ build_key <- function(postcode, address) paste(norm_postcode(postcode), norm_tex
 
 Here, we read yearly Price Paid files listed in `input/ppd_link.txt`, apply standard PPD column names, and filter rows to Leicester and Leicestershire counties. We output a clean transaction source table at `input/ppd_data.csv`.
 
-```{r step-1-outline, eval=FALSE}
+```{r step-1-outline, eval=data_processing}
 ppd_cols <- c(
   "unique_id", "price_paid", "deed_date", "postcode", "property_type", "new_build",
   "estate_type", "saon", "paon", "street", "locality", "town", "district",
@@ -105,7 +108,7 @@ Script used: `scripts/build_epc_ppd_mapping.R`
 
 Here, we create links between EPC certificates and PPD transactions by normalizing address and postcode strings, then applying exact and fuzzy matching passes. We output `output/epc_ppd_mapping.csv` and a method/count summary used for quality checks.
 
-```{r step-2-outline, eval=FALSE}
+```{r step-2-outline, eval=data_processing}
 epc_files <- list.files("input", pattern = "^domestic-", full.names = TRUE)
 epc <- rbindlist(lapply(epc_files, function(d) {
   x <- fread(file.path(d, "certificates.csv"), fill = TRUE)
@@ -149,7 +152,7 @@ writeLines(summary_txt, "output/epc_ppd_mapping_summary.txt")
 
 Here, we materialize matched EPC and matched PPD extracts, exclude selected districts, and join `lsoa21cd` values using a LAD-filtered postcode lookup. We write `output/matched_epc.csv`, `output/matched_ppd.csv`, and `output/postcode_lsoa_lookup_target_lads.csv`.
 
-```{r step-3-outline, eval=FALSE}
+```{r step-3-outline, eval=data_processing}
 mapping <- fread("output/epc_ppd_mapping.csv")
 mapping <- mapping[!toupper(trimws(district)) %in% c("NORTH WEST LEICESTERSHIRE", "MELTON")]
 
@@ -185,7 +188,7 @@ fwrite(matched_ppd, "output/matched_ppd.csv")
 
 Using the prison reference point and an 11 km square bounding box, we find intersecting LSOAs and retain only postcode/property keys relevant for full geocoding. We produce candidate and summary files in `output/` to reduce downstream geocoding volume.
 
-```{r step-4-outline, eval=FALSE}
+```{r step-4-outline, eval=data_processing}
 mapping <- fread("output/epc_ppd_mapping.csv")
 lookup <- fread("output/postcode_lsoa_lookup_target_lads.csv")
 lookup[, postcode_key := norm_postcode(postcode_key)]
@@ -230,7 +233,7 @@ writeLines(c(
 
 In this paper, we use the updated precise-address geocoding script (instead of the README step-5 script). We geocode retained records and write address-level geocode outputs and cache files used by the next distance step.
 
-```{r step-5-outline, eval=FALSE}
+```{r step-5-outline, eval=data_processing}
 api_key <- Sys.getenv("GEOCODE_MAPS_API_KEY")
 mapping <- fread("output/epc_ppd_mapping.csv")
 flt <- fread("output/postcode_prison_distance_filter.csv")
@@ -287,7 +290,7 @@ Script used in this paper: `scripts/distance_precise_6.R`
 
 In this paper, we use the updated precise-distance script (instead of the README step-6 script). We read geocoded points, validate geocode quality, compute distance to prison geometry under `EPSG:27700`, and write the final joined distance output.
 
-```{r step-6-outline, eval=FALSE}
+```{r step-6-outline, eval=data_processing}
 mapping <- fread("output/epc_ppd_mapping.csv")
 geo <- fread("output/address_geocodes.csv")
 
@@ -320,7 +323,7 @@ Notebook/script used: `2_Build_Analysis_Dataset.Rmd`
 
 In this final stage, we merge matched EPC and PPD records with the distance output, keep observations within 10 km of the prison, and resolve event timing so the EPC record closest to deed date is retained per transaction.
 
-```{r step-7-outline, eval=FALSE}
+```{r step-7-outline, eval=data_processing}
 rmarkdown::render("2_Build_Analysis_Dataset.Rmd")
 ```
 
