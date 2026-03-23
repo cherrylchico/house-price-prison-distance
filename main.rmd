@@ -331,6 +331,490 @@ rmarkdown::render("2_Build_Analysis_Dataset.Rmd")
 
 This section will summarize distributions, data quality checks, and key descriptive patterns (prices, property types, distance bands, and temporal composition).
 
+#Spatial Patterns (Heatmaps)
+
+## Purpose
+
+This notebook creates three LSOA-level heat maps for the HMP Fosse Way study area:
+
+1. Average house price by LSOA **before** the chosen event date  
+2. Average house price by LSOA **after** the chosen event date  
+3. Relative house price inflation by LSOA (**after vs before**)
+
+```{r setup, message=FALSE, warning=FALSE}
+library(data.table)
+library(sf)
+library(ggplot2)
+library(dplyr)
+library(scales)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  fig.width = 10,
+  fig.height = 8,
+  fig.align = "center"
+)
+```
+
+## File paths and parameters
+
+```{r}
+analysis_file <- file.path("output", "analysis_dataframe_lt10km.csv")
+lsoa_file <- file.path("input", "Lower_layer_Super_Output_Areas_December_2021_Boundaries_EW.geojson")
+prison_shp_file <- file.path("input", "prison_shapefile", "layers", "POLYLINE.shp")
+
+event_date <- as.Date("2023-05-01")
+min_sales_per_lsoa <- 3
+max_distance_m <- 7000
+```
+
+## Check files exist
+
+```{r}
+file.exists(analysis_file)
+file.exists(lsoa_file)
+file.exists(prison_shp_file)
+```
+
+## Load data
+
+```{r}
+houses <- fread(analysis_file)
+lsoa_sf <- st_read(lsoa_file, quiet = TRUE)
+
+prison_sf <- tryCatch(
+  st_read(prison_shp_file, quiet = TRUE),
+  error = function(e) NULL
+)
+```
+
+## Inspect columns
+
+```{r}
+colnames(houses)
+colnames(lsoa_sf)
+
+if (!is.null(prison_sf)) {
+  colnames(prison_sf)
+}
+```
+
+
+## Standardize the LSOA code field in the shapefile
+
+```{r}
+possible_lsoa_cols <- c("lsoa21cd", "LSOA21CD", "lsoa_code", "LSOA_CODE")
+matched_lsoa_col <- intersect(possible_lsoa_cols, names(lsoa_sf))
+
+if (length(matched_lsoa_col) == 0) {
+  stop("No LSOA code column found in the shapefile.")
+}
+
+if (matched_lsoa_col[1] != "lsoa21cd") {
+  lsoa_sf <- lsoa_sf %>%
+    rename(lsoa21cd = all_of(matched_lsoa_col[1]))
+}
+
+lsoa_sf <- st_make_valid(lsoa_sf)
+```
+
+## Standardize key columns in the merged table
+
+```{r}
+possible_date_cols <- c(
+  "deed_date", "DEED_DATE", "date_of_transfer", "Date of Transfer",
+  "transfer_date", "sale_date", "date"
+)
+matched_date_col <- intersect(possible_date_cols, names(houses))
+
+if (length(matched_date_col) == 0) {
+  stop("No deed-date column found in analysis dataframe.")
+}
+
+if (matched_date_col[1] != "deed_date") {
+  setnames(houses, matched_date_col[1], "deed_date")
+}
+
+possible_price_cols <- c(
+  "price_paid", "PRICE_PAID", "sold_amount", "price", "Price"
+)
+matched_price_col <- intersect(possible_price_cols, names(houses))
+
+if (length(matched_price_col) == 0) {
+  stop("No house-price column found in analysis dataframe.")
+}
+
+if (matched_price_col[1] != "price_paid") {
+  setnames(houses, matched_price_col[1], "price_paid")
+}
+
+possible_lsoa_house_cols <- c("lsoa21cd", "LSOA21CD", "lsoa_code", "LSOA_CODE")
+matched_lsoa_house_col <- intersect(possible_lsoa_house_cols, names(houses))
+
+if (length(matched_lsoa_house_col) == 0) {
+  stop("No lsoa21cd column found in analysis dataframe.")
+}
+
+if (matched_lsoa_house_col[1] != "lsoa21cd") {
+  setnames(houses, matched_lsoa_house_col[1], "lsoa21cd")
+}
+
+possible_distance_cols <- c(
+  "distance_to_prison_m",
+  "distance_m",
+  "prison_distance_m",
+  "distance_to_prison",
+  "distance",
+  "dist_to_prison_m"
+)
+matched_distance_col <- intersect(possible_distance_cols, names(houses))
+
+if (length(matched_distance_col) == 0) {
+  stop("No prison-distance column found in analysis dataframe.")
+}
+
+if (matched_distance_col[1] != "distance_to_prison_m") {
+  setnames(houses, matched_distance_col[1], "distance_to_prison_m")
+}
+```
+
+## Basic cleaning
+
+```{r}
+houses[, deed_date := as.Date(deed_date)]
+houses[, price_paid := as.numeric(price_paid)]
+houses[, distance_to_prison_m := as.numeric(distance_to_prison_m)]
+
+required_cols <- c("lsoa21cd", "price_paid", "deed_date", "distance_to_prison_m")
+missing_required <- setdiff(required_cols, names(houses))
+
+if (length(missing_required) > 0) {
+  stop(
+    paste(
+      "Missing required column(s):",
+      paste(missing_required, collapse = ", ")
+    )
+  )
+}
+
+houses <- houses[
+  !is.na(distance_to_prison_m) & distance_to_prison_m <= max_distance_m
+]
+
+if ("geocode_status" %in% names(houses)) {
+  houses <- houses[is.na(geocode_status) | geocode_status == "ok"]
+}
+
+houses <- houses[
+  !is.na(lsoa21cd) &
+  !is.na(price_paid) &
+  !is.na(deed_date) &
+  price_paid > 0
+]
+
+houses <- houses[lsoa21cd %in% lsoa_sf$lsoa21cd]
+
+houses[, period := ifelse(deed_date < event_date, "Before", "After")]
+houses[, deed_year := format(deed_date, "%Y")]
+```
+
+## Quick summary
+
+```{r}
+summary_dt <- houses[, .(
+  rows = .N,
+  unique_sales = if ("unique_id" %in% names(houses)) uniqueN(unique_id) else .N,
+  unique_lsoas = uniqueN(lsoa21cd),
+  min_price = min(price_paid, na.rm = TRUE),
+  median_price = median(price_paid, na.rm = TRUE),
+  max_price = max(price_paid, na.rm = TRUE),
+  min_distance_m = min(distance_to_prison_m, na.rm = TRUE),
+  median_distance_m = median(distance_to_prison_m, na.rm = TRUE),
+  max_distance_m = max(distance_to_prison_m, na.rm = TRUE)
+)]
+
+summary_dt
+```
+
+## Build average price by LSOA before the event
+
+```{r}
+before_prices <- houses[
+  period == "Before",
+  .(
+    n_before = .N,
+    avg_price_before = mean(price_paid, na.rm = TRUE)
+  ),
+  by = lsoa21cd
+]
+
+before_prices <- before_prices[n_before >= min_sales_per_lsoa]
+
+before_prices
+```
+
+## Build average price by LSOA after the event
+
+```{r}
+after_prices <- houses[
+  period == "After",
+  .(
+    n_after = .N,
+    avg_price_after = mean(price_paid, na.rm = TRUE)
+  ),
+  by = lsoa21cd
+]
+
+after_prices <- after_prices[n_after >= min_sales_per_lsoa]
+
+after_prices
+```
+
+##Build average price by LSOA after the event
+
+```{r}
+after_prices <- houses[
+  period == "After",
+  .(
+    n_after = .N,
+    avg_price_after = mean(price_paid, na.rm = TRUE)
+  ),
+  by = lsoa21cd
+]
+
+after_prices <- after_prices[n_after >= min_sales_per_lsoa]
+
+after_prices
+```
+
+##Keep only relevant LSOAs for mapping
+
+```{r}
+lsoa_keep <- unique(c(before_prices$lsoa21cd, after_prices$lsoa21cd))
+lsoa_sf_small <- lsoa_sf[lsoa_sf$lsoa21cd %in% lsoa_keep, ]
+```
+
+
+
+
+```{r}
+# Harmonize CRS for the prison layer
+if (!is.null(prison_sf)) {
+  prison_sf <- st_make_valid(prison_sf)
+  prison_sf <- st_transform(prison_sf, st_crs(lsoa_sf_small))
+}
+```
+
+```{r}
+## Restrict displayed map area to a 7 km prison buffer
+
+if (!is.null(prison_sf)) {
+  prison_buffer_7km <- st_buffer(st_union(prison_sf), dist = max_distance_m)
+  
+  lsoa_sf_small <- st_intersection(lsoa_sf_small, prison_buffer_7km)
+  
+  prison_sf <- st_intersection(prison_sf, prison_buffer_7km)
+}
+```
+
+## Merge before and after summaries onto the map
+
+```{r}
+map_before <- merge(lsoa_sf_small, before_prices, by = "lsoa21cd", all.x = TRUE)
+map_after <- merge(lsoa_sf_small, after_prices, by = "lsoa21cd", all.x = TRUE)
+```
+
+
+
+
+## Heatmap 1: Average house price by LSOA before the event
+
+```{r}
+p1 <- ggplot(map_before) +
+  geom_sf(aes(fill = avg_price_before), color = "white", linewidth = 0.1)
+
+if (!is.null(prison_sf)) {
+  p1 <- p1 + geom_sf(
+    data = prison_sf,
+    inherit.aes = FALSE,
+    color = "cyan4",
+    linewidth = 1
+  )
+}
+
+p1 +
+  scale_fill_viridis_c(
+    option = "magma",
+    na.value = "grey90",
+    labels = label_dollar(prefix = "£")
+  ) +
+  labs(
+    title = "Average House Price by LSOA (Before Event)",
+    subtitle = paste0(
+      "Event date cutoff: ", event_date,
+      " | Properties within ", max_distance_m / 1000,
+      " km of the prison",
+      " | LSOAs with fewer than ", min_sales_per_lsoa, " sales are omitted"
+    ),
+    fill = "Average price"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+## Heatmap 2: Average house price by LSOA after the event
+
+```{r}
+p2 <- ggplot(map_after) +
+  geom_sf(aes(fill = avg_price_after), color = "white", linewidth = 0.1)
+
+if (!is.null(prison_sf)) {
+  p2 <- p2 + geom_sf(
+    data = prison_sf,
+    inherit.aes = FALSE,
+    color = "cyan4",
+    linewidth = 1
+  )
+}
+
+p2 +
+  scale_fill_viridis_c(
+    option = "magma",
+    na.value = "grey90",
+    labels = label_dollar(prefix = "£")
+  ) +
+  labs(
+    title = "Average House Price by LSOA (After Event)",
+    subtitle = paste0(
+      "Event date cutoff: ", event_date,
+      " | Properties within ", max_distance_m / 1000,
+      " km of the prison",
+      " | LSOAs with fewer than ", min_sales_per_lsoa, " sales are omitted"
+    ),
+    fill = "Average price"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+
+
+## Build relative house price inflation
+
+The inflation measure used here is:
+
+\[
+\text{Inflation (\%)} = \left(\frac{\text{Average Price After}}{\text{Average Price Before}} - 1\right)\times 100
+\]
+
+```{r}
+inflation_dt <- merge(
+  before_prices[, .(lsoa21cd, n_before, avg_price_before)],
+  after_prices[, .(lsoa21cd, n_after, avg_price_after)],
+  by = "lsoa21cd",
+  all = FALSE
+)
+
+inflation_dt <- inflation_dt[avg_price_before > 0]
+
+inflation_dt[, inflation_pct := ((avg_price_after / avg_price_before) - 1) * 100]
+
+inflation_dt
+```
+
+
+## Merge inflation onto the map
+
+```{r}
+
+map_inflation <- merge(lsoa_sf_small, inflation_dt, by = "lsoa21cd", all.x = TRUE)
+```
+
+## Heatmap 3: Relative house price inflation by LSOA
+
+```{r}
+p3 <- ggplot(map_inflation) +
+  geom_sf(aes(fill = inflation_pct), color = "white", linewidth = 0.1)
+
+if (!is.null(prison_sf)) {
+  p3 <- p3 + geom_sf(
+    data = prison_sf,
+    inherit.aes = FALSE,
+    color = "black",
+    linewidth = 1
+  )
+}
+
+p3 +
+  scale_fill_gradient2(
+    low = "blue",
+    mid = "white",
+    high = "red",
+    midpoint = 0,
+    na.value = "grey90",
+    labels = function(x) paste0(round(x, 1), "%")
+  ) +
+  labs(
+    title = "Relative House Price Inflation by LSOA",
+    subtitle = paste0(
+      "Inflation = ((Average Price After / Average Price Before) - 1) × 100",
+      " | Properties within ", max_distance_m / 1000, " km of the prison",
+      " | Only LSOAs with at least ", min_sales_per_lsoa,
+      " sales in both periods are shown"
+    ),
+    fill = "Inflation %"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+
+## Optional tables for reporting
+
+```{r}
+sales_by_period <- houses[, .(
+  rows = .N,
+  unique_lsoas = uniqueN(lsoa21cd)
+), by = period]
+
+sales_by_period
+```
+
+```{r}
+map_counts <- data.table(
+  map = c(
+    "Average price before",
+    "Average price after",
+    "Relative inflation"
+  ),
+  lsoas_with_values = c(
+    sum(!is.na(map_before$avg_price_before)),
+    sum(!is.na(map_after$avg_price_after)),
+    sum(!is.na(map_inflation$inflation_pct))
+  )
+)
+
+map_counts
+```
+
+
+
+
 # Pricing
 
 This section will present the pricing framework, model specification choices, treatment of distance bands, and interpretation of estimated effects.
