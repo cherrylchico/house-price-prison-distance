@@ -11,7 +11,7 @@ parse_filter_values <- function(x) {
   toupper(values)
 }
 
-filter_values <- if (length(args) >= 4) parse_filter_values(args[[4]]) else "LEICESTERSHIRE"
+filter_values <- if (length(args) >= 4) parse_filter_values(args[[4]]) else "STAFFORD"
 
 if (!nzchar(filter_field)) {
   stop("Filter field must be provided.")
