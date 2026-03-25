@@ -1,9 +1,10 @@
 args <- commandArgs(trailingOnly = TRUE)
 
-mapping_file <- if (length(args) >= 1) args[[1]] else file.path("output", "epc_ppd_mapping.csv")
+input_file <- if (length(args) >= 1) args[[1]] else file.path("output", "unique_address_geocode_input.csv")
 output_file <- if (length(args) >= 2) args[[2]] else file.path("output", "address_geocodes.csv")
 cache_file <- if (length(args) >= 3) args[[3]] else file.path("output", "address_geocode_cache.csv")
-postcode_filter_file <- if (length(args) >= 4) args[[4]] else file.path("output", "postcode_prison_distance_filter.csv")
+api_key <- if (length(args) >= 4) args[[4]] else Sys.getenv("MAPBOX_API_KEY")
+row_range_arg <- if (length(args) >= 5) args[[5]] else ""
 
 if (!requireNamespace("data.table", quietly = TRUE) ||
     !requireNamespace("jsonlite", quietly = TRUE) ||
@@ -11,11 +12,54 @@ if (!requireNamespace("data.table", quietly = TRUE) ||
   stop("Packages 'data.table', 'jsonlite', and 'curl' are required.")
 }
 
-# Your Mapbox Access Token
-api_key <- "pk.eyJ1IjoiZG1lYXJzMTIzIiwiYSI6ImNtbXF1a2NoajEwdGQycnF4MnJmb3M5dzcifQ.YdbAmwfSh1D1bJsqGaVqyw"
+if (is.null(api_key) || !nzchar(trimws(api_key))) {
+  stop("Mapbox API key is required as argument 4 or via MAPBOX_API_KEY environment variable.")
+}
 
-if (!file.exists(mapping_file)) {
-  stop("Mapping file not found: ", mapping_file)
+parse_row_range <- function(x) {
+  x <- trimws(as.character(x))
+  if (!nzchar(x)) {
+    return(NULL)
+  }
+
+if (!grepl("^[0-9]+\\s*-\\s*[0-9]+$", x)) {
+    stop("Row range must be in the format start-end, for example 0-1000.")
+  }
+
+  parts <- strsplit(gsub("\\s+", "", x), "-", fixed = TRUE)[[1]]
+  start <- as.integer(parts[[1]])
+  end <- as.integer(parts[[2]])
+
+  if (is.na(start) || is.na(end) || end < start) {
+    stop("Invalid row range: end must be greater than or equal to start.")
+  }
+
+  list(start = start, end = end, label = paste0(start, "-", end))
+}
+
+apply_output_suffix <- function(path, suffix) {
+  ext <- tools::file_ext(path)
+  has_ext <- nzchar(ext)
+  stem <- if (has_ext) {
+    sub(paste0("\\.", ext, "$"), "", path)
+  } else {
+    path
+  }
+
+  if (has_ext) {
+    paste0(stem, "_", suffix, ".", ext)
+  } else {
+    paste0(stem, "_", suffix)
+  }
+}
+
+row_range <- parse_row_range(row_range_arg)
+if (!is.null(row_range)) {
+  output_file <- apply_output_suffix(output_file, row_range$label)
+}
+
+if (!file.exists(input_file)) {
+  stop("Unique geocode input file not found: ", input_file)
 }
 
 dir.create(dirname(output_file), recursive = TRUE, showWarnings = FALSE)
@@ -64,49 +108,39 @@ fetch_geocode <- function(query, fallback_query = NULL, api_key, pause_s = 0.1, 
   list(latitude = NA_real_, longitude = NA_real_, display_name = NA_character_, geocode_status = paste("error", last_error))
 }
 
-# 1. Load mappings
-mapping <- data.table::fread(mapping_file)
-property_keys <- unique(mapping[!is.na(match_key) & !is.na(postcode), .(match_key, postcode)])
+# 1. Load unique normalized addresses
+address_points <- data.table::fread(input_file, na.strings = c("", "NA"))
 
-# 2. Apply Postcode Distance Filter (ONLY Geocode what we need)
-if (file.exists(postcode_filter_file)) {
-  postcode_filter_raw <- data.table::fread(postcode_filter_file)
-  
-  if (!"keep_for_full_geocode" %in% names(postcode_filter_raw)) {
-    stop("Postcode filter file is missing the required column: 'keep_for_full_geocode'")
-  }
-  
-  postcode_filter <- unique(postcode_filter_raw[, .(match_key, postcode, keep_for_full_geocode)])
-  
-  property_keys <- merge(
-    property_keys,
-    postcode_filter,
-    by = c("match_key", "postcode"),
-    all.x = TRUE
+required_cols <- c("normalized_address", "normalized_postcode")
+missing_cols <- setdiff(required_cols, names(address_points))
+if (length(missing_cols)) {
+  stop(
+    "Input file is missing required column(s): ",
+    paste(missing_cols, collapse = ", "),
+    ". Expected columns include normalized_address and normalized_postcode."
   )
-  
-  total_property_keys <- nrow(property_keys)
-  property_keys <- property_keys[keep_for_full_geocode == TRUE]
-  
-  message(
-    "Postcode prefilter retained ", format(nrow(property_keys), big.mark = ","),
-    " of ", format(total_property_keys, big.mark = ","),
-    " matched property keys for exact address geocoding."
-  )
-} else {
-  message("WARNING: Postcode filter file not found. Proceeding to geocode ALL addresses.")
 }
 
-# 3. Prepare for Geocoding
-address_points <- data.table::copy(property_keys)
+address_points <- address_points[
+  !is.na(normalized_address) & trimws(as.character(normalized_address)) != "" &
+    !is.na(normalized_postcode) & trimws(as.character(normalized_postcode)) != ""
+]
 
-# Split the match_key into Postcode and Address (format: POSTCODE|ADDRESS)
-address_points[, parsed_postcode := sub("\\|.*", "", match_key)]
-address_points[, parsed_street := sub(".*\\|", "", match_key)]
+address_points[, row_index0 := .I - 1L]
 
-# Formulate queries
-address_points[, geocode_query := paste(parsed_street, parsed_postcode, sep = ", ")]
-address_points[, fallback_query := parsed_postcode]
+if (!is.null(row_range)) {
+  total_rows <- nrow(address_points)
+  address_points <- address_points[row_index0 >= row_range$start & row_index0 <= row_range$end]
+  message(
+    "Row range ", row_range$label, " retained ",
+    format(nrow(address_points), big.mark = ","),
+    " of ", format(total_rows, big.mark = ","),
+    " input rows for geocoding."
+  )
+}
+
+address_points[, geocode_query := paste(normalized_address, normalized_postcode, sep = ", ")]
+address_points[, fallback_query := normalized_postcode]
 
 if (file.exists(cache_file)) {
   geocode_cache <- data.table::fread(cache_file)
@@ -126,8 +160,11 @@ if (nrow(missing_queries) > 0) {
   message("All addresses are already cached. Skipping API calls.")
 }
 
-# 4. Geocode Loop
-for (i in seq_len(nrow(missing_queries))) {
+# 2. Geocode Loop
+total_missing <- nrow(missing_queries)
+progress_step <- 1000L
+
+for (i in seq_len(total_missing)) {
   q <- missing_queries$geocode_query[i]
   fq <- missing_queries$fallback_query[i]
   
@@ -142,12 +179,20 @@ for (i in seq_len(nrow(missing_queries))) {
     fill = TRUE
   )
   
-  if (i %% 50 == 0 || i == nrow(missing_queries)) {
+  if (i %% progress_step == 0 || i == total_missing) {
+    remaining <- total_missing - i
+    message(
+      "Geocoding progress: done ", format(i, big.mark = ","),
+      ", left ", format(remaining, big.mark = ","), "."
+    )
+  }
+
+  if (i %% 50 == 0 || i == total_missing) {
     data.table::fwrite(geocode_cache, cache_file)
   }
 }
 
-# 5. Merge Results and Finalize Output
+# 3. Merge Results and Finalize Output
 address_points <- merge(
   address_points,
   geocode_cache,
@@ -162,19 +207,22 @@ address_points[, match_type := data.table::fcase(
   default = "Failed"
 )]
 
-address_points <- unique(address_points[, .(
-  match_key,
-  postcode,
-  geocode_query,
-  match_type,
-  latitude,
-  longitude,
-  display_name
-)], by = "match_key")
+output_cols <- c(
+  intersect(c("unique_address_id", "matched_ppd_count"), names(address_points)),
+  "normalized_address",
+  "normalized_postcode",
+  "geocode_query",
+  "match_type",
+  "latitude",
+  "longitude",
+  "display_name"
+)
+
+address_points <- unique(address_points[, ..output_cols], by = c("normalized_address", "normalized_postcode"))
 
 data.table::fwrite(address_points, output_file)
 
-# 6. Report Success Rates
+# 4. Report Success Rates
 exact_success <- sum(address_points$match_type == "Exact Address", na.rm = TRUE)
 fallback_success <- sum(address_points$match_type == "Postcode Fallback", na.rm = TRUE)
 total_tested <- nrow(address_points)
