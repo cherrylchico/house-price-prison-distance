@@ -18,6 +18,7 @@ distance_file <- file.path("output", "address_landfill_distances_27700.csv")
 output_file <- file.path("output", "analysis_dataframe.csv")
 summary_text_file <- file.path("output", "analysis_dataframe_summary.txt")
 deed_year_distribution_text_file <- file.path("output", "analysis_dataframe_distance_by_deed_year.txt")
+avg_price_distribution_text_file <- file.path("output", "analysis_dataframe_avg_price_by_deed_year.txt")
 
 # Parameters: columns to keep from each source table.
 # Do not include join keys here; keys are always included automatically.
@@ -267,6 +268,19 @@ distance_by_deed_year_wide <- data.table::dcast(
   fill = 0
 )
 
+avg_price_by_deed_year <- analysis_df[
+  !is.na(deed_year) & !is.na(distance_band) & !is.na(sold_amount),
+  .(avg_sold_amount = mean(sold_amount, na.rm = TRUE)),
+  by = .(deed_year, distance_band)
+][order(deed_year, distance_band)]
+
+avg_price_by_deed_year_wide <- data.table::dcast(
+  avg_price_by_deed_year,
+  deed_year ~ distance_band,
+  value.var = "avg_sold_amount",
+  fill = NA_real_
+)
+
 setcolorder(
   distance_by_deed_year_wide,
   c(
@@ -274,6 +288,18 @@ setcolorder(
     intersect(c("<2km", "2-5km", "5-10km", ">10km"), names(distance_by_deed_year_wide))
   )
 )
+
+setcolorder(
+  avg_price_by_deed_year_wide,
+  c(
+    "deed_year",
+    intersect(c("<2km", "2-5km", "5-10km", ">10km"), names(avg_price_by_deed_year_wide))
+  )
+)
+
+for (col_name in setdiff(names(avg_price_by_deed_year_wide), "deed_year")) {
+  avg_price_by_deed_year_wide[, (col_name) := round(get(col_name), 2)]
+}
 
 summary_lines <- c(
   "Analysis dataframe summary (<10km)",
@@ -291,13 +317,24 @@ writeLines(summary_lines, summary_text_file)
 
 distribution_lines <- c(
   "Number of houses by deed_year with distance bands as columns (<2km, 2-5km, 5-10km, >10km)",
-  paste(capture.output(print(distance_by_deed_year_wide)), collapse = "\n")
+  paste(capture.output(print(distance_by_deed_year_wide)), collapse = "\n"),
+  "",
+  "Average sold amount by deed_year with distance bands as columns (<2km, 2-5km, 5-10km, >10km)",
+  paste(capture.output(print(avg_price_by_deed_year_wide)), collapse = "\n")
 )
 
 writeLines(distribution_lines, deed_year_distribution_text_file)
 
+avg_price_lines <- c(
+  "Average sold amount by deed_year with distance bands as columns (<2km, 2-5km, 5-10km, >10km)",
+  paste(capture.output(print(avg_price_by_deed_year_wide)), collapse = "\n")
+)
+
+writeLines(avg_price_lines, avg_price_distribution_text_file)
+
 cat("Summary text written:", summary_text_file, "\n")
 cat("Deed-year distribution text written:", deed_year_distribution_text_file, "\n")
+cat("Average-price distribution text written:", avg_price_distribution_text_file, "\n")
 
 summary_df
 ppd_repeat_sales_summary
@@ -305,5 +342,8 @@ epc_granularity_df
 epc_granularity_summary
 distance_by_deed_year
 distance_by_deed_year_wide
+avg_price_by_deed_year
+avg_price_by_deed_year_wide
 head(analysis_df, 10)
 ```
+
