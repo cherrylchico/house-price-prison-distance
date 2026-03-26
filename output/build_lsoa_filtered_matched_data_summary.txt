@@ -1,0 +1,17 @@
+Mapping rows (input): 119,495
+Distinct LMK_KEY in mapping: 91,187
+Distinct PPD IDs in mapping: 85,422
+Target GeoJSON features: 222
+Distinct target LSOA21CD values: 222
+Postcode lookup rows (input): 2,706,710
+Postcode lookup rows with missing lsoa21cd (input, pre-match): 240,021
+Postcode lookup rows with non-missing lsoa21cd (input, pre-match): 2,466,689
+Postcode lookup rows (deduped by postcode_key): 2,706,710
+Distinct postcode_key in lookup: 2,706,710
+Matched EPC rows (output, no LSOA processing): 91,187
+Matched PPD rows (pre-attach): 85,422
+Matched PPD rows (pre-keep): 85,422
+Matched PPD rows with missing lsoa21cd (pre-keep): 22
+Matched PPD rows with non-missing lsoa21cd (pre-keep): 85,400
+PPD postcodes without attached lsoa21cd: 5
+Matched PPD rows kept (non-missing and within target LSOA21CD): 55,633
