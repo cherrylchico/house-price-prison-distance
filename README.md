@@ -1,14 +1,15 @@
-# Geospatial Final Project
+# Housing Price Analysis Data Pipeline for a Defined Study Area in UK
 
-This repository builds a matched EPC and Price Paid Data dataset for Leicestershire-focused analysis, enriches matched rows with LSOA codes, filters postcodes using an HMP Fosse Way bounding-box workflow, and then geocodes retained postcodes to estimate prison distance efficiently.
+This repository builds a matched EPC and Price Paid Data (PPD) dataset for a defined study area. It applies target-LSOA filtering to matched PPD rows via postcode-to-LSOA lookup, geocodes retained addresses, and computes distance to a target location.
+
+The current target location is Walleys Quarry Landfill (Silverdale, Newcastle-under-Lyme, Staffordshire, ST5 6DH). The current analysis focuses on nearby housing transactions from 2015 to 2025.
 
 ## Repository layout
 
 - `input/`: raw inputs and derived final distance file
 - `output/`: intermediate outputs, caches, filtered lookups, summaries, and matched extracts
 - `scripts/`: R pipeline scripts used to build, filter, enrich, and geocode the data
-- `1_Data_Prep.Rmd`: notebook-style workflow for downstream preparation/combination
-- `2_Build_Analysis_Dataset.Rmd`: build the analysis dataframe for properties within 10km of HMP Fosse Way
+- `2_Build_Analysis_Dataset.Rmd`: combine all data for analysis
 
 ## Data sources
 
@@ -16,24 +17,37 @@ This repository builds a matched EPC and Price Paid Data dataset for Leicestersh
 
 - Source: https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads
 - Download strategy: yearly CSV files listed in `input/ppd_link.txt`
-- Current county filter supports one or more values and is case-insensitive
-- Current workflow filters for both `LEICESTER` and `LEICESTERSHIRE`
+- Filtering is argument-driven via:
+   - `filter_field` (for example: `district`, `county`)
+   - `filter_values` (comma-separated and case-insensitive)
+- Current default workflow filters districts:
+   - `STOKE-ON-TRENT`
+   - `NEWCASTLE-UNDER-LYME`
+   - `STAFFORD`
 
 ### EPC (Domestic)
 
 - Source: https://epc.opendatacommunities.org/downloads/domestic
-- Input pattern: `input/domestic-*/certificates.csv`
-- Current set is the local-authority exports used for Leicester/Leicestershire analysis
+- EPC files are controlled by `input/epc_filenames.txt`
+- Each line can be either:
+   - a domestic folder path (the script appends `certificates.csv`), or
+   - a direct path to a `certificates.csv` file
+- Current file list includes:
+   - `input/domestic-E06000021-Stoke-on-Trent`
+   - `input/domestic-E07000195-Newcastle-under-Lyme`
+   - `input/domestic-E07000197-Stafford`
 
 ### Postcode to LSOA lookup
 
 - Input file: `input/PCD_OA21_LSOA21_MSOA21_LAD_AUG24_UK_LU.csv`
-- Used to attach `lsoa21cd` to matched EPC/PPD rows and to build a LAD-filtered postcode lookup
+- Used to attach `lsoa21cd` to matched PPD rows via postcode
 
 ### LSOA boundaries
 
 - Input file: `input/Lower_layer_Super_Output_Areas_December_2021_Boundaries_EW.geojson`
-- Used to select LSOAs intersecting the HMP Fosse Way square bounding box
+- Used to select LSOAs intersecting the desired location bounding box
+- Downloaded from `https://geoportal.statistics.gov.uk/datasets/ons::lower-layer-super-output-areas-december-2021-boundaries-ew-bsc-v4-2/explore?location=52.846052%2C-2.465415%2C6` 
+- Already filtered according to a desired bounding box. 
 
 ## Environment
 
@@ -62,19 +76,20 @@ Purpose:
 
 - Reads yearly download URLs from `input/ppd_link.txt`
 - Applies standard PPD column names
-- Filters rows by one or more county values
+- Filters rows using a configurable field and values
 - Writes `input/ppd_data.csv`
 
 Run:
 
 ```bash
-Rscript scripts/build_ppd_data.R input/ppd_link.txt input/ppd_data.csv LEICESTER LEICESTERSHIRE
+Rscript scripts/build_ppd_data.R input/ppd_link.txt input/ppd_data.csv district "STOKE-ON-TRENT,NEWCASTLE-UNDER-LYME,STAFFORD"
 ```
 
 Notes:
 
-- You can also pass a comma-separated county list as a single argument.
-- The filter is case-insensitive.
+- Argument 3 is `filter_field` (for example `district`, `county`).
+- Argument 4 is a comma-separated list of values for that field.
+- Filtering is case-insensitive.
 
 ### 2. Build EPC ↔ PPD mapping
 
@@ -83,6 +98,7 @@ Script: `scripts/build_epc_ppd_mapping.R`
 Purpose:
 
 - Reads EPC certificates and filtered PPD data
+- Reads EPC certificates only from paths listed in `input/epc_filenames.txt`
 - Normalizes postcode and address fields
 - Produces exact and fuzzy mapping passes
 - Writes `output/epc_ppd_mapping.csv` and `output/epc_ppd_mapping_summary.txt`
@@ -93,59 +109,49 @@ Run:
 Rscript scripts/build_epc_ppd_mapping.R
 ```
 
-### 3. Materialize matched EPC and PPD extracts with LSOA enrichment
+### 3. Build bounding box from landfill GeoJSON and prepare target LSOA codes
 
-Script: `scripts/load_matched_epc_ppd.R`
+Script: `scripts/create_bbox_27700.R`
+
+Purpose:
+
+- Builds a bounding box in `EPSG:27700` from a source GeoJSON and a meter distance
+- Prints bbox in both `EPSG:27700` and lon/lat (`EPSG:4326`)
+- Used to define the area for extracting target LSOA codes
+
+Run (Walleys Quarry Landfill, 9000 m):
+
+```bash
+Rscript scripts/create_bbox_27700.R input/landfill.geojson 9000
+```
+
+Then:
+
+- Use the printed lon/lat bbox to extract the target LSOA/LAD code list from ONS Geoportal:
+   - `https://geoportal.statistics.gov.uk/datasets/ons::lower-layer-super-output-areas-december-2021-boundaries-ew-bsc-v4-2/explore?location=52.846052%2C-2.465415%2C6`
+- Save the extracted code layer as a GeoJSON file (for example `input/Lower_layer_Super_Output_Areas_December_2021_Boundaries_EW.geojson`).
+
+### 4. Build matched outputs with target-LSOA filtering for PPD
+
+Script: `scripts/build_lsoa_filtered_matched_data.R`
 
 Purpose:
 
 - Reads the mapping output
-- Excludes PPD districts:
-   - `NORTH WEST LEICESTERSHIRE`
-   - `MELTON`
-- Builds a postcode lookup filtered to these LAD codes:
-   - `E06000016`
-   - `E07000130`
-   - `E07000131`
-   - `E07000135`
-   - `E07000129`
-   - `E07000132`
-   - `E07000133`
-   - `E07000134`
-- Joins `lsoa21cd` onto both matched outputs using postcode with spaces removed
+- Reads target codes from a GeoJSON file (default: `input/Lower_layer_Super_Output_Areas_December_2021_Boundaries_EW.geojson`)
+- Loads EPC matches by `lmk_key` from source certificates and writes them unchanged (no row-level LSOA filtering)
+- For matched PPD rows, attaches `lsoa21cd` via postcode from `input/PCD_OA21_LSOA21_MSOA21_LAD_AUG24_UK_LU.csv`
+- Filters matched PPD rows to non-missing `lsoa21cd` that are in target `LSOA21CD` codes from the GeoJSON
+- Writes a summary report with pre/post counts and missing/non-missing `lsoa21cd` counts
 - Writes:
    - `output/matched_epc.csv`
    - `output/matched_ppd.csv`
-   - `output/postcode_lsoa_lookup_target_lads.csv`
+   - `output/build_lsoa_filtered_matched_data_summary.txt`
 
 Run:
 
 ```bash
-Rscript scripts/load_matched_epc_ppd.R
-```
-
-### 4. Filter postcodes using an HMP Fosse Way bounding box and intersecting LSOAs
-
-Script: `scripts/filter_postcode_prison_distance.R`
-
-Purpose:
-
-- Uses the fixed point for HMP Fosse Way:
-   - latitude: `52.584126`
-   - longitude: `-1.145212`
-- Builds an `11 km` square bounding box around that point
-- Selects all LSOA polygons intersecting that box
-- Uses the postcode-to-LSOA lookup to flag matched postcode rows retained for geocoding
-- Writes:
-   - `output/postcode_prison_distance_filter.csv`
-   - `output/postcode_prison_distance_candidates.csv`
-   - `output/fosse_way_lsoa_bbox_candidates.geojson`
-   - `output/postcode_prison_distance_filter_summary.txt`
-
-Run:
-
-```bash
-Rscript scripts/filter_postcode_prison_distance.R
+Rscript scripts/build_lsoa_filtered_matched_data.R 
 ```
 
 ### 5. Geocode retained postcodes
@@ -154,8 +160,7 @@ Script: `scripts/geocode_prison_distances.R`
 
 Purpose:
 
-- Reads `output/postcode_prison_distance_filter.csv`
-- Keeps only rows where `keep_for_full_geocode == TRUE`
+- Reads `output/matched_ppd.csv`
 - Geocodes one point per postcode, not one point per address
 - Writes:
    - `output/postcode_geocodes.csv`
@@ -168,7 +173,7 @@ export GEOCODE_MAPS_API_KEY='your_api_key_here'
 Rscript scripts/geocode_prison_distances.R
 ```
 
-### 6. Compute prison distances from geocoded postcodes (sf, EPSG:27700)
+### 6. Compute prison distances from geocoded postcodes (EPSG:27700)
 
 Script: `scripts/compute_prison_distances.R`
 
@@ -188,27 +193,28 @@ Run:
 Rscript scripts/compute_prison_distances.R
 ```
 
-### 7. Build analysis dataframe (<10km)
+### 7. Build analysis dataframe
 
-Script/notebook: `2_Build_Analysis_Dataset.Rmd`
+Script/notebook: `Build_Analysis_Dataset.Rmd`
 
 Purpose:
 
-- Reads matched PPD, matched EPC, EPC↔PPD mapping, and property distance output
-- Keeps only rows where `geocode_status == "ok"` and `distance_to_prison_m <= 10000`
+- Reads matched PPD, matched EPC, EPC↔PPD mapping, address mapping (`output/unique_address_geocode_input.csv`), and landfill distance output (`output/address_landfill_distances_27700.csv`)
 - For each deed sale (`unique_id`), keeps the EPC record with date closest to `deed_date`:
    - EPC event date uses `lodgement_date` if available, else `inspection_date`
-- Keeps only rows matched in both PPD and EPC
-- Builds `ppd_house_id` to track repeat sales of the same house across years
+- Keeps only rows matched in both PPD and EPC via the mapping file
+- Joins distance data by matching `normalized_address` + `normalized_postcode` through the address mapping table
+- Keeps all matched PPD/EPC rows and appends distance columns where available (`distance_to_target_m`, `nearest_target_feature_index`)
+- Uses `ppd_house_id` in the final dataframe as the address-level key
 - Writes:
-   - `output/analysis_dataframe_lt10km.csv`
-   - `output/analysis_dataframe_lt10km_summary.txt`
-   - `output/analysis_dataframe_lt10km_distance_by_deed_year.txt`
+   - `output/analysis_dataframe.csv`
+   - `output/analysis_dataframe_summary.txt`
+   - `output/analysis_dataframe_distance_by_deed_year.txt`
 
 Run (from R):
 
 ```r
-rmarkdown::render("2_Build_Analysis_Dataset.Rmd")
+rmarkdown::render("Build_Analysis_Dataset.Rmd")
 ```
 
 ## Mapping methodology summary
@@ -234,73 +240,73 @@ Postcode normalization includes:
 
 ## Current outputs and counts
 
-### Mapping snapshot
+### EPC ↔ PPD Mapping
 
 From `output/epc_ppd_mapping_summary.txt`:
 
-- EPC rows indexed: 481,790
-- PPD rows indexed: 241,110
-- Matched rows in mapping: 294,886
-- Distinct matched keys: 156,801
-- Distinct matched EPC certificates: 212,759
-- Distinct matched PPD transactions: 209,307
-- Skipped postcode groups in fuzzy passes: 72
+- EPC rows indexed: 238,971
+- PPD rows indexed: 99,055
+- Matched rows in mapping: 119,495
+- Distinct matched keys: 66,639
+- Distinct matched EPC certificates: 91,187
+- Distinct matched PPD transactions: 85,422
+- Skipped postcode groups in fuzzy passes: 14
 
-Match counts by method:
+### LSOA Filter
 
-| match_method | N |
-|---|---:|
-| exact_normalized_postcode_address | 146,733 |
-| exact_same_postcode_stripped_epc_locality | 147,605 |
-| fuzzy_same_postcode_address_similarity | 182 |
-| fuzzy_same_postcode_stripped_epc_locality | 366 |
+From `output/build_lsoa_filtered_matched_data_summary.txt`:
 
-### Matched extract snapshot
+**Mapping Input**
 
-- `output/matched_epc.csv`: 175,031 rows
-- `output/matched_ppd.csv`: 169,706 rows
-- `matched_epc.csv` rows with non-missing `lsoa21cd`: 174,865
-- `matched_ppd.csv` rows with non-missing `lsoa21cd`: 169,539
+- **Mapping rows (input):** 119,495
+- **Distinct LMK_KEY in mapping:** 91,187
+- **Distinct PPD IDs in mapping:** 85,422
+- **Distinct target LSOA21CD values:** 222
 
-### Bounding-box postcode filter snapshot
+**Postcode Lookup Coverage**
 
-From `output/postcode_prison_distance_filter_summary.txt`:
+- **Postcode lookup rows (input):** 2,706,710
+- **Rows with missing `lsoa21cd` (pre-match):** 240,021
+- **Rows with non-missing `lsoa21cd` (pre-match):** 2,466,689
+- **Postcode lookup rows (deduped by `postcode_key`):** 2,706,710
+- **Distinct `postcode_key` in lookup:** 2,706,710
 
-- Bounding-box half-width/height: 11 km
-- Unique property keys reviewed: 156,801
-- Unique postcodes reviewed: 16,915
-- Distinct selected LSOAs intersecting the bbox: 364
-- Postcodes with postcode-to-LSOA match: 156,519
-- Unique postcodes retained via LSOA bbox filter: 9,292
-- Retained via LSOA bbox filter: 81,170
-- Excluded by LSOA bbox filter: 75,631
+**PPD within Target LSOAs**
 
-### Geocoding status
+- **Matched PPD rows with non-missing `lsoa21cd` (pre-keep):** 85,400
+- **PPD postcodes without attached `lsoa21cd`:** 5
+- **Matched PPD rows kept (non-missing and within target `LSOA21CD`):** 55,633
 
-- The geocoding script now works at postcode level for efficiency.
-- With the current filter, the intended workload is 9,292 postcode queries rather than 81,170 address queries.
-- `input/property_prison_distance.csv` should be treated as in-progress or stale until the current geocoding run finishes and rewrites it.
+### Address geocoding and distance snapshot (For Updating)
+
+- `output/unique_address_geocode_input.csv`: 43,308 unique normalized address/postcode rows
+- Sum of `matched_ppd_count` in unique-address input: 55,633
+- `output/address_geocode_cache.csv`: 16,451 rows (16,451 unique queries)
+- Geocode cache status:
+   - `ok`: 16,451
+- `output/address_landfill_distances_27700.csv`: 622 rows
+- Rows with non-missing `distance_to_target_m`: 622
+- Rows with `distance_to_target_m <= 10,000`: 620
+
+### Analysis snapshot (For Updating)
+
+- `output/analysis_dataframe.csv`: 55,633 rows
+- Distinct sales in analysis dataframe (`unique_id`): 55,633
+- Distinct houses in analysis dataframe (`ppd_house_id`): 43,308
+- Rows with non-missing `distance_to_target_m`: 2,067
 
 ## Main outputs
 
 - `input/ppd_data.csv`: filtered PPD source table
 - `output/epc_ppd_mapping.csv`: EPC/PPD mapping table
 - `output/epc_ppd_mapping_summary.txt`: mapping summary
-- `output/matched_epc.csv`: matched EPC rows with `lsoa21cd`
-- `output/matched_ppd.csv`: matched PPD rows with `lsoa21cd`
-- `output/postcode_lsoa_lookup_target_lads.csv`: reduced postcode-to-LSOA/LAD lookup
-- `output/postcode_prison_distance_filter.csv`: full postcode filter table with `keep_for_full_geocode`
-- `output/postcode_prison_distance_candidates.csv`: retained postcode subset
-- `output/fosse_way_lsoa_bbox_candidates.geojson`: intersecting LSOA polygons
-- `output/postcode_prison_distance_filter_summary.txt`: bbox filter summary
-- `output/postcode_geocodes.csv`: postcode-level geocode results
-- `output/property_geocode_cache.csv`: postcode geocode cache
-- `output/postcode_prison_distances.csv`: postcode-level distance-to-prison output (`EPSG:27700`-based)
-- `input/property_prison_distance.csv`: joined prison distance output
-- `output/analysis_dataframe_lt10km.csv`: analysis dataframe (matched PPD+EPC, <=10km)
-- `output/analysis_dataframe_lt10km_summary.txt`: analysis summary text
-- `output/analysis_dataframe_lt10km_distance_by_deed_year.txt`: yearly house counts by distance bands (`<2km`, `2-5km`, `5-10km`)
-
-## Downstream combination
-
-For downstream data-prep combination, see `1_Data_Prep.Rmd`. For the current analysis dataframe build, see `2_Build_Analysis_Dataset.Rmd`.
+- `output/matched_epc.csv`: matched EPC rows (no row-level LSOA filtering)
+- `output/matched_ppd.csv`: matched PPD rows filtered to non-missing target `lsoa21cd`
+- `output/build_lsoa_filtered_matched_data_summary.txt`: counts from matched build and PPD LSOA filtering
+- `output/unique_address_geocode_input.csv`: unique normalized address/postcode input for address-level geocoding
+- `output/address_geocodes_*.csv`: address-level geocode outputs by processed range (for example `output/address_geocodes_0-10000.csv`)
+- `output/address_geocode_cache.csv`: address geocode cache (query-level)
+- `output/address_landfill_distances_27700.csv`: address-to-landfill distances (`EPSG:27700`, meters)
+- `output/analysis_dataframe.csv`: final analysis dataframe (matched PPD+EPC with distance fields appended)
+- `output/analysis_dataframe_summary.txt`: analysis summary text
+- `output/analysis_dataframe_distance_by_deed_year.txt`: yearly house counts by distance bands (`<2km`, `2-5km`, `5-10km`, `>10km`)
