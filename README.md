@@ -25,7 +25,7 @@ The current target location is Walleys Quarry Landfill (Silverdale, Newcastle-un
    - `NEWCASTLE-UNDER-LYME`
    - `STAFFORD`
 
-### EPC (Domestic)
+### EPC
 
 - Source: https://epc.opendatacommunities.org/downloads/domestic
 - EPC files are controlled by `input/epc_filenames.txt`
@@ -109,7 +109,7 @@ Run:
 Rscript scripts/build_epc_ppd_mapping.R
 ```
 
-### 3. Build bounding box from landfill GeoJSON and prepare target LSOA codes
+### 3. Build bounding box from target location and prepare target LSOA codes
 
 Script: `scripts/create_bbox_27700.R`
 
@@ -154,43 +154,49 @@ Run:
 Rscript scripts/build_lsoa_filtered_matched_data.R 
 ```
 
-### 5. Geocode retained postcodes
+### 5. Build and geocode unique addresses
 
-Script: `scripts/geocode_prison_distances.R`
+Scripts:
+
+- `scripts/build_unique_geocode_addresses.R`
+- `scripts/geocode_addresses_precise.R`
 
 Purpose:
 
-- Reads `output/matched_ppd.csv`
-- Geocodes one point per postcode, not one point per address
+- Builds unique normalized address/postcode pairs from `output/matched_ppd.csv`
+- Geocodes at address level (not postcode level)
+- Supports ranged geocoding runs (for example `0-10000`) and cache reuse
 - Writes:
-   - `output/postcode_geocodes.csv`
-   - `output/property_geocode_cache.csv`
+   - `output/unique_address_geocode_input.csv`
+   - `output/address_geocodes_*.csv`
+   - `output/address_geocode_cache.csv`
 
 Run:
 
 ```bash
-export GEOCODE_MAPS_API_KEY='your_api_key_here'
-Rscript scripts/geocode_prison_distances.R
+Rscript scripts/build_unique_geocode_addresses.R
+
+export MAPBOX_API_KEY='your_api_key_here'
+Rscript scripts/geocode_addresses_precise.R output/unique_address_geocode_input.csv output/address_geocodes.csv output/address_geocode_cache.csv "$MAPBOX_API_KEY" 0-10000
 ```
 
-### 6. Compute prison distances from geocoded postcodes (EPSG:27700)
+### 6. Compute landfill distances from geocoded addresses (EPSG:27700)
 
-Script: `scripts/compute_prison_distances.R`
+Script: `scripts/compute_distances_27700.R`
 
 Purpose:
 
-- Reads `output/postcode_geocodes.csv`
-- Computes postcode-to-prison distance using `sf`
+- Reads target location geometry from `input/landfill.geojson`
+- Reads geocoded address files via pattern (for example `output/address_geocodes*`)
+- Computes address-to-target distance using `sf`
 - Transforms coordinates to British National Grid `EPSG:27700`
-- Joins postcode-level distances back onto matched property rows
 - Writes:
-   - `output/postcode_prison_distances.csv`
-   - `input/property_prison_distance.csv`
+   - `output/address_landfill_distances_27700.csv`
 
 Run:
 
 ```bash
-Rscript scripts/compute_prison_distances.R
+Rscript scripts/compute_distances_27700.R
 ```
 
 ### 7. Build analysis dataframe
@@ -277,23 +283,41 @@ From `output/build_lsoa_filtered_matched_data_summary.txt`:
 - **PPD postcodes without attached `lsoa21cd`:** 5
 - **Matched PPD rows kept (non-missing and within target `LSOA21CD`):** 55,633
 
-### Address geocoding and distance snapshot (For Updating)
+### Count of PPD per Deed Year and Distance
 
-- `output/unique_address_geocode_input.csv`: 43,308 unique normalized address/postcode rows
-- Sum of `matched_ppd_count` in unique-address input: 55,633
-- `output/address_geocode_cache.csv`: 16,451 rows (16,451 unique queries)
-- Geocode cache status:
-   - `ok`: 16,451
-- `output/address_landfill_distances_27700.csv`: 622 rows
-- Rows with non-missing `distance_to_target_m`: 622
-- Rows with `distance_to_target_m <= 10,000`: 620
+Number of houses by `deed_year`, with distance bands as columns.
 
-### Analysis snapshot (For Updating)
+| Deed Year | <2km | 2-5km | 5-10km | >10km |
+|---|---:|---:|---:|---:|
+| 2015 | 402 | 1,438 | 2,848 | 26 |
+| 2016 | 404 | 1,568 | 3,084 | 23 |
+| 2017 | 387 | 1,588 | 3,371 | 36 |
+| 2018 | 407 | 1,631 | 3,351 | 29 |
+| 2019 | 400 | 1,635 | 3,254 | 35 |
+| 2020 | 381 | 1,344 | 2,830 | 35 |
+| 2021 | 559 | 1,885 | 3,666 | 34 |
+| 2022 | 494 | 1,616 | 3,251 | 35 |
+| 2023 | 439 | 1,346 | 2,888 | 15 |
+| 2024 | 450 | 1,485 | 2,912 | 21 |
+| 2025 | 317 | 1,229 | 2,455 | 29 |
 
-- `output/analysis_dataframe.csv`: 55,633 rows
-- Distinct sales in analysis dataframe (`unique_id`): 55,633
-- Distinct houses in analysis dataframe (`ppd_house_id`): 43,308
-- Rows with non-missing `distance_to_target_m`: 2,067
+### Average Sold Amount by Deed Year and Distance
+
+Average sold amount by `deed_year`, with distance bands as columns.
+
+| Deed Year | <2km | 2-5km | 5-10km | >10km |
+|---|---:|---:|---:|---:|
+| 2015 | 151,461.1 | 118,267.0 | 116,430.1 | 225,403.6 |
+| 2016 | 157,825.2 | 124,401.6 | 122,238.8 | 245,284.8 |
+| 2017 | 161,915.9 | 134,476.7 | 125,371.4 | 257,832.6 |
+| 2018 | 184,053.2 | 135,044.4 | 130,950.3 | 318,256.9 |
+| 2019 | 170,681.9 | 139,605.5 | 132,710.4 | 329,394.3 |
+| 2020 | 183,576.7 | 151,017.9 | 138,982.7 | 295,020.6 |
+| 2021 | 185,799.1 | 166,404.9 | 152,320.4 | 429,866.0 |
+| 2022 | 204,041.7 | 165,214.1 | 155,019.2 | 294,958.4 |
+| 2023 | 208,905.7 | 166,541.3 | 155,857.1 | 315,366.7 |
+| 2024 | 196,157.2 | 173,218.6 | 165,949.8 | 366,818.9 |
+| 2025 | 203,108.0 | 178,745.5 | 166,316.0 | 208,191.0 |
 
 ## Main outputs
 
