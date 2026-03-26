@@ -46,6 +46,15 @@ normalize_postcode <- function(x) {
   trimws(x)
 }
 
+normalize_text <- function(x) {
+  x <- ifelse(is.na(x), "", x)
+  x <- toupper(trimws(x))
+  x <- gsub("&", " AND ", x, fixed = TRUE)
+  x <- gsub("[^A-Z0-9]+", " ", x)
+  x <- gsub("\\s+", " ", x)
+  trimws(x)
+}
+
 target_codes_sf <- sf::st_read(target_codes_geojson, quiet = TRUE)
 code_col <- if ("LSOA21CD" %in% names(target_codes_sf)) {
   "LSOA21CD"
@@ -126,6 +135,8 @@ matched_ppd_nonmissing_lsoa <- matched_ppd_rows_pre_keep - matched_ppd_missing_l
 
 matched_ppd <- matched_ppd[!missing_lsoa_mask]
 matched_ppd <- matched_ppd[toupper(trimws(as.character(lsoa21cd))) %in% target_lsoa_codes]
+matched_ppd[, normalized_address := normalize_text(paste(saon, paon, street))]
+matched_ppd[, normalized_postcode := normalize_postcode(postcode)]
 matched_ppd[, postcode_key := NULL]
 matched_ppd_rows <- nrow(matched_ppd)
 
