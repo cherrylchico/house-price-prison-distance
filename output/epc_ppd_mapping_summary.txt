@@ -1,14 +1,14 @@
-EPC rows indexed: 481,790
-PPD rows indexed: 241,110
-Matched rows in mapping: 294,886
-Distinct matched keys: 156,801
-Distinct matched EPC certificates: 212,759
-Distinct matched PPD transactions: 209,307
+EPC rows indexed: 238,971
+PPD rows indexed: 99,055
+Matched rows in mapping: 119,495
+Distinct matched keys: 66,639
+Distinct matched EPC certificates: 91,187
+Distinct matched PPD transactions: 85,422
 Match counts by method:
-                                match_method      N
-                                      <char>  <int>
-1:         exact_normalized_postcode_address 146733
-2: exact_same_postcode_stripped_epc_locality 147605
-3:    fuzzy_same_postcode_address_similarity    182
-4: fuzzy_same_postcode_stripped_epc_locality    366
-Skipped postcode groups in fuzzy passes: 72
+                                match_method     N
+                                      <char> <int>
+1:         exact_normalized_postcode_address 95934
+2: exact_same_postcode_stripped_epc_locality 23257
+3:    fuzzy_same_postcode_address_similarity   205
+4: fuzzy_same_postcode_stripped_epc_locality    99
+Skipped postcode groups in fuzzy passes: 14

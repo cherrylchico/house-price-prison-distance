@@ -1,0 +1,29 @@
+Analysis dataframe summary (<10km)
+    rows unique_ppd_sales unique_ppd_houses min_distance_m
+   <int>            <int>             <int>          <num>
+1: 55633            55633             43308       95.69671
+   median_distance_m max_distance_m missing_lsoa
+               <num>          <num>        <int>
+1:          5928.302       593645.2            0
+   missing_sold_amount missing_floor_area
+                 <int>              <int>
+1:                   0                  0
+   missing_habitable_rooms
+                     <int>
+1:                    5199
+
+PPD repeat-sales summary (using ppd_house_id)
+   houses_with_multiple_sales houses_sold_in_multiple_years
+                        <int>                         <int>
+1:                      10403                          9739
+   max_sales_for_one_house
+                     <int>
+1:                       7
+
+EPC granularity summary
+   epc_rows unique_lmk_key epc_rows_with_uprn unique_uprn
+      <int>          <int>              <int>       <int>
+1:    91187          91187              90978       66454
+   uprn_with_multiple_epc_rows max_epc_rows_for_one_uprn
+                         <int>                     <int>
+1:                       20291                         8

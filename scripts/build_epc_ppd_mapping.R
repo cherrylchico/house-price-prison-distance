@@ -294,17 +294,46 @@ build_exact_mapping <- function(epc_dt, ppd_dt, matched_dt,
   )]
 }
 
-epc_files <- list.files(
-  input_dir,
-  pattern = "^certificates\\.csv$",
-  recursive = TRUE,
-  full.names = TRUE
-)
+epc_file_list_path <- file.path(input_dir, "epc_filenames.txt")
 
-epc_files <- epc_files[grepl("/domestic-", epc_files)]
+if (!file.exists(epc_file_list_path)) {
+  stop("The file 'epc_filenames.txt' was not found under the input directory.")
+}
+
+epc_list_entries <- readLines(epc_file_list_path, warn = FALSE)
+epc_list_entries <- trimws(epc_list_entries)
+epc_list_entries <- epc_list_entries[nzchar(epc_list_entries)]
+
+if (!length(epc_list_entries)) {
+  stop("The file 'epc_filenames.txt' is empty. Add domestic folder paths or certificates.csv paths.")
+}
+
+resolve_epc_path <- function(entry) {
+  candidate <- entry
+
+  if (!grepl("^(/|~|[A-Za-z]:[/\\\\])", candidate)) {
+    candidate <- file.path(getwd(), candidate)
+  }
+
+  if (dir.exists(candidate)) {
+    candidate <- file.path(candidate, "certificates.csv")
+  }
+
+  if (!file.exists(candidate)) {
+    stop("EPC path listed in epc_filenames.txt does not exist: ", entry)
+  }
+
+  if (tolower(basename(candidate)) != "certificates.csv") {
+    stop("EPC path must point to a certificates.csv file or a directory containing it: ", entry)
+  }
+
+  candidate
+}
+
+epc_files <- unique(vapply(epc_list_entries, resolve_epc_path, FUN.VALUE = character(1)))
 
 if (!length(epc_files)) {
-  stop("No EPC certificates.csv files were found under the input directory.")
+  stop("No valid EPC certificates.csv files were resolved from epc_filenames.txt.")
 }
 
 message("Reading EPC certificates from ", length(epc_files), " folders.")

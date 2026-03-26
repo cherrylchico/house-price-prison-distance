@@ -7,3 +7,6 @@ input/PCD_OA21_LSOA21_MSOA21_LAD_AUG24_UK_LU.csv
 
 # Generated pipeline outputs
 output/*.csv
+
+#R logs
+.Rhistory

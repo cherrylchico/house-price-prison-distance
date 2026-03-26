@@ -2,14 +2,23 @@ args <- commandArgs(trailingOnly = TRUE)
 
 link_file <- if (length(args) >= 1) args[[1]] else file.path("input", "ppd_link.txt")
 output_file <- if (length(args) >= 2) args[[2]] else file.path("input", "ppd_data.csv")
-target_counties <- if (length(args) >= 3) args[3:length(args)] else "LEICESTERSHIRE"
-target_counties <- unlist(strsplit(target_counties, ",", fixed = TRUE), use.names = FALSE)
-target_counties <- unique(trimws(target_counties))
-target_counties <- target_counties[nzchar(target_counties)]
-target_counties <- toupper(target_counties)
+filter_field <- if (length(args) >= 3) trimws(args[[3]]) else "county"
 
-if (!length(target_counties)) {
-  stop("At least one county must be provided.")
+parse_filter_values <- function(x) {
+  values <- unlist(strsplit(x, ",", fixed = TRUE), use.names = FALSE)
+  values <- unique(trimws(values))
+  values <- values[nzchar(values)]
+  toupper(values)
+}
+
+filter_values <- if (length(args) >= 4) parse_filter_values(args[[4]]) else "STAFFORD"
+
+if (!nzchar(filter_field)) {
+  stop("Filter field must be provided.")
+}
+
+if (!length(filter_values)) {
+  stop("At least one filter value must be provided.")
 }
 
 if (!requireNamespace("data.table", quietly = TRUE)) {
@@ -19,6 +28,9 @@ if (!requireNamespace("data.table", quietly = TRUE)) {
 if (!file.exists(link_file)) {
   stop("Link file not found: ", link_file)
 }
+
+# Increase download timeout for large remote CSV files.
+options(timeout = max(600, getOption("timeout")))
 
 ppd_columns <- c(
   "unique_id",
@@ -52,22 +64,64 @@ dir.create(dirname(output_file), recursive = TRUE, showWarnings = FALSE)
 message(
   "Reading ",
   length(links),
-  " PPD file(s) and filtering county in {",
-  paste(target_counties, collapse = ", "),
+  " PPD file(s) and filtering ",
+  filter_field,
+  " in {",
+  paste(filter_values, collapse = ", "),
   "}."
 )
+
+read_ppd_with_retry <- function(link, ppd_columns, max_attempts = 3) {
+  last_error <- NULL
+
+  for (attempt in seq_len(max_attempts)) {
+    out <- tryCatch(
+      data.table::fread(
+        link,
+        header = FALSE,
+        col.names = ppd_columns,
+        na.strings = c("", "NA")
+      ),
+      error = function(e) {
+        last_error <<- e
+        NULL
+      }
+    )
+
+    if (!is.null(out)) {
+      if (attempt > 1) {
+        message("Succeeded after retry (attempt ", attempt, "): ", link)
+      }
+      return(out)
+    }
+
+    if (attempt < max_attempts) {
+      message(
+        "Attempt ", attempt, " failed for ", link,
+        "; retrying in 3 seconds..."
+      )
+      Sys.sleep(3)
+    }
+  }
+
+  stop(
+    "Failed to read PPD URL after ", max_attempts, " attempts: ",
+    link,
+    if (!is.null(last_error)) paste0("\nLast error: ", conditionMessage(last_error)) else ""
+  )
+}
 
 filtered_tables <- lapply(links, function(link) {
   message("Processing: ", link)
 
-  dt <- data.table::fread(
-    link,
-    header = FALSE,
-    col.names = ppd_columns,
-    na.strings = c("", "NA")
-  )
+  dt <- read_ppd_with_retry(link, ppd_columns)
 
-  dt[toupper(trimws(county)) %in% target_counties]
+  if (!(filter_field %in% names(dt))) {
+    stop("Filter field not found in PPD data: ", filter_field)
+  }
+
+  field_values <- toupper(trimws(as.character(dt[[filter_field]])))
+  dt[field_values %in% filter_values]
 })
 
 filtered_ppd <- data.table::rbindlist(filtered_tables, use.names = TRUE, fill = TRUE)
