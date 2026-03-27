@@ -1,7 +1,17 @@
 EPC rows indexed: 238,971
 PPD rows indexed: 99,055
+Distinct EPC keys indexed: 172,644
+Distinct PPD keys indexed: 77,891
 Matched rows in mapping: 119,495
 Distinct matched keys: 66,639
+Distinct matched EPC keys: 66,644
+Distinct matched PPD keys: 66,639
+EPC matching rate (distinct matched EPC keys / distinct EPC keys): 38.60%
+PPD matching rate (distinct matched PPD keys / distinct PPD keys): 85.55%
+Matched EPC rows: 91,187
+Matched PPD rows: 85,422
+EPC row matching rate (matched EPC rows / EPC rows indexed): 38.16%
+PPD row matching rate (matched PPD rows / PPD rows indexed): 86.24%
 Distinct matched EPC certificates: 91,187
 Distinct matched PPD transactions: 85,422
 Match counts by method:

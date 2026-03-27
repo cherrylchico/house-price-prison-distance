@@ -524,11 +524,41 @@ data.table::fwrite(mapping, mapping_file)
 
 summary_file <- file.path(output_dir, "epc_ppd_mapping_summary.txt")
 method_counts <- mapping[, .N, by = match_method][order(match_method)]
+matched_epc_keys <- paste(mapping$postcode_key, mapping$epc_address_key, sep = "|")
+distinct_epc_keys <- data.table::uniqueN(epc_index$epc_match_key)
+distinct_ppd_keys <- data.table::uniqueN(ppd_index$ppd_match_key)
+distinct_matched_epc_keys <- data.table::uniqueN(matched_epc_keys)
+distinct_matched_ppd_keys <- data.table::uniqueN(mapping$match_key)
+
+epc_matching_rate <- if (distinct_epc_keys > 0) distinct_matched_epc_keys / distinct_epc_keys else NA_real_
+ppd_matching_rate <- if (distinct_ppd_keys > 0) distinct_matched_ppd_keys / distinct_ppd_keys else NA_real_
+matched_epc_rows <- epc_index[lmk_key %chin% mapping$lmk_key, .N]
+matched_ppd_rows <- ppd_index[ppd_id %chin% mapping$ppd_id, .N]
+epc_row_matching_rate <- if (nrow(epc_index) > 0) matched_epc_rows / nrow(epc_index) else NA_real_
+ppd_row_matching_rate <- if (nrow(ppd_index) > 0) matched_ppd_rows / nrow(ppd_index) else NA_real_
+
+format_rate <- function(x) {
+  if (is.na(x)) {
+    return("NA")
+  }
+  sprintf("%.2f%%", 100 * x)
+}
+
 summary_lines <- c(
   paste("EPC rows indexed:", format(nrow(epc_index), big.mark = ",")),
   paste("PPD rows indexed:", format(nrow(ppd_index), big.mark = ",")),
+  paste("Distinct EPC keys indexed:", format(distinct_epc_keys, big.mark = ",")),
+  paste("Distinct PPD keys indexed:", format(distinct_ppd_keys, big.mark = ",")),
   paste("Matched rows in mapping:", format(nrow(mapping), big.mark = ",")),
   paste("Distinct matched keys:", format(data.table::uniqueN(mapping$match_key), big.mark = ",")),
+  paste("Distinct matched EPC keys:", format(distinct_matched_epc_keys, big.mark = ",")),
+  paste("Distinct matched PPD keys:", format(distinct_matched_ppd_keys, big.mark = ",")),
+  paste("EPC matching rate (distinct matched EPC keys / distinct EPC keys):", format_rate(epc_matching_rate)),
+  paste("PPD matching rate (distinct matched PPD keys / distinct PPD keys):", format_rate(ppd_matching_rate)),
+  paste("Matched EPC rows:", format(matched_epc_rows, big.mark = ",")),
+  paste("Matched PPD rows:", format(matched_ppd_rows, big.mark = ",")),
+  paste("EPC row matching rate (matched EPC rows / EPC rows indexed):", format_rate(epc_row_matching_rate)),
+  paste("PPD row matching rate (matched PPD rows / PPD rows indexed):", format_rate(ppd_row_matching_rate)),
   paste("Distinct matched EPC certificates:", format(data.table::uniqueN(mapping$lmk_key), big.mark = ",")),
   paste("Distinct matched PPD transactions:", format(data.table::uniqueN(mapping$ppd_id), big.mark = ",")),
   paste("Match counts by method:"),

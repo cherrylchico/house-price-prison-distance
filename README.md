@@ -254,6 +254,8 @@ From `output/epc_ppd_mapping_summary.txt`:
 - PPD rows indexed: 99,055
 - Matched rows in mapping: 119,495
 - Distinct matched keys: 66,639
+- PPD matching rate (distinct matched PPD keys / distinct PPD keys): 85.55%
+- PPD row matching rate (matched PPD rows / PPD rows indexed): 86.24%
 - Distinct matched EPC certificates: 91,187
 - Distinct matched PPD transactions: 85,422
 - Skipped postcode groups in fuzzy passes: 14
